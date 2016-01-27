@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.circle.dao.CircleDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.circle.model.Circle">
+         <id column="circle_id" property="circleId" jdbcType="VARCHAR" />
+         <result column="circle_name" property="circleName" jdbcType="VARCHAR" />
+         <result column="circle_desc" property="circleDesc" jdbcType="VARCHAR" />
+         <result column="circle_img_url" property="circleImgUrl" jdbcType="VARCHAR" />
+         <result column="circle_sort" property="circleSort" jdbcType="INTEGER" />
+         <result column="circle_peple_count" property="circlePepleCount" jdbcType="INTEGER" />
+         <result column="circle_state" property="circleState" jdbcType="INTEGER" />
+         <result column="circle_create_time" property="circleCreateTime" jdbcType="TIMESTAMP" />
+         <result column="circle_topic_count" property="circleTopicCount" jdbcType="INTEGER" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="unpass_desc" property="unpassDesc" jdbcType="VARCHAR" />
+         <result column="appeal_reason" property="appealReason" jdbcType="VARCHAR" />
+         <result column="appeal_time" property="appealTime" jdbcType="TIMESTAMP" />
+          <collection property="circleTopicLists" ofType="com.midai.miya.circle.model.CircleTopic"
+         javaType="java.util.ArrayList" column="circle_id">
+         <id column="circle_topic_id" property="circleTopicId" jdbcType="VARCHAR" />
+         </collection>
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="circle.circleId!=null and circle.circleId!='' ">
+        and circle_id like CONCAT('%',#{circle.circleId},'%')
+      </if>
+      <if test="circle.circleName!=null and circle.circleName!='' ">
+        and circle_name like CONCAT('%',#{circle.circleName},'%')
+      </if>
+      <if test="circle.circleSort!=null and circle.circleSort!='' ">
+        and circle_sort=#{circle.circleSort}
+      </if>
+      <if test="circle.circleState!=null and circle.circleState!='' ">
+        and circle_state=#{circle.circleState}
+      </if>
+      <if test="circle.circleCreateTime!=null and circle.circleCreateTime!='' ">
+        and circle_create_time=#{circle.circleCreateTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_circle
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    circle_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_circle
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_circle values(
+         #{circle.circleId},
+         #{circle.circleName},
+         #{circle.circleDesc},
+         #{circle.circleSort},
+         #{circle.circlePepleCount},
+         #{circle.circleCreateTime},
+         #{circle.circleImgUrl},
+         #{circle.circleState}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_circle set
+      <if test="circle.circleName!=null and circle.circleName!='' ">
+        circle_name=#{circle.circleName},
+      </if>
+      <if test="circle.circleSort!=null and circle.circleSort!='' ">
+        circle_sort=#{circle.circleSort},
+      </if>
+      <if test="circle.circleCreateTime!=null and circle.circleCreateTime!='' ">
+        circle_create_time=#{circle.circleCreateTime},
+      </if>
+      <if test="circle.circleImgUrl!=null and circle.circleImgUrl!='' ">
+        circle_img_url=#{circle.circleImgUrl},
+      </if>
+      <if test="circle.circleState!=null and circle.circleState!='' ">
+        circle_state=#{circle.circleState},
+      </if>
+      <if test="circle.circlePepleCount!=null and circle.circlePepleCount!='' ">
+        circle_peple_count=#{circle.circlePepleCount},
+      </if>
+       <if test="circle.unpassDesc!=null and circle.unpassDesc!='' ">
+        unpass_desc=#{circle.unpassDesc},
+      </if>
+      <if test="circle.appealReason!=null and circle.appealReason!='' ">
+        appeal_reason=#{circle.appealReason},
+      </if>
+      <if test="circle.appealTime!=null and circle.appealTime!='' ">
+        appeal_time=#{circle.appealTime},
+      </if>
+      <if test="circle.circleId!=null and circle.circleId!='' ">
+        circle_id=#{circle.circleId}
+      </if>
+      where circle_id=#{circle.circleId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_circle WHERE circle_id=#{circle.circleId}
+   </delete>
+
+
+   <select id="findCircleById" resultMap="BaseResultMap">
+      select * from myw_circle t1 
+      left join myw_circle_topic t2 on t1.circle_id=t2.circle_id
+      where t1.circle_id=#{circleId} 
+   </select>
+
+   <select id="findCircleByName" resultType="java.lang.Integer">
+     select count(1) from myw_circle where circle_name=#{circle.circleName}
+     <if test="circle.circleId!=null">
+     and circle_id &lt;&gt; #{circle.circleId}
+     </if>
+   </select>
+
+	<sql id="findRecommendWhere">
+	   <where>
+	    and circle_id NOT IN(SELECT circle_id FROM myw_recommend_circle)
+	    and circle_state=1
+	      <if test="circle.circleId!=null and circle.circleId!='' ">
+	        and circle_id like CONCAT('%',#{circle.circleId},'%')
+	      </if>
+	      <if test="circle.circleName!=null and circle.circleName!='' ">
+	        and circle_name like CONCAT('%',#{circle.circleName},'%')
+	      </if>
+	      <if test="circle.circleSort!=null and circle.circleSort!='' ">
+	        and circle_sort=#{circle.circleSort}
+	      </if>
+	      <if test="circle.circleCreateTime!=null and circle.circleCreateTime!='' ">
+	        and circle_create_time=#{circle.circleCreateTime}
+	      </if>
+	   </where>
+	   </sql>
+   <select id="findCircleByRecommend" resultMap="BaseResultMap">
+         select * from myw_circle
+       <include refid="findRecommendWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    circle_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findCircleCountByRecommend" resultType="java.lang.Long">
+        select count(1) from myw_circle
+      <include refid="findRecommendWhere"></include>
+   </select>
+</mapper>

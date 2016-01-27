@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserDao">
+	<resultMap id="BaseResultMap" type="com.midai.miya.user.model.User">
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_register_time" property="userRegisterTime"
+			jdbcType="TIMESTAMP" />
+		<result column="user_mail" property="userMail" jdbcType="VARCHAR" />
+		<result column="user_qq" property="userQq" jdbcType="VARCHAR" />
+		<result column="user_state" property="userState" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="user_last_login_time" property="userLastLoginTime"
+			jdbcType="TIMESTAMP" />
+		<result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+		<result column="user_signature" property="userSignature" jdbcType="VARCHAR" />
+		<result column="user_skills" property="userSkills" jdbcType="VARCHAR" />
+		<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		<result column="user_mail_state" property="userMailState"
+			jdbcType="INTEGER" />
+		<result column="user_sex" property="userSex" jdbcType="INTEGER" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="is_inside" property="isInside" jdbcType="INTEGER" />
+		<result column="register_from" property="registerFrom" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		user_id , user_name,user_password,user_mail,user_qq,is_inside,user_nickname
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from myw_user
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+
+   <sql id="findWhere">
+    <where>
+    and  user_type !=0
+	      <if test="user.userMail!=null and user.userMail!='' ">
+	        and user_mail like CONCAT('%',#{user.userMail},'%')
+	      </if>
+	      <if test="user.userNickname!=null and user.userNickname!='' ">
+	        and user_nickname like CONCAT('%',#{user.userNickname},'%')
+	      </if>
+	      <if test="user.userPhone!=null and user.userPhone!='' ">
+	        and user_phone like CONCAT('%',#{user.userPhone},'%')
+	      </if>
+	       <if test="user.userState!=null and user.userState!='' ">
+	        and user_state =#{user.userState}
+	      </if>
+	       <if test="user.userType!=null and user.userType!='' ">
+	        and user_type =#{user.userType}
+	      </if>
+	      <if test="user.userMailState!=null and user.userMailState!='' ">
+	        and user_mail_state=#{user.userMailState}
+	      </if>
+	      <if test="user.userSex!=null and user.userSex!='' or user.userSex==0 ">
+	        and user_sex=#{user.userSex}
+	      </if>
+	       <if test="user.registerFrom!=null and user.registerFrom!='' or user.registerFrom==0 ">
+	        and register_from=#{user.registerFrom}
+	      </if>
+	      <if test="user.lastLoginTimeBegin!=null and user.lastLoginTimeBegin!='' ">
+	        and user_last_login_time &gt;=#{user.lastLoginTimeBegin}
+	      </if>
+	      <if test="user.lastLoginTimeEnd!=null and user.lastLoginTimeEnd!='' ">
+	        and user_last_login_time &lt;=#{user.lastLoginTimeEnd}
+	      </if>
+	      <if test="user.queryBeginRegisterTimeStr!=null and user.queryBeginRegisterTimeStr!='' ">
+	        and user_register_time &gt;=#{user.queryBeginRegisterTimeStr}
+	      </if>
+	      <if test="user.queryEndRegisterTimeStr!=null and user.queryEndRegisterTimeStr!='' ">
+	        and user_register_time&lt;=#{user.queryEndRegisterTimeStr}
+	      </if>
+	    </where>
+   </sql>
+	<select id="getUserCount" resultType="int">
+		select count(1) from myw_user
+		 <include refid="findWhere"></include>
+	</select>
+	 
+		<select id="getUserByCondition" resultMap="BaseResultMap">
+	    select user_id as userId,user_name as userName,user_register_time as userRegisterTime,user_phone,
+	    user_qq as userQq, user_mail as userMail,user_state as userState,user_nickname as userNickname,
+	    user_last_login_time as userLastLoginTime, user_mail_state as userMailState,user_signature as userSignature,
+	    user_sex as userSex,user_skills as userSkills,is_inside,register_from
+	    from myw_user
+	   <include refid="findWhere"></include>
+	    order by 
+	    <choose>
+	    <when test="pageUtil.sort !=null and pageUtil.sort!='' ">
+	    ${pageUtil.sort} ${pageUtil.order}
+	    </when>
+	    <otherwise>
+	    user_register_time DESC
+	    </otherwise>
+	    </choose>
+	    limit #{pageUtil.page},#{pageUtil.rows}
+	</select>
+	<update id="update">
+		update myw_user set
+		 <if test="user.userState!=null and user.userState!='' ">
+	         user_state =#{user.userState},
+	      </if>
+	       <if test="user.userType!=null and user.userType!='' or user.userType==0 ">
+	         user_type =#{user.userType},
+	      </if>
+	       <if test="user.isInside!=null and user.isInside!='' or user.isInside==0 ">
+	         is_inside =#{user.isInside},
+	      </if>
+	      <if test="user.userId!=null and user.userId!='' ">
+	         user_id =#{user.userId}
+	      </if>
+		 where user_id=#{user.userId}
+		 
+	</update>
+	
+	<sql id="findCount">
+	 <where>
+         <if test="queryBeginRegisterTimeStr!=null and queryBeginRegisterTimeStr!='' ">
+         and t.user_register_time &gt;=#{queryBeginRegisterTimeStr}
+         </if>
+          <if test="queryEndRegisterTimeStr!=null and queryEndRegisterTimeStr!='' ">
+         and t.user_register_time &lt;=#{queryEndRegisterTimeStr}
+         </if>
+       </where>
+	</sql>
+    <select id="findCountByDay" resultType="com.midai.miya.user.model.UserDay">
+       select DATE_FORMAT(t.user_register_time
+        ,'%Y%m%d') days,
+       count(1) count from myw_user t 
+       <include refid="findCount"></include>
+       group by days;
+    </select>
+    
+    <select id="findCountByHour" resultType="com.midai.miya.user.model.UserDay">
+       select DATE_FORMAT(t.user_register_time
+        ,'%H') days,
+       count(1) count from myw_user t 
+        <include refid="findCount"></include>
+       group by days;
+    </select>
+
+	<select id="findErrorUser" resultMap="BaseResultMap">
+	select
+		user_name as
+		userName,user_password as userPassword,user_mail as userMail,
+		user_qq
+		as userQq,user_state as userState,user_uuid as userUuid,
+		user_last_login_time as userLastLoginTime,
+		user_register_time as
+		userRegisterTime,user_nickname as userNickname,
+		user_mail_state as
+		userMailState,user_sex as userSex
+		from myw_user
+		where
+		DATEDIFF(now(),user_last_login_time)>7
+		order by 
+	    <choose>
+	    <when test="pageUtil.sort !=null and pageUtil.sort!='' ">
+	    ${pageUtil.sort} ${pageUtil.order}
+	    </when>
+	    <otherwise>
+	    user_register_time DESC
+	    </otherwise>
+	    </choose>
+		limit
+		#{pageUtil.page},#{pageUtil.rows}
+	</select>
+	<select id="findCountErrorUser" resultType="java.lang.Long">
+	     select count(1) from myw_user where
+		DATEDIFF(now(),user_last_login_time)>7
+	</select>
+</mapper>

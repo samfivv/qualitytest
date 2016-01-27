@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.CommentDao">
+  <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Comment">
+		<id column="comment_id" property="commentId" jdbcType="VARCHAR" />
+		<id column="video_id" property="videoId" jdbcType="VARCHAR" />
+		<id column="comment_user_id" property="commentUserId" jdbcType="VARCHAR" />
+		<id column="comment_to_user_id" property="commentToUserId" jdbcType="VARCHAR" />
+		<result column="interest_id" property="interestId" jdbcType="VARCHAR" />
+		<result column="interest_title" property="interestTitle" jdbcType="VARCHAR" />
+		<result column="comment_content" property="commentContent" jdbcType="VARCHAR" />
+		<result column="video_name" property="videoName" jdbcType="VARCHAR" />
+		<result column="comment_create_time" property="commentCreateTime" jdbcType="TIMESTAMP" />
+		<result column="comment_pid" property="commentPid" jdbcType="VARCHAR" />
+		<result column="comment_state" property="commentState" jdbcType="INTEGER" />
+		<result column="comment_user_nickname" property="commentUserNickname" jdbcType="VARCHAR" />
+		<result column="comment_to_user_nickname" property="commentToUserNickname" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="findWhere">
+	<where>
+	<if test="comment.videoId!=null and comment.videoId!='' ">
+	and t1.video_id like CONCAT('%', #{comment.videoId},'%')
+	</if>
+	<if test="comment.videoName!=null and comment.videoName!='' ">
+	and t2.video_name like CONCAT('%', #{comment.videoName},'%')
+	</if>
+	<if test="comment.interestId!=null and comment.interestId!='' ">
+	and t1.interest_id like CONCAT('%', #{comment.interestId},'%')
+	</if>
+	<if test="comment.interestTitle!=null and comment.interestTitle!='' ">
+	and t3.interest_title like CONCAT('%', #{comment.interestTitle},'%')
+	</if>
+	<if test="comment.commentContent!=null and comment.commentContent!='' ">
+	and t1.comment_content like CONCAT('%', #{comment.commentContent},'%')
+	</if>
+	 <if test="comment.commentUserNickname!=null and comment.commentUserNickname!='' ">
+	and t1.comment_user_nickname like CONCAT('%', #{comment.commentUserNickname},'%')
+	</if>
+	 <if test="comment.commentState!=null and comment.commentState!='' ">
+	and t1.comment_state = #{comment.commentState}
+	</if>
+	  <if test="comment.queryTimeBegin !=null and comment.queryTimeBegin!='' ">
+	    AND t1.comment_create_time &gt;= #{comment.queryTimeBegin} 
+	    </if>
+	    <if test="comment.queryTimeEnd !=null and comment.queryTimeEnd!='' ">
+	    AND t1.comment_create_time &lt;= #{comment.queryTimeEnd} 
+	    </if>
+	</where>
+	</sql>
+	
+   <select id="findAll" resultMap="BaseResultMap">
+   select t1.*,t2.video_name,t3.interest_title from myw_comment t1 
+   left join myw_video t2 on t1.video_id=t2.video_id
+   inner join myw_interest t3 on t1.interest_id=t3.interest_id
+   <include refid="findWhere"></include>
+    order by 
+	    <choose>
+			<when test="page.sort !=null and page.sort!='' ">
+			  		${page.sort}  ${page.order} 
+			   </when >
+			<otherwise>
+			t1.comment_create_time DESC
+			</otherwise>
+	</choose >
+      limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findAllCount" resultType="java.lang.Long">
+   select count(1) from myw_comment t1 left join myw_video t2 on t1.video_id=t2.video_id
+   inner join myw_interest t3 on t1.interest_id=t3.interest_id
+   <include refid="findWhere"></include>
+   </select>
+   
+   <update id="update">
+   update myw_comment set comment_state=#{comment.commentState} where comment_id=#{comment.commentId}
+   </update>
+</mapper>

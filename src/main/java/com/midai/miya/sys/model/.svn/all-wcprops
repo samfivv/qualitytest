@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/web/!svn/ver/7184/code/manage/src/main/java/com/midai/miya/sys/model
+END
+Permission.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/3789/code/manage/src/main/java/com/midai/miya/sys/model/Permission.java
+END
+InterestBoutique.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/6517/code/manage/src/main/java/com/midai/miya/sys/model/InterestBoutique.java
+END
+ApprovalInterest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/4828/code/manage/src/main/java/com/midai/miya/sys/model/ApprovalInterest.java
+END
+Subject.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/5096/code/manage/src/main/java/com/midai/miya/sys/model/Subject.java
+END
+Interest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/6778/code/manage/src/main/java/com/midai/miya/sys/model/Interest.java
+END
+Search.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/2407/code/manage/src/main/java/com/midai/miya/sys/model/Search.java
+END
+Copywriter.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/6386/code/manage/src/main/java/com/midai/miya/sys/model/Copywriter.java
+END
+Message.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/1350/code/manage/src/main/java/com/midai/miya/sys/model/Message.java
+END
+HelpQuestion.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/web/!svn/ver/2054/code/manage/src/main/java/com/midai/miya/sys/model/HelpQuestion.java
+END
+SearchCount.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/2434/code/manage/src/main/java/com/midai/miya/sys/model/SearchCount.java
+END
+UserApplication.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/7184/code/manage/src/main/java/com/midai/miya/sys/model/UserApplication.java
+END
+Operator.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/899/code/manage/src/main/java/com/midai/miya/sys/model/Operator.java
+END
+Approval.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/1976/code/manage/src/main/java/com/midai/miya/sys/model/Approval.java
+END
+Video.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/3118/code/manage/src/main/java/com/midai/miya/sys/model/Video.java
+END
+BottomPage.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/6540/code/manage/src/main/java/com/midai/miya/sys/model/BottomPage.java
+END
+Hobby.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/2610/code/manage/src/main/java/com/midai/miya/sys/model/Hobby.java
+END
+SysConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/534/code/manage/src/main/java/com/midai/miya/sys/model/SysConfig.java
+END
+Partner.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/3524/code/manage/src/main/java/com/midai/miya/sys/model/Partner.java
+END
+RecommendUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/6685/code/manage/src/main/java/com/midai/miya/sys/model/RecommendUser.java
+END
+RolePermission.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/116/code/manage/src/main/java/com/midai/miya/sys/model/RolePermission.java
+END
+Log.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/1142/code/manage/src/main/java/com/midai/miya/sys/model/Log.java
+END
+OpreatorRole.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/190/code/manage/src/main/java/com/midai/miya/sys/model/OpreatorRole.java
+END
+SensitiveWord.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/1322/code/manage/src/main/java/com/midai/miya/sys/model/SensitiveWord.java
+END
+Comment.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/6076/code/manage/src/main/java/com/midai/miya/sys/model/Comment.java
+END
+Category.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/6133/code/manage/src/main/java/com/midai/miya/sys/model/Category.java
+END
+OrganizationApplication.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/6783/code/manage/src/main/java/com/midai/miya/sys/model/OrganizationApplication.java
+END
+PhotoAlbum.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/4480/code/manage/src/main/java/com/midai/miya/sys/model/PhotoAlbum.java
+END
+Recommend.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/web/!svn/ver/6135/code/manage/src/main/java/com/midai/miya/sys/model/Recommend.java
+END
+Role.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/734/code/manage/src/main/java/com/midai/miya/sys/model/Role.java
+END
+SubjectInterest.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/6054/code/manage/src/main/java/com/midai/miya/sys/model/SubjectInterest.java
+END
+Photo.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/3775/code/manage/src/main/java/com/midai/miya/sys/model/Photo.java
+END

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.RoleDao">
+	<resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Role">
+		<id column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+		<result column="role_createTime" property="roleCreatetime" jdbcType="TIMESTAMP" />
+		<result column="role_creator" property="roleCreatorId" jdbcType="VARCHAR" />
+	</resultMap>
+	<insert id="save" parameterType="com.midai.miya.sys.model.Role">
+	    insert into myw_role(role_id,role_name,role_desc,role_createTime,role_creator)values(
+	          #{roleId,jdbcType=VARCHAR},
+	          #{roleName,jdbcType=VARCHAR},
+	          #{roleDesc,jdbcType=VARCHAR},
+	          #{roleCreatetime,jdbcType=TIMESTAMP },
+	          #{roleCreatorId,jdbcType=VARCHAR}
+	    )
+	</insert>
+	 
+	 <select id="findAllRole" resultMap="BaseResultMap">
+	      select * from myw_role order by role_createTime DESC
+	 </select>
+	 
+	 <select id="findByNameRole" resultType="java.lang.Long">
+	      select count(1) from myw_role 
+	      <where>
+	      and role_name=#{role.roleName} 
+	      <if test="role.roleId!=null">
+	      and role_id &lt;&gt;#{role.roleId}
+	      </if>
+	      </where>
+	     
+	 </select>
+	 
+	 <select id="findAllRoleCount" resultType="java.lang.Long">
+	      select count(1) from myw_role
+	     <if test="role.roleName !=null and role.roleName!='' ">
+	    where role_name like CONCAT('%',#{role.roleName},'%')
+	    </if>
+	     <if test="role.roleDesc !=null and role.roleDesc!='' ">
+	    where role_desc like CONCAT('%',#{role.roleDesc},'%')
+	    </if>
+	 </select>
+	 
+	 <update id="update"  parameterType="com.midai.miya.sys.model.Role">
+	     update myw_role set role_name=#{roleName},role_desc=#{roleDesc} where role_id=#{roleId}
+	 </update>
+	 
+	 <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	     select * from myw_role where role_id=#{roleId}
+	 </select>
+	 
+	 <select id="findOperatorRoleById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	      SELECT * FROM myw_role t1 INNER JOIN myw_operator_role t2 ON t1.role_id = 
+	      t2.role_id WHERE t2.operator_id=#{operatorId}
+	 </select>
+	 
+	 <delete id="delete" parameterType="java.lang.String">
+	     delete from myw_role where role_id=#{roleId}
+	 </delete>
+	 
+	 <delete id="deleteRoleByOperatorId" parameterType="java.lang.String">
+	     DELETE FROM myw_operator_role WHERE operator_id=#{operatorId}
+	 </delete>
+	
+	 <select id="findByRoleName"  resultMap="BaseResultMap">
+	    select * from myw_role 
+	    <if test="role.roleName !=null and role.roleName!='' ">
+	    where role_name like CONCAT('%',#{role.roleName},'%')
+	    </if>
+	     <if test="role.roleDesc !=null and role.roleDesc!='' ">
+	    where role_desc like CONCAT('%',#{role.roleDesc},'%')
+	    </if>
+	    order by 
+	    <choose>
+			<when test="page.sort !=null and page.sort!='' ">
+			  		${page.sort}  ${page.order} 
+			   </when >
+			<otherwise>
+			role_createTime DESC
+			</otherwise>
+	</choose >
+	    limit #{page.page},#{page.rows}
+	 </select>
+	 
+	 <insert id="addOperatorRole" parameterType="com.midai.miya.sys.model.Role">
+	    insert into myw_operator_role(operator_role_id,operator_id,role_id)values(
+	          #{operatorRoleId,jdbcType=VARCHAR},
+	          #{operatorId,jdbcType=VARCHAR},
+	          #{roleId,jdbcType=VARCHAR}
+	    )
+	</insert>
+
+</mapper>

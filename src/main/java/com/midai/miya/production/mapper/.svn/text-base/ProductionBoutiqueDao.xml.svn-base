@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.production.dao.ProductionBoutiqueDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.production.model.ProductionBoutique">
+         <id column="production_boutique_id" property="productionBoutiqueId" jdbcType="VARCHAR" />
+         <result column="production_id" property="productionId" jdbcType="VARCHAR" />
+         <result column="production_title" property="productionTitle" jdbcType="VARCHAR" />
+         <result column="production_boutique_sort" property="productionBoutiqueSort" jdbcType="INTEGER" />
+         <result column="production_boutique_type" property="productionBoutiqueType" jdbcType="INTEGER" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="productionBoutique.productionBoutiqueId!=null and productionBoutique.productionBoutiqueId!='' ">
+        and t1. production_boutique_id=#{productionBoutique.productionBoutiqueId}
+      </if>
+      <if test="productionBoutique.productionId!=null and productionBoutique.productionId!='' ">
+        and t1. production_id=#{productionBoutique.productionId}
+      </if>
+      <if test="productionBoutique.productionBoutiqueSort!=null and productionBoutique.productionBoutiqueSort!='' ">
+        and t1. production_boutique_sort=#{productionBoutique.productionBoutiqueSort}
+      </if>
+      <if test="productionBoutique.productionBoutiqueType!=null and productionBoutique.productionBoutiqueType!='' ">
+        and t1. production_boutique_type=#{productionBoutique.productionBoutiqueType}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.production_title from myw_production_boutique t1 
+        inner join myw_production t2 on t1.production_id=t2.production_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+       t1. production_boutique_sort 
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_production_boutique
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_production_boutique(production_boutique_id,production_id,production_boutique_sort,production_boutique_type) values(
+         #{productionBoutique.productionBoutiqueId},
+         #{productionBoutique.productionId},
+         #{productionBoutique.productionBoutiqueSort},
+         #{productionBoutique.productionBoutiqueType}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_production_boutique set
+      <if test="productionBoutique.productionId!=null and productionBoutique.productionId!='' ">
+        production_id=#{productionBoutique.productionId},
+      </if>
+      <if test="productionBoutique.productionBoutiqueSort!=null and productionBoutique.productionBoutiqueSort!='' ">
+        production_boutique_sort=#{productionBoutique.productionBoutiqueSort},
+      </if>
+      <if test="productionBoutique.productionBoutiqueType!=null and productionBoutique.productionBoutiqueType!='' ">
+        production_boutique_type=#{productionBoutique.productionBoutiqueType},
+      </if>
+       <if test="productionBoutique.productionBoutiqueId!=null and productionBoutique.productionBoutiqueId!='' ">
+        production_boutique_id=#{productionBoutique.productionBoutiqueId}
+      </if>
+      where production_boutique_id=#{productionBoutique.productionBoutiqueId}
+    </update>
+
+   <delete id="delete">
+      DELETE FROM myw_production_boutique where production_boutique_id=#{productionBoutique.productionBoutiqueId}
+   </delete>
+
+
+   <select id="findProductionBoutiqueByproductionId" resultMap="BaseResultMap">
+        select t1.*,t2.production_title from myw_production_boutique t1 
+        inner join myw_production t2 on t1.production_id=t2.production_id
+        where t1.production_boutique_id=#{productionBoutiqueId}
+   </select>
+
+   <select id="findProductionBoutiqueCountByproductionId" resultType="java.lang.Integer">
+        select count(1) from myw_production_boutique 
+        where production_id=#{productionBoutique.productionId}
+        <if test="productionBoutique.productionBoutiqueId !=null and productionBoutique.productionBoutiqueId !=''">
+        and production_boutique_id &lt;&gt; #{productionBoutique.productionBoutiqueId}
+        </if>
+   </select>
+</mapper>

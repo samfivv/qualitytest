@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserUpgradeApplyDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.UserUpgradeApply">
+         <id column="user_upgrade_apply_id" property="userUpgradeApplyId" jdbcType="VARCHAR" />
+         <result column="user_upgrade_apply_type" property="userUpgradeApplyType" jdbcType="INTEGER" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="audit_state" property="auditState" jdbcType="INTEGER" />
+         <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+         <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+         <result column="apply_not_pass_reason" property="applyNotPassReason" jdbcType="VARCHAR" />
+         <result column="operator_name" property="operatorName" jdbcType="VARCHAR" />
+         <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+         <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="userUpgradeApply.userUpgradeApplyId!=null and userUpgradeApply.userUpgradeApplyId!='' ">
+        and t1.user_upgrade_apply_id=#{userUpgradeApply.userUpgradeApplyId}
+      </if>
+      <if test="userUpgradeApply.userUpgradeApplyType!=null and userUpgradeApply.userUpgradeApplyType!='' ">
+        and t1.user_upgrade_apply_type=#{userUpgradeApply.userUpgradeApplyType}
+      </if>
+      <if test="userUpgradeApply.userId!=null and userUpgradeApply.userId!='' ">
+        and t1.user_id=#{userUpgradeApply.userId}
+      </if>
+      <if test="userUpgradeApply.queryTimeBegin!=null and userUpgradeApply.queryTimeBegin!='' ">
+        and t1.create_time &gt;=#{userUpgradeApply.queryTimeBegin}
+      </if>
+      <if test="userUpgradeApply.queryTimeEnd!=null and userUpgradeApply.queryTimeEnd!='' ">
+        and t1.create_time &lt;=#{userUpgradeApply.queryTimeEnd}
+      </if>
+      <if test="userUpgradeApply.auditState!=null and userUpgradeApply.auditState!='' ">
+        and t1.audit_state=#{userUpgradeApply.auditState}
+      </if>
+      <if test="userUpgradeApply.auditTime!=null and userUpgradeApply.auditTime!='' ">
+        and t1.audit_time=#{userUpgradeApply.auditTime}
+      </if>
+      <if test="userUpgradeApply.operatorId!=null and userUpgradeApply.operatorId!='' ">
+        and t1.operator_id=#{userUpgradeApply.operatorId}
+      </if>
+      <if test="userUpgradeApply.applyNotPassReason!=null and userUpgradeApply.applyNotPassReason!='' ">
+        and t1.apply_not_pass_reason=#{userUpgradeApply.applyNotPassReason}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.user_nickname,t2.user_phone,t3.operator_name from myw_user_upgrade_apply t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       left join myw_operator t3 on t1.operator_id=t3.operator_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_user_upgrade_apply t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       left join myw_operator t3 on t1.operator_id=t3.operator_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_user_upgrade_apply(user_upgrade_apply_id,user_upgrade_apply_type,user_id,create_time,audit_state,audit_time,operator_id,apply_not_pass_reason) values(
+         #{userUpgradeApply.userUpgradeApplyId},
+         #{userUpgradeApply.userUpgradeApplyType},
+         #{userUpgradeApply.userId},
+         #{userUpgradeApply.createTime},
+         #{userUpgradeApply.auditState},
+         #{userUpgradeApply.auditTime},
+         #{userUpgradeApply.operatorId},
+         #{userUpgradeApply.applyNotPassReason}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_user_upgrade_apply set
+      <if test="userUpgradeApply.userUpgradeApplyType!=null and userUpgradeApply.userUpgradeApplyType!='' ">
+        user_upgrade_apply_type=#{userUpgradeApply.userUpgradeApplyType},
+      </if>
+      <if test="userUpgradeApply.userId!=null and userUpgradeApply.userId!='' ">
+        user_id=#{userUpgradeApply.userId},
+      </if>
+      <if test="userUpgradeApply.createTime!=null and userUpgradeApply.createTime!='' ">
+        create_time=#{userUpgradeApply.createTime},
+      </if>
+      <if test="userUpgradeApply.auditState!=null and userUpgradeApply.auditState!='' ">
+        audit_state=#{userUpgradeApply.auditState},
+      </if>
+      <if test="userUpgradeApply.auditTime!=null and userUpgradeApply.auditTime!='' ">
+        audit_time=#{userUpgradeApply.auditTime},
+      </if>
+      <if test="userUpgradeApply.operatorId!=null and userUpgradeApply.operatorId!='' ">
+        operator_id=#{userUpgradeApply.operatorId},
+      </if>
+      <if test="userUpgradeApply.applyNotPassReason!=null and userUpgradeApply.applyNotPassReason!='' ">
+        apply_not_pass_reason=#{userUpgradeApply.applyNotPassReason},
+      </if>
+      <if test="userUpgradeApply.userUpgradeApplyId!=null and userUpgradeApply.userUpgradeApplyId!='' ">
+        user_upgrade_apply_id=#{userUpgradeApply.userUpgradeApplyId}
+      </if>
+      where user_upgrade_apply_id=#{userUpgradeApply.userUpgradeApplyId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_user_upgrade_apply WHERE user_upgrade_apply_id=#{userUpgradeApply.userUpgradeApplyId}
+   </delete>
+
+
+   <select id="findUpgradeApplyById" resultMap="BaseResultMap">
+      select * from myw_user_upgrade_apply WHERE user_upgrade_apply_id=#{userUpgradeApplyId}
+   </select>
+</mapper>

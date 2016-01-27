@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.PhotoAlbumDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.PhotoAlbum">
+         <id column="user_id" property="userId" jdbcType="VARCHAR" />
+         <id column="photo_album_id" property="photoAlbumId" jdbcType="VARCHAR" />
+         <result column="photo_album_name" property="photoAlbumName" jdbcType="VARCHAR" />
+         <result column="photo_album_desc" property="photoAlbumDesc" jdbcType="VARCHAR" />
+         <result column="photo_album_limits" property="photoAlbumLimits" jdbcType="INTEGER" />
+         <result column="photo_album_create_time" property="photoAlbumCreateTime" jdbcType="TIMESTAMP" />
+         <result column="photo_album_count" property="photoAlbumCount" jdbcType="INTEGER" />
+         <result column="photo_id" property="photoId" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="photoAlbum.userId!=null and photoAlbum.userId!='' ">
+        and user_id=#{photoAlbum.userId}
+      </if>
+      <if test="photoAlbum.photoAlbumId!=null and photoAlbum.photoAlbumId!='' ">
+        and photo_album_id=#{photoAlbum.photoAlbumId}
+      </if>
+      <if test="photoAlbum.photoAlbumName!=null and photoAlbum.photoAlbumName!='' ">
+        and photo_album_name=#{photoAlbum.photoAlbumName}
+      </if>
+      <if test="photoAlbum.photoAlbumDesc!=null and photoAlbum.photoAlbumDesc!='' ">
+        and photo_album_desc=#{photoAlbum.photoAlbumDesc}
+      </if>
+      <if test="photoAlbum.photoAlbumLimits!=null and photoAlbum.photoAlbumLimits!='' ">
+        and photo_album_limits=#{photoAlbum.photoAlbumLimits}
+      </if>
+      <if test="photoAlbum.photoAlbumCreateTime!=null and photoAlbum.photoAlbumCreateTime!='' ">
+        and photo_album_create_time=#{photoAlbum.photoAlbumCreateTime}
+      </if>
+      <if test="photoAlbum.photoAlbumCount!=null and photoAlbum.photoAlbumCount!='' ">
+        and photo_album_count=#{photoAlbum.photoAlbumCount}
+      </if>
+      <if test="photoAlbum.photoId!=null and photoAlbum.photoId!='' ">
+        and photo_id=#{photoAlbum.photoId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_photo_album
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    photo_album_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_photo_album
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_photo_album(user_id,photo_album_id,photo_album_name,photo_album_desc,photo_album_limits,photo_album_create_time,photo_album_count,photo_id) values(
+         #{photoAlbum.userId},
+         #{photoAlbum.photoAlbumId},
+         #{photoAlbum.photoAlbumName},
+         #{photoAlbum.photoAlbumDesc},
+         #{photoAlbum.photoAlbumLimits},
+         #{photoAlbum.photoAlbumCreateTime},
+         #{photoAlbum.photoAlbumCount},
+         #{photoAlbum.photoId}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_photo_album set
+      <if test="photoAlbum.userId!=null and photoAlbum.userId!='' ">
+        user_id=#{photoAlbum.userId},
+      </if>
+      <if test="photoAlbum.photoAlbumName!=null and photoAlbum.photoAlbumName!='' ">
+        photo_album_name=#{photoAlbum.photoAlbumName},
+      </if>
+      <if test="photoAlbum.photoAlbumDesc!=null and photoAlbum.photoAlbumDesc!='' ">
+        photo_album_desc=#{photoAlbum.photoAlbumDesc},
+      </if>
+      <if test="photoAlbum.photoAlbumLimits!=null and photoAlbum.photoAlbumLimits!='' ">
+        photo_album_limits=#{photoAlbum.photoAlbumLimits},
+      </if>
+      <if test="photoAlbum.photoAlbumCreateTime!=null and photoAlbum.photoAlbumCreateTime!='' ">
+        photo_album_create_time=#{photoAlbum.photoAlbumCreateTime},
+      </if>
+      <if test="photoAlbum.photoAlbumCount!=null and photoAlbum.photoAlbumCount!='' or photoAlbum.photoAlbumCount==0 ">
+        photo_album_count=#{photoAlbum.photoAlbumCount},
+      </if>
+      <if test="photoAlbum.photoId!=null and photoAlbum.photoId!='' ">
+        photo_id=#{photoAlbum.photoId},
+      </if>
+      <if test="photoAlbum.photoAlbumId!=null and photoAlbum.photoAlbumId!='' ">
+        photo_album_id=#{photoAlbum.photoAlbumId}
+      </if>
+      where photo_album_id=#{photoAlbum.photoAlbumId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_photo_album WHERE photo_album_id=#{photoAlbum.photoAlbumId}
+   </delete>
+
+
+   <select id="findPhotoAlbumById" resultMap="BaseResultMap">
+      select * from myw_photo_album where photo_album_id=#{photoAlbumId}
+   </select>
+</mapper>

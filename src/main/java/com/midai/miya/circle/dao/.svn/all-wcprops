@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/web/!svn/ver/6687/code/manage/src/main/java/com/midai/miya/circle/dao
+END
+CircleTopicImgDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/5605/code/manage/src/main/java/com/midai/miya/circle/dao/CircleTopicImgDao.java
+END
+CircleReplyDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/5632/code/manage/src/main/java/com/midai/miya/circle/dao/CircleReplyDao.java
+END
+RecommendCircleDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/6114/code/manage/src/main/java/com/midai/miya/circle/dao/RecommendCircleDao.java
+END
+CircleTopicDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/5621/code/manage/src/main/java/com/midai/miya/circle/dao/CircleTopicDao.java
+END
+CircleDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/6687/code/manage/src/main/java/com/midai/miya/circle/dao/CircleDao.java
+END

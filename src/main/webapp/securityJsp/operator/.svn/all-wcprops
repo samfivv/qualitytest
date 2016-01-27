@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/web/!svn/ver/3755/code/manage/src/main/webapp/securityJsp/operator
+END
+syrole.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/3754/code/manage/src/main/webapp/securityJsp/operator/syrole.jsp
+END
+SyroleGrant.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/231/code/manage/src/main/webapp/securityJsp/operator/SyroleGrant.jsp
+END
+SyroleForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/1029/code/manage/src/main/webapp/securityJsp/operator/SyroleForm.jsp
+END
+SyuserRoleGrant.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/242/code/manage/src/main/webapp/securityJsp/operator/SyuserRoleGrant.jsp
+END
+manage.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/3755/code/manage/src/main/webapp/securityJsp/operator/manage.jsp
+END
+SyuserForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/1199/code/manage/src/main/webapp/securityJsp/operator/SyuserForm.jsp
+END

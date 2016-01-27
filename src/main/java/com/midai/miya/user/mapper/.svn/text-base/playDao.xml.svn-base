@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.playDao">
+	<resultMap id="BaseResultMap" type="com.midai.miya.user.model.PlayRecord">
+	    <id column="play_id" property="playId" jdbcType="VARCHAR"/>
+	    <id column="video_id" property="videoId" jdbcType="VARCHAR"/>
+	    <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+	    <id column="interest_id" property="interestId" jdbcType="VARCHAR"/>
+		<result column="user_nickname" property="userNickname" jdbcType="VARCHAR"/>
+		<result column="play_ip" property="playIp" jdbcType="VARCHAR" />
+		<result column="play_from" property="playFrom" jdbcType="INTEGER" />
+		<result column="video_name" property="videoName" jdbcType="VARCHAR" />
+		<result column="interest_title" property="interesetTitle" jdbcType="VARCHAR" />
+		<result column="play_begin_time" property="playBeginTime" jdbcType="TIMESTAMP" />
+		<result column="play_end_time" property="playEndTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="findWhere">
+	<where>
+	<if test="playRecord.interesetTitle !=null and playRecord.interesetTitle !='' ">
+	  and t4.interest_title like CONCAT('%',#{playRecord.interesetTitle},'%') 
+	</if>
+	<if test="playRecord.videoId !=null and playRecord.videoId !='' ">
+	  and t1.video_id like CONCAT('%',#{playRecord.videoId},'%')
+	</if>
+	<if test="playRecord.videoName!=null and playRecord.videoName!='' ">
+      and t3.video_name like CONCAT('%',#{playRecord.videoName},'%')
+    </if>	
+	<if test="playRecord.userNickname!=null and playRecord.userNickname!='' ">
+	  and t2.user_nickname like CONCAT('%',#{playRecord.userNickname},'%')
+	</if>
+	<if test="playRecord.playFrom!=null and playRecord.playFrom!='' ">
+	  and t1.play_from=#{playRecord.playFrom}
+	</if>
+	<if test="playRecord.playTimeBegin!=null and playRecord.playTimeBegin!='' ">
+	  and t1.play_begin_time &gt;=#{playRecord.playTimeBegin}
+	</if>
+	<if test="playRecord.playTimeEnd!=null and playRecord.playTimeEnd!='' ">
+	  and t1.play_begin_time &lt;=#{playRecord.playTimeEnd}
+	</if>
+	<if test="playRecord.endTimeStart!=null and playRecord.endTimeStart!='' ">
+	  and t1.play_end_time &gt;=#{playRecord.endTimeStart}
+	</if>
+	<if test="playRecord.endTimeEnd!=null and playRecord.endTimeEnd!='' ">
+	  and t1.play_end_time &lt;=#{playRecord.endTimeEnd}
+	</if>
+	</where>
+	</sql>
+	<select id="findPlayRecord" resultMap="BaseResultMap">
+	select t1.*,t2.user_nickname,t3.video_name,t4.interest_title from myw_play t1 
+	LEFT JOIN myw_user t2 ON t1.user_id=t2.user_id  
+	INNER JOIN myw_video t3 on t1.video_id=t3.video_id 
+    LEFT JOIN myw_interest t4 on t1.interest_id=t4.interest_id
+    <include refid="findWhere"></include>
+    order by 
+    <choose>
+      <when test="page.sort!=null and page.sort!='' ">
+      ${page.sort} ${page.order}
+      </when>
+      <otherwise>
+      t1.play_begin_time DESC
+      </otherwise>
+    </choose>
+    limit #{page.page},#{page.rows}
+	</select>
+	
+	<select id="findCount" resultType="java.lang.Long">
+	  select count(1) from myw_play t1 
+	LEFT JOIN myw_user t2 ON t1.user_id=t2.user_id  
+	INNER JOIN myw_video t3 on t1.video_id=t3.video_id 
+    LEFT JOIN myw_interest t4 on t1.interest_id=t4.interest_id
+    <include refid="findWhere"></include>
+	</select>
+	
+	
+	<sql id="find">
+	<where>
+	<if test="playFrom!=null and playFrom!='' ">
+	  and play_from=#{playFrom}
+	</if>
+	<if test="queryBeginTimeStr!=null and queryBeginTimeStr!='' ">
+	  and play_begin_time &gt;=#{queryBeginTimeStr}
+	</if>
+	<if test="queryEndTimeStr!=null and queryEndTimeStr!='' ">
+	  and play_begin_time &lt;=#{queryEndTimeStr}||'23:59:59'
+	</if>
+	</where>
+	</sql>
+	<select id="findCountByIp" resultType="com.midai.miya.user.model.Play" parameterType="com.midai.miya.user.model.Play">
+	SELECT COUNT(*)AS countIp, play.days
+   FROM(
+		SELECT DISTINCT
+			play_ip,DATE_FORMAT(play_begin_time
+        ,'%Y%m%d') days
+		FROM
+			myw_play 
+		<include refid="find"></include>
+	) as play
+      GROUP BY
+      play.days
+	</select>
+	
+	<select id="findCountAll" resultType="com.midai.miya.user.model.Play" parameterType="com.midai.miya.user.model.Play">
+	select DATE_FORMAT(play_begin_time
+        ,'%Y%m%d') days,
+       count(1) as countAll from myw_play 
+    <include refid="find"></include>
+    group by days;
+	</select>
+</mapper>

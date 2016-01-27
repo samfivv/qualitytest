@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.PermissionDao">
+	 <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Permission">
+         <id column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+         <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+         <result column="permission_url" property="permissionUrl" jdbcType="VARCHAR" />
+         <result column="permission_img_url" property="permissionImgUrl" jdbcType="VARCHAR" />
+         <result column="permission_parent_id" property="permissionParentId" jdbcType="INTEGER" />
+         <result column="permission_type" property="permissionType" jdbcType="INTEGER" />
+         <result column="permission_isshow" property="permissionIsshow" jdbcType="INTEGER" />
+         <result column="permission_sort" property="permissionSort" jdbcType="INTEGER" />
+   </resultMap>
+	
+	<select id="findPermissionByOperatorId" resultType="com.midai.miya.sys.model.Permission" parameterType="java.lang.String">
+		SELECT DISTINCT t1.permission_id as permissionId,t1.permission_name as permissionName,t1.permission_url as permissionUrl,
+			t1.permission_img_url as permissionImgUrl,t1.permission_parent_id as permissionParentId,t1.permission_isshow as permissionIsshow,
+			 t1.permission_type as permissionType,t1.permission_sort as permissionSort
+			 from myw_permission t1 INNER JOIN myw_role_permission t2 on t1.permission_id=t2.permission_id
+			INNER JOIN myw_role t3 on t2.role_id=t3.role_id
+			INNER JOIN myw_operator_role t4 ON t4.role_id=t3.role_id
+			INNER JOIN myw_operator t5 ON t4.operator_id=t5.operator_id
+			WHERE t1.permission_isshow=1 AND t1.permission_type=1 AND t5.operator_id=#{operatorId}
+			order by t1.permission_sort ASC
+	</select>
+	
+	<select id="findAllPermission" resultType="com.midai.miya.sys.model.Permission" >
+		SELECT t1.permission_id as permissionId,t1.permission_name as permissionName,t1.permission_url as permissionUrl,
+			t1.permission_img_url as permissionImgUrl,t1.permission_parent_id as permissionParentId
+			 from myw_permission t1 where t1.permission_isshow  &lt;&gt;0   
+	</select>
+	
+	
+		<select id="findPermissionByRoleId" resultType="com.midai.miya.sys.model.Permission" parameterType="java.lang.String">
+		SELECT t1.permission_id as permissionId,t1.permission_name as permissionName,t1.permission_url as permissionUrl,
+			t1.permission_img_url as permissionImgUrl,t1.permission_parent_id as permissionParentId
+		 from myw_permission t1 INNER JOIN myw_role_permission t2 on t1.permission_id=t2.permission_id where t2.role_id=#{operatorId}
+	</select>
+	
+	<delete id="delete" parameterType="java.lang.String">
+	    delete from myw_role_permission where role_id=#{roleId}
+	</delete>
+	
+	<insert id="add" parameterType="com.midai.miya.sys.model.RolePermission">
+	    insert into myw_role_permission(role_permission_id,role_id,permission_id)values(
+	        #{rolePermissionId},
+	        #{roleId},
+	        #{permissionId}
+	    )
+	</insert>
+ 
+   <select id="findPermission" resultType="com.midai.miya.sys.model.Permission">
+   SELECT t1.permission_id as permissionId,t1.permission_name as permissionName,t1.permission_url as permissionUrl,
+			t1.permission_img_url as permissionImgUrl,t1.permission_parent_id as permissionParentId,t1.permission_type as permissionType,
+			t1.permission_sort as permissionSort,t1.permission_isshow as permissionIsshow
+			 from myw_permission t1 
+   </select>
+
+   <insert id="addPermission">
+     insert into myw_permission(permission_id,permission_name,permission_url,permission_img_url,permission_parent_id,
+     permission_type,permission_isshow,permission_sort
+     ) values(
+        #{permission.permissionId},
+        #{permission.permissionName},
+         #{permission.permissionUrl},
+        #{permission.permissionImgUrl},
+        #{permission.permissionParentId},
+        #{permission.permissionType},
+        #{permission.permissionIsshow},
+         #{permission.permissionSort}
+     )
+   </insert>
+
+   <select id="findPermissionById" resultMap="BaseResultMap">
+      select * from myw_permission where permission_id=#{permissionId}
+   </select>
+
+   <delete id="deletePermissionById">
+     delete from myw_permission where permission_id=#{permissionId}
+   </delete>
+
+   <update id="updatePermissionById">
+     update myw_permission set
+      <if test="permission.permissionName!=null and permission.permissionName!='' ">
+        permission_name=#{permission.permissionName},
+      </if>
+      <if test="permission.permissionUrl!=null and permission.permissionUrl!='' ">
+        permission_url=#{permission.permissionUrl},
+      </if>
+      <if test="permission.permissionImgUrl!=null and permission.permissionImgUrl!='' ">
+        permission_img_url=#{permission.permissionImgUrl},
+      </if>
+      <if test="permission.permissionParentId!=null and permission.permissionParentId!='' ">
+        permission_parent_id=#{permission.permissionParentId},
+      </if>
+      <if test="permission.permissionType!=null and permission.permissionType!='' ">
+        permission_type=#{permission.permissionType},
+      </if>
+       <if test="permission.permissionIsshow!=null and permission.permissionIsshow!='' ">
+        permission_isshow=#{permission.permissionIsshow},
+      </if>
+       <if test="permission.permissionSort!=null and permission.permissionSort!='' ">
+        permission_sort=#{permission.permissionSort},
+      </if>
+       <if test="permission.permissionId!=null and permission.permissionId!='' ">
+        permission_id=#{permission.permissionId}
+      </if>
+      where  permission_id=#{permission.permissionId}
+   </update>
+
+   <select id="selectPermissionById" resultType="java.lang.Long">
+      select count(1) from myw_permission 
+      <where>
+        and permission_id=#{permissionId} 
+        <if test="permissionId!=null">
+        and permission_id &lt;&gt; #{permissionId}
+        </if>
+        </where>
+   </select>
+
+   <select id="selectPermissionAll" resultMap="BaseResultMap">
+         select * from myw_permission
+   </select>
+</mapper>

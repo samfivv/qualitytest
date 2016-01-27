@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.LogDao">
+	
+	
+	<insert id="addLog" parameterType="com.midai.miya.sys.model.Log">
+		INSERT INTO myw_log(log_id,log_content,log_create_time,log_creator,log_type) 
+			VALUES(#{logId,jdbcType=VARCHAR},#{logContent,jdbcType=VARCHAR},SYSDATE(),#{logCreator,jdbcType=VARCHAR},#{logType,jdbcType=INTEGER})
+	</insert>
+
+
+</mapper>

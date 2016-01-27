@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer
+END
+printer_empty.png
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer/printer_empty.png
+END
+printer.png
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer/printer.png
+END
+printer_add.png
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer/printer_add.png
+END
+printer_delete.png
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer/printer_delete.png
+END
+printer_error.png
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/printer/printer_error.png
+END

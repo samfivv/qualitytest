@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.questionnaire.dao.QuestionnaireAnswerDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.questionnaire.model.QuestionnaireAnswer">
+         <id column="questionnaire_answer_id" property="questionnaireAnswerId" jdbcType="VARCHAR" />
+         <result column="questionnaire_question_id" property="questionnaireQuestionId" jdbcType="VARCHAR" />
+         <result column="questionnaire_question_create_time" property="questionnaireQuestionCreateTime" jdbcType="TIMESTAMP" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="questionnaire_option_id" property="questionnaireOptionId" jdbcType="VARCHAR" />
+         
+   </resultMap>
+   <select id="findAll" resultMap="BaseResultMap">
+       select * from myw_questionnaire_answer
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    questionnaire_question_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findAllCount" resultType="java.lang.Long">
+      select count(1) from myw_questionnaire_answer
+   </select>
+   
+   <select id="findCountByOption" resultMap="BaseResultMap">
+  SELECT
+	t1.*
+FROM
+	myw_questionnaire_answer t1
+INNER JOIN myw_questionnaire_option t2 ON t2.questionnaire_option_id = t1.questionnaire_option_id
+INNER JOIN myw_questionnaire_question t3 ON t2.questionnaire_question_id = t3.questionnaire_question_id
+WHERE t3.questionnaire_id=#{questionnaireId}
+   </select>
+   
+   <insert id="save">
+      insert into myw_questionnaire_answer values(
+         #{QuestionnaireAnswer.questionnaireAnswerId},
+         #{QuestionnaireAnswer.questionnaireQuestionId},
+         #{QuestionnaireAnswer.questionnaireQuestionCreateTime},
+         #{QuestionnaireAnswer.userId}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_questionnaire_answer set
+      <if test="QuestionnaireAnswer.questionnaireQuestionId!=null and QuestionnaireAnswer.questionnaireQuestionId!='' ">
+        questionnaire_question_id=#{QuestionnaireAnswer.questionnaireQuestionId},
+      </if>
+      <if test="QuestionnaireAnswer.questionnaireQuestionCreateTime!=null and QuestionnaireAnswer.questionnaireQuestionCreateTime!='' ">
+        questionnaire_question_create_time=#{QuestionnaireAnswer.questionnaireQuestionCreateTime},
+      </if>
+      <if test="QuestionnaireAnswer.userId!=null and QuestionnaireAnswer.userId!='' ">
+        user_id=#{QuestionnaireAnswer.userId},
+      </if>
+      <if test="QuestionnaireAnswer.questionnaireAnswerId!=null and QuestionnaireAnswer.questionnaireAnswerId!='' ">
+        questionnaire_answer_id=#{QuestionnaireAnswer.questionnaireAnswerId}
+      </if>
+      where user_id=#{QuestionnaireAnswer.userId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_questionnaire_answer WHERE user_id=#{QuestionnaireAnswer.userId}
+   </delete>
+
+</mapper>

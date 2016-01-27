@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.SchoolDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.School">
+         <result column="school_num" property="schoolNum" jdbcType="VARCHAR" />
+         <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+         <result column="school_sort" property="schoolSort" jdbcType="INTEGER" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="school.schoolNum!=null and school.schoolNum!='' ">
+        and school_num like CONCAT('%',#{school.schoolNum},'%')
+      </if>
+      <if test="school.schoolName!=null and school.schoolName!='' ">
+        and school_name like CONCAT('%',#{school.schoolName},'%')
+      </if>
+      <if test="school.schoolSort!=null and school.schoolSort!='' ">
+        and school_sort=#{school.schoolSort}
+      </if>
+      <if test="school.createTime!=null and school.createTime!='' ">
+        and create_time=#{school.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_school
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order},
+       </when >
+       <otherwise>
+       school_sort ASC,
+       </otherwise>
+       </choose >
+       create_time DESC
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_school
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_school(school_num,school_name,school_sort,create_time) values(
+         #{school.schoolNum},
+         #{school.schoolName},
+         #{school.schoolSort},
+         #{school.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_school set
+      <if test="school.schoolName!=null and school.schoolName!='' ">
+        school_name=#{school.schoolName},
+      </if>
+      <if test="school.schoolSort!=null and school.schoolSort!='' ">
+        school_sort=#{school.schoolSort},
+      </if>
+      <if test="school.createTime!=null and school.createTime!='' ">
+        create_time=#{school.createTime},
+      </if>
+      <if test="school.schoolNum!=null and school.schoolNum!='' ">
+        school_num=#{school.schoolNum}
+      </if>
+      where school_num=#{school.schoolNum}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_school WHERE school_num=#{school.schoolNum}
+   </delete>
+
+
+   <select id="findSchoolByNum" resultMap="BaseResultMap">
+     select * from myw_school WHERE school_num=#{schoolNum}
+   </select>
+
+   <select id="findSchoolCountByNum" resultType="java.lang.Integer">
+     select count(1) from myw_school 
+	    where school_num =#{schoolNum}
+   </select>
+
+   <select id="findSchoolCountByName" resultType="java.lang.Integer">
+    select count(1) from myw_school 
+	    where school_name =#{schoolName}
+   </select>
+
+
+   <select id="findSchoolCountByNumNomine" resultType="java.lang.Integer">
+       select count(1) from myw_school 
+	    where school_num =#{school.schoolNum}
+	    and school_num &lt;&gt; #{school.oldSchoolNum}
+   </select>
+
+   <select id="findSchoolCountByNameNomine" resultType="java.lang.Integer">
+      select count(1) from myw_school 
+	    where school_name =#{school.schoolName}
+	    and school_num &lt;&gt; #{school.schoolNum}
+   </select>
+</mapper>

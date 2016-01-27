@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserExperienceLogDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.UserExperienceLog">
+         <id column="user_experience_log_id" property="userExperienceLogId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="log_type" property="logType" jdbcType="INTEGER" />
+         <result column="log_experience" property="logExperience" jdbcType="INTEGER" />
+         <result column="log_desc" property="logDesc" jdbcType="VARCHAR" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="userExperienceLog.userExperienceLogId!=null and userExperienceLog.userExperienceLogId!='' ">
+        and user_experience_log_id=#{userExperienceLog.userExperienceLogId}
+      </if>
+      <if test="userExperienceLog.createTime!=null and userExperienceLog.createTime!='' ">
+        and create_time=#{userExperienceLog.createTime}
+      </if>
+      <if test="userExperienceLog.logType!=null and userExperienceLog.logType!='' ">
+        and log_type=#{userExperienceLog.logType}
+      </if>
+      <if test="userExperienceLog.logExperience!=null and userExperienceLog.logExperience!='' ">
+        and log_experience=#{userExperienceLog.logExperience}
+      </if>
+      <if test="userExperienceLog.logDesc!=null and userExperienceLog.logDesc!='' ">
+        and log_desc=#{userExperienceLog.logDesc}
+      </if>
+      <if test="userExperienceLog.userId!=null and userExperienceLog.userId!='' ">
+        and user_id=#{userExperienceLog.userId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_user_experience_log
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_user_experience_log
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_user_experience_log(user_experience_log_id,create_time,log_type,log_experience,log_desc,user_id) values(
+         #{userExperienceLog.userExperienceLogId},
+         #{userExperienceLog.createTime},
+         #{userExperienceLog.logType},
+         #{userExperienceLog.logExperience},
+         #{userExperienceLog.logDesc},
+         #{userExperienceLog.userId}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_user_experience_log set
+      <if test="userExperienceLog.createTime!=null and userExperienceLog.createTime!='' ">
+        create_time=#{userExperienceLog.createTime},
+      </if>
+      <if test="userExperienceLog.logType!=null and userExperienceLog.logType!='' ">
+        log_type=#{userExperienceLog.logType},
+      </if>
+      <if test="userExperienceLog.logExperience!=null and userExperienceLog.logExperience!='' ">
+        log_experience=#{userExperienceLog.logExperience},
+      </if>
+      <if test="userExperienceLog.logDesc!=null and userExperienceLog.logDesc!='' ">
+        log_desc=#{userExperienceLog.logDesc},
+      </if>
+      <if test="userExperienceLog.userId!=null and userExperienceLog.userId!='' ">
+        user_id=#{userExperienceLog.userId},
+      </if>
+      <if test="userExperienceLog.userExperienceLogId!=null and userExperienceLog.userExperienceLogId!='' ">
+        user_experience_log_id=#{userExperienceLog.userExperienceLogId}
+      </if>
+      where user_experience_log_id=#{userExperienceLog.userExperienceLogId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_user_experience_log WHERE user_experience_log_id=#{userExperienceLog.userExperienceLogId}
+   </delete>
+
+</mapper>

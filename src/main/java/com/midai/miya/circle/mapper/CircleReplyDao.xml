@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.circle.dao.CircleReplyDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.circle.model.CircleReply">
+         <id column="myw_circle_reply_id" property="mywCircleReplyId" jdbcType="VARCHAR" />
+         <id column="circle_topic_id" property="circleTopicId" jdbcType="VARCHAR" />
+         <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="is_show" property="isShow" jdbcType="INTEGER" />
+         <result column="reply_from_user_id" property="replyFromUserId" jdbcType="VARCHAR" />
+         <result column="reply_to_user_id" property="replyToUserId" jdbcType="VARCHAR" />
+         <result column="reply_to_nickname" property="replyToNickname" jdbcType="VARCHAR" />
+         <result column="reply_from_nickname" property="replyFromNickname" jdbcType="VARCHAR" />
+         <result column="reply_to_head_img" property="replyToHeadImg" jdbcType="VARCHAR" />
+         <result column="reply_pid" property="replyPid" jdbcType="VARCHAR" />
+         <result column="reply_from_head_img" property="replyFromHeadImg" jdbcType="VARCHAR" />
+         <result column="circle_topic_title" property="circleTopicTitle" jdbcType="VARCHAR" />
+         <result column="circle_name" property="circleName" jdbcType="VARCHAR" />
+         <result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+          <collection property="circleTopicImgLists" ofType="com.midai.miya.circle.model.CircleTopicImg"
+         javaType="java.util.ArrayList" column="circle_topic_or_reply_id">
+         <id column="circle_img_id" property="circleImgId" jdbcType="VARCHAR" />
+         <result column="circle_topic_or_reply_id" property="circleTopicOrReplyId" jdbcType="VARCHAR" />
+         <result column="circle_img_url" property="circleImgUrl" jdbcType="VARCHAR" />
+         <result column="circle_img_name" property="circleImgName" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         </collection>
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="circleReply.mywCircleReplyId!=null and circleReply.mywCircleReplyId!='' ">
+        and t1.myw_circle_reply_id=#{circleReply.mywCircleReplyId}
+      </if>
+      <if test="circleReply.circleTopicId!=null and circleReply.circleTopicId!='' ">
+        and t1.circle_topic_id=#{circleReply.circleTopicId}
+      </if>
+      <if test="circleReply.replyContent!=null and circleReply.replyContent!='' ">
+        and t1.reply_content like CONCAT('%',#{circleReply.replyContent},'%')
+      </if>
+      <if test="circleReply.questionBeginTime!=null and circleReply.questionBeginTime!='' ">
+        and t1.create_time &gt;=#{circleReply.questionBeginTime}
+      </if>
+       <if test="circleReply.questionEndTime!=null and circleReply.questionEndTime!='' ">
+        and t1.create_time &lt;=#{circleReply.questionEndTime}
+      </if>
+      <if test="circleReply.isShow!=null and circleReply.isShow!='' ">
+        and t1.is_show=#{circleReply.isShow}
+      </if>
+      <if test="circleReply.replyFromUserId!=null and circleReply.replyFromUserId!='' ">
+        and t1.reply_from_user_id=#{circleReply.replyFromUserId}
+      </if>
+      <if test="circleReply.replyToUserId!=null and circleReply.replyToUserId!='' ">
+        and t1.reply_to_user_id=#{circleReply.replyToUserId}
+      </if>
+      <if test="circleReply.replyToNickname!=null and circleReply.replyToNickname!='' ">
+        and t1.reply_to_nickname=#{circleReply.replyToNickname}
+      </if>
+      <if test="circleReply.replyFromNickname!=null and circleReply.replyFromNickname!='' ">
+        and t1.reply_from_nickname=#{circleReply.replyFromNickname}
+      </if>
+      <if test="circleReply.replyToHeadImg!=null and circleReply.replyToHeadImg!='' ">
+        and t1.reply_to_head_img=#{circleReply.replyToHeadImg}
+      </if>
+      <if test="circleReply.replyPid!=null and circleReply.replyPid!='' ">
+        and t1.reply_pid=#{circleReply.replyPid}
+      </if>
+      <if test="circleReply.replyFromHeadImg!=null and circleReply.replyFromHeadImg!='' ">
+        and t1.reply_from_head_img=#{circleReply.replyFromHeadImg}
+      </if>
+      <if test="circleReply.replyCount!=null and circleReply.replyCount!='' ">
+        and t1.reply_count=#{circleReply.replyCount}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.circle_topic_title,t3.circle_name from myw_circle_reply t1 
+       inner join myw_circle_topic t2 on t1.circle_topic_id=t2.circle_topic_id
+       inner join myw_circle t3 on t2.circle_id=t3.circle_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+         t1.create_time DESC
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_circle_reply t1 
+       inner join myw_circle_topic t2 on t1.circle_topic_id=t2.circle_topic_id
+       inner join myw_circle t3 on t2.circle_id=t3.circle_id 
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_circle_reply(myw_circle_reply_id,circle_topic_id,reply_content,create_time,is_show,reply_from_user_id,reply_to_user_id,reply_to_nickname,reply_from_nickname,reply_to_head_img,reply_pid,reply_from_head_img,reply_count) values(
+         #{circleReply.mywCircleReplyId},
+         #{circleReply.circleTopicId},
+         #{circleReply.replyContent},
+         #{circleReply.createTime},
+         #{circleReply.isShow},
+         #{circleReply.replyFromUserId},
+         #{circleReply.replyToUserId},
+         #{circleReply.replyToNickname},
+         #{circleReply.replyFromNickname},
+         #{circleReply.replyToHeadImg},
+         #{circleReply.replyPid},
+         #{circleReply.replyFromHeadImg},
+         #{circleReply.replyCount}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_circle_reply set
+      <if test="circleReply.circleTopicId!=null and circleReply.circleTopicId!='' ">
+        circle_topic_id=#{circleReply.circleTopicId},
+      </if>
+      <if test="circleReply.replyContent!=null and circleReply.replyContent!='' ">
+        reply_content=#{circleReply.replyContent},
+      </if>
+      <if test="circleReply.createTime!=null and circleReply.createTime!='' ">
+        create_time=#{circleReply.createTime},
+      </if>
+      <if test="circleReply.isShow!=null and circleReply.isShow!='' ">
+        is_show=#{circleReply.isShow},
+      </if>
+      <if test="circleReply.replyFromUserId!=null and circleReply.replyFromUserId!='' ">
+        reply_from_user_id=#{circleReply.replyFromUserId},
+      </if>
+      <if test="circleReply.replyToUserId!=null and circleReply.replyToUserId!='' ">
+        reply_to_user_id=#{circleReply.replyToUserId},
+      </if>
+      <if test="circleReply.replyToNickname!=null and circleReply.replyToNickname!='' ">
+        reply_to_nickname=#{circleReply.replyToNickname},
+      </if>
+      <if test="circleReply.replyFromNickname!=null and circleReply.replyFromNickname!='' ">
+        reply_from_nickname=#{circleReply.replyFromNickname},
+      </if>
+      <if test="circleReply.replyToHeadImg!=null and circleReply.replyToHeadImg!='' ">
+        reply_to_head_img=#{circleReply.replyToHeadImg},
+      </if>
+      <if test="circleReply.replyPid!=null and circleReply.replyPid!='' ">
+        reply_pid=#{circleReply.replyPid},
+      </if>
+      <if test="circleReply.replyFromHeadImg!=null and circleReply.replyFromHeadImg!='' ">
+        reply_from_head_img=#{circleReply.replyFromHeadImg},
+      </if>
+      <if test="circleReply.replyCount!=null and circleReply.replyCount!='' ">
+        reply_count=#{circleReply.replyCount},
+      </if>
+      <if test="circleReply.mywCircleReplyId!=null and circleReply.mywCircleReplyId!='' ">
+        myw_circle_reply_id=#{circleReply.mywCircleReplyId}
+      </if>
+      where myw_circle_reply_id=#{circleReply.mywCircleReplyId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_circle_reply WHERE myw_circle_reply_id=#{circleReply.mywCircleReplyId}
+   </delete>
+
+
+   <select id="findCircleReplyById" resultMap="BaseResultMap">
+       select * from myw_circle_reply t1 
+       inner join myw_circle_topic_img t2 on t1.myw_circle_reply_id=t2.circle_topic_or_reply_id
+       where t1.myw_circle_reply_id=#{mywCircleReplyId}
+   </select>
+</mapper>

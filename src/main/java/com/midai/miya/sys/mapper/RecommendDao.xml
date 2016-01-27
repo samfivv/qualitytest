@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.RecommendDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Recommend">
+         <id column="recommend_id" property="recommendId" jdbcType="VARCHAR" />
+         <id column="interest_id" property="interestId" jdbcType="VARCHAR" />
+         <result column="recommend_sort" property="recommendSort" jdbcType="INTEGER" />
+         <result column="interest_title" property="interestTitle" jdbcType="VARCHAR" />
+         <result column="interest_desc" property="interestDesc" jdbcType="VARCHAR" />
+         <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+         <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="recommend.recommendId!=null and recommend.recommendId!='' ">
+        and t1.recommend_id=#{recommend.recommendId}
+      </if>
+      <if test="recommend.interestId!=null and recommend.interestId!='' ">
+        and t1.interest_id=#{recommend.interestId}
+      </if>
+      <if test="recommend.recommendSort!=null and recommend.recommendSort!='' ">
+        and t1.recommend_sort=#{recommend.recommendSort}
+      </if>
+       <if test="recommend.categoryId!=null and recommend.categoryId!='' ">
+        and t1.category_id=#{recommend.categoryId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+      SELECT t1.*,t2.interest_title,t2.interest_desc,t3.category_name FROM myw_recommend t1 
+   INNER JOIN myw_interest t2 ON t1.interest_id=t2.interest_id 
+   left join myw_category t3 on t1.category_id=t3.category_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+        <otherwise>
+       recommend_sort ASC
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from (SELECT t1.*,t2.interest_title,t2.interest_desc FROM myw_recommend t1 
+   INNER JOIN myw_interest t2 ON t1.interest_id=t2.interest_id 
+    <include refid="findWhere"></include>
+   )t
+   </select>
+   
+   <select id="findByInterestId"  resultType="java.lang.Long">
+   select count(1) from myw_recommend where interest_id=#{recommend.interestId}
+   <if test="recommend.recommendId !=null and recommend.recommendId !='' ">
+   and recommend_id &lt;&gt;#{recommend.recommendId}
+   </if>
+   </select>
+   
+   <select id="findById" resultMap="BaseResultMap">
+   select t1.*,t2.interest_title,t2.interest_desc,t3.category_name from myw_recommend t1 
+   INNER JOIN myw_interest t2 ON t1.interest_id=t2.interest_id 
+   left join myw_category t3 on t1.category_id=t3.category_id
+    where t1.recommend_id=#{recommendId}
+   </select>
+   
+   <insert id="save">
+      insert into myw_recommend values(
+         #{recommend.recommendId},
+         #{recommend.interestId},
+         #{recommend.recommendSort},
+         #{recommend.categoryId}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_recommend set
+      <if test="recommend.interestId!=null and recommend.interestId!='' ">
+        interest_id=#{recommend.interestId},
+      </if>
+      <if test="recommend.recommendSort!=null and recommend.recommendSort!='' ">
+        recommend_sort=#{recommend.recommendSort},
+      </if>
+      <if test="recommend.categoryId!=null and recommend.categoryId!='' ">
+        category_id=#{recommend.categoryId},
+      </if>
+      <if test="recommend.recommendId!=null and recommend.recommendId!='' ">
+        recommend_id=#{recommend.recommendId}
+      </if>
+      where recommend_id=#{recommend.recommendId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_recommend WHERE recommend_id=#{recommend.recommendId}
+   </delete>
+
+</mapper>

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/2816/code/manage/src/main/java/com/midai/miya/questionnaire/mapper
+END
+QuestionnaireQuestionDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/web/!svn/ver/2774/code/manage/src/main/java/com/midai/miya/questionnaire/mapper/QuestionnaireQuestionDao.xml
+END
+QuestionnaireOptionDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/web/!svn/ver/2773/code/manage/src/main/java/com/midai/miya/questionnaire/mapper/QuestionnaireOptionDao.xml
+END
+QuestionnaireRecordDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/web/!svn/ver/2801/code/manage/src/main/java/com/midai/miya/questionnaire/mapper/QuestionnaireRecordDao.xml
+END
+QuestionnaireDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/web/!svn/ver/2816/code/manage/src/main/java/com/midai/miya/questionnaire/mapper/QuestionnaireDao.xml
+END
+QuestionnaireAnswerDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/web/!svn/ver/2772/code/manage/src/main/java/com/midai/miya/questionnaire/mapper/QuestionnaireAnswerDao.xml
+END

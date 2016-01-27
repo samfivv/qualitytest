@@ -1,0 +1,46 @@
+10
+
+dir
+7189
+http://192.168.0.231/web/code/manage/src/main/java/com/midai/miya/user
+http://192.168.0.231/web
+
+
+
+2015-12-18T09:38:22.313153Z
+7186
+wangmy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+bd48d703-0070-4f88-a923-a473f9882731
+
+controller
+dir
+
+dao
+dir
+
+mapper
+dir
+
+model
+dir
+
+service
+dir
+
+vo
+dir
+

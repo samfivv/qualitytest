@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.CopywriterDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Copywriter">
+         <id column="copywriter_id" property="copywriterId" jdbcType="VARCHAR" />
+         <result column="copywriter_url" property="copywriterUrl" jdbcType="VARCHAR" />
+         <result column="copywriter_desc" property="copywriterDesc" jdbcType="VARCHAR" />
+         <result column="copywriter_img_url" property="copywriterImgUrl" jdbcType="VARCHAR" />
+         <result column="copywriter_vesion" property="copywriterVersion" jdbcType="VARCHAR" />
+         <result column="copywriter_sort" property="copywriterSort" jdbcType="INTEGER" />
+         <result column="copywriter_type" property="copywriterType" jdbcType="INTEGER" />
+         <result column="copywriter_page" property="copywriterPage" jdbcType="INTEGER" />
+         <result column="copywriter_interest_id" property="copywriterInterestId" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="copywriter.copywriterId!=null and copywriter.copywriterId!='' ">
+        and copywriter_id=#{copywriter.copywriterId}
+      </if>
+      <if test="copywriter.copywriterUrl!=null and copywriter.copywriterUrl!='' ">
+        and copywriter_url=#{copywriter.copywriterUrl}
+      </if>
+      <if test="copywriter.copywriterDesc!=null and copywriter.copywriterDesc!='' ">
+        and copywriter_desc=#{copywriter.copywriterDesc}
+      </if>
+      <if test="copywriter.copywriterImgUrl!=null and copywriter.copywriterImgUrl!='' ">
+        and copywriter_img_url=#{copywriter.copywriterImgUrl}
+      </if>
+      <if test="copywriter.copywriterPage!=null and copywriter.copywriterPage!='' ">
+        and copywriter_page=#{copywriter.copywriterPage}
+      </if>
+      <if test="copywriter.copywriterSort!=null and copywriter.copywriterSort!='' ">
+        and copywriter_sort=#{copywriter.copywriterSort}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_copywriter
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+       copywriter_sort ASC
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findInterestId">
+   select * from myw_interest where interest_id=#{}
+   </select>
+   
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_copywriter
+      <include refid="findWhere"></include>
+   </select>
+   
+   <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select * from myw_copywriter where copywriter_id=#{copywriterId}
+   </select>
+   
+   <select id="findByName" resultType="java.lang.Long">
+   select count(1) from myw_copywriter where copywriter_desc=#{copywriter.copywriterDesc} 
+   <if test="copywriter.copywriterId !=null and copywriter.copywriterId !='' ">
+   and copywriter_id &lt;&gt;#{copywriter.copywriterId}
+   </if>
+   </select>
+   
+    <select id="findByVersion" parameterType="java.lang.String" resultType="java.lang.Long">
+   select count(1) from myw_copywriter where copywriter_vesion=#{copywriter.copywriterVersion} 
+   </select>
+   
+   <insert id="save">
+      insert into myw_copywriter values(
+         #{copywriter.copywriterId},
+         #{copywriter.copywriterUrl},
+         #{copywriter.copywriterDesc},
+         #{copywriter.copywriterImgUrl},
+         #{copywriter.copywriterSort},
+         #{copywriter.copywriterVersion},
+         #{copywriter.copywriterType},
+         #{copywriter.copywriterInterestId},
+         #{copywriter.copywriterPage}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_copywriter set
+       copywriter_interest_id=#{copywriter.copywriterInterestId},
+      <if test="copywriter.copywriterUrl!=null and copywriter.copywriterUrl!='' ">
+        copywriter_url=#{copywriter.copywriterUrl},
+      </if>
+      <if test="copywriter.copywriterDesc!=null and copywriter.copywriterDesc!='' ">
+        copywriter_desc=#{copywriter.copywriterDesc},
+      </if>
+      <if test="copywriter.copywriterImgUrl!=null and copywriter.copywriterImgUrl!='' ">
+        copywriter_img_url=#{copywriter.copywriterImgUrl},
+      </if>
+      <if test="copywriter.copywriterSort!=null and copywriter.copywriterSort!='' ">
+        copywriter_sort=#{copywriter.copywriterSort},
+      </if>
+      <if test="copywriter.copywriterType!=null and copywriter.copywriterType!='' ">
+        copywriter_type=#{copywriter.copywriterType},
+      </if>
+      <if test="copywriter.copywriterPage!=null and copywriter.copywriterPage!='' ">
+       copywriter_page=#{copywriter.copywriterPage},
+      </if>
+      <if test="copywriter.copywriterId!=null and copywriter.copywriterId!='' ">
+        copywriter_id=#{copywriter.copywriterId}
+      </if>
+      where copywriter_id=#{copywriter.copywriterId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_copywriter WHERE copywriter_id=#{copywriter.copywriterId}
+   </delete>
+
+</mapper>

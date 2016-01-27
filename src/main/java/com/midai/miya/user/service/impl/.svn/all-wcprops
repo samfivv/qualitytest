@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/web/!svn/ver/7166/code/manage/src/main/java/com/midai/miya/user/service/impl
+END
+ClubServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/5080/code/manage/src/main/java/com/midai/miya/user/service/impl/ClubServiceImpl.java
+END
+UserInterviewServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/web/!svn/ver/6678/code/manage/src/main/java/com/midai/miya/user/service/impl/UserInterviewServiceImpl.java
+END
+UserOftenChangeInfoServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/web/!svn/ver/4949/code/manage/src/main/java/com/midai/miya/user/service/impl/UserOftenChangeInfoServiceImpl.java
+END
+UserWithdrawDepositServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/web/!svn/ver/7166/code/manage/src/main/java/com/midai/miya/user/service/impl/UserWithdrawDepositServiceImpl.java
+END
+UserServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/4218/code/manage/src/main/java/com/midai/miya/user/service/impl/UserServiceImpl.java
+END
+UserBillChargebackServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/web/!svn/ver/4232/code/manage/src/main/java/com/midai/miya/user/service/impl/UserBillChargebackServiceImpl.java
+END
+UserUpgradeApplyServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/web/!svn/ver/4272/code/manage/src/main/java/com/midai/miya/user/service/impl/UserUpgradeApplyServiceImpl.java
+END
+UserMoneyLogServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/web/!svn/ver/5207/code/manage/src/main/java/com/midai/miya/user/service/impl/UserMoneyLogServiceImpl.java
+END
+UserExperienceLogServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/web/!svn/ver/4950/code/manage/src/main/java/com/midai/miya/user/service/impl/UserExperienceLogServiceImpl.java
+END
+RewardServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/web/!svn/ver/6018/code/manage/src/main/java/com/midai/miya/user/service/impl/RewardServiceImpl.java
+END
+UserMoneyRmbLogServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/web/!svn/ver/4234/code/manage/src/main/java/com/midai/miya/user/service/impl/UserMoneyRmbLogServiceImpl.java
+END
+PlayServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/2546/code/manage/src/main/java/com/midai/miya/user/service/impl/PlayServiceImpl.java
+END
+SchoolServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/web/!svn/ver/5088/code/manage/src/main/java/com/midai/miya/user/service/impl/SchoolServiceImpl.java
+END

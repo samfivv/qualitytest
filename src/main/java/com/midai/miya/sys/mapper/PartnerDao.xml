@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.PartnerDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Partner">
+         <id column="partner_id" property="partnerId" jdbcType="VARCHAR" />
+         <result column="partner_name" property="partnerName" jdbcType="VARCHAR" />
+         <result column="partner_url" property="partnerUrl" jdbcType="VARCHAR" />
+         <result column="partner_img_url" property="partnerImgUrl" jdbcType="VARCHAR" />
+         <result column="partner_type" property="partnerType" jdbcType="INTEGER" />
+         <result column="partner_create_time" property="partnerCreateTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="partner.partnerId!=null and partner.partnerId!='' ">
+        and partner_id=#{partner.partnerId}
+      </if>
+      <if test="partner.partnerName!=null and partner.partnerName!='' ">
+        and partner_name like CONCAT('%',#{partner.partnerName},'%')
+      </if>
+      <if test="partner.partnerUrl!=null and partner.partnerUrl!='' ">
+        and partner_url=#{partner.partnerUrl}
+      </if>
+      <if test="partner.partnerImgUrl!=null and partner.partnerImgUrl!='' ">
+        and partner_img_url=#{partner.partnerImgUrl}
+      </if>
+      <if test="partner.partnerType!=null and partner.partnerType!='' ">
+        and partner_type=#{partner.partnerType}
+      </if>
+      <if test="partner.queryTimeBegin!=null and partner.queryTimeBegin!='' ">
+        and partner_create_time &gt;=#{partner.queryTimeBegin}
+      </if>
+       <if test="partner.queryTimeEnd!=null and partner.queryTimeEnd!='' ">
+        and partner_create_time &lt;=#{partner.queryTimeEnd}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from myw_partner
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    partner_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_partner
+      <include refid="findWhere"></include>
+   </select>
+   
+   <select id="findById" resultMap="BaseResultMap">
+   select * from myw_partner where partner_id=#{partnerId}
+   </select>
+   
+   <insert id="save">
+      insert into myw_partner values(
+         #{partner.partnerId},
+         #{partner.partnerName},
+         #{partner.partnerUrl},
+         #{partner.partnerImgUrl},
+         #{partner.partnerType},
+         #{partner.partnerCreateTime}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_partner set
+      <if test="partner.partnerName!=null and partner.partnerName!='' ">
+        partner_name=#{partner.partnerName},
+      </if>
+      <if test="partner.partnerUrl!=null and partner.partnerUrl!='' ">
+        partner_url=#{partner.partnerUrl},
+      </if>
+      <if test="partner.partnerImgUrl!=null and partner.partnerImgUrl!='' ">
+        partner_img_url=#{partner.partnerImgUrl},
+      </if>
+      <if test="partner.partnerType!=null and partner.partnerType!='' ">
+        partner_type=#{partner.partnerType},
+      </if>
+      <if test="partner.partnerCreateTime!=null and partner.partnerCreateTime!='' ">
+        partner_create_time=#{partner.partnerCreateTime},
+      </if>
+      <if test="partner.partnerId!=null and partner.partnerId!='' ">
+        partner_id=#{partner.partnerId}
+      </if>
+      where partner_id=#{partner.partnerId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_partner WHERE partner_id=#{partner.partnerId}
+   </delete>
+
+</mapper>

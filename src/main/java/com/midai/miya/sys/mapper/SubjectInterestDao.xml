@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.SubjectInterestDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.SubjectInterest">
+         <id column="subject_interest_id" property="subjectInterestId" jdbcType="VARCHAR" />
+         <id column="subject_id" property="subjectId" jdbcType="VARCHAR" />
+         <id column="interest_id" property="interestId" jdbcType="VARCHAR" />
+         <result column="subject_interest_state" property="subjectInterestState" jdbcType="INTEGER" />
+         <result column="subject_interest_sort" property="subjectInterestSort" jdbcType="INTEGER" />
+          <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+          <result column="user_mail" property="userMail" jdbcType="VARCHAR" />
+         <result column="interest_title" property="interestTitle" jdbcType="VARCHAR" />
+         <result column="interest_desc" property="interestDesc" jdbcType="VARCHAR" />
+         <result column="subject_title" property="subjectTitle" jdbcType="VARCHAR" />
+          <result column="club_num" property="clubNum" jdbcType="VARCHAR" />
+         <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+         <result column="school_num" property="schoolNum" jdbcType="VARCHAR" />
+         <result column="club_name" property="clubName" jdbcType="VARCHAR" />
+         <result column="interest_update_time" property="interestUpdateTime" jdbcType="TIMESTAMP" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+   and t5.interest_video_count>0
+      <if test="subjectInterest.subjectInterestId!=null and subjectInterest.subjectInterestId!='' ">
+        and t1.subject_interest_id=#{subjectInterest.subjectInterestId}
+      </if>
+      <if test="subjectInterest.subjectId!=null and subjectInterest.subjectId!='' ">
+        and t1.subject_id=#{subjectInterest.subjectId}
+      </if>
+       <if test="subjectInterest.subjectTitle!=null and subjectInterest.subjectTitle!='' ">
+        and t4.subject_title like CONCAT('%',#{subjectInterest.subjectTitle},'%')
+      </if>
+      <if test="subjectInterest.interestTitle!=null and subjectInterest.interestTitle!='' ">
+        and t2.interest_title like CONCAT('%',#{subjectInterest.interestTitle},'%')
+      </if>
+      <if test="subjectInterest.userMail!=null and subjectInterest.userMail!='' ">
+        and t3.user_mail like CONCAT('%',#{subjectInterest.userMail},'%')
+      </if>
+      <if test="subjectInterest.interestId!=null and subjectInterest.interestId!='' ">
+        and t1.interest_id=#{subjectInterest.interestId}
+      </if>
+      <if test="subjectInterest.subjectInterestState!=null and subjectInterest.subjectInterestState!='' ">
+        and t1.subject_interest_state=#{subjectInterest.subjectInterestState}
+      </if>
+      <if test="subjectInterest.subjectInterestSort!=null and subjectInterest.subjectInterestSort!='' ">
+        and t1.subject_interest_sort=#{subjectInterest.subjectInterestSort}
+      </if>
+       <if test="subjectInterest.queryTimeBegin!=null and subjectInterest.queryTimeBegin!='' ">
+        and t1.create_time &gt;=#{subjectInterest.queryTimeBegin}
+      </if>
+      <if test="subjectInterest.queryTimeEnd!=null and subjectInterest.queryTimeEnd!='' ">
+        and t1.create_time &lt;=#{subjectInterest.queryTimeEnd}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.interest_title,t2.interest_desc,t2.interest_update_time,t3.user_nickname,t3.user_mail,t4.subject_title from myw_subject_interest t1 
+       inner join myw_interest t2 on t1.interest_id=t2.interest_id
+       inner join myw_user t3 on t2.interest_creator=t3.user_id
+       inner join myw_subject t4 on t1.subject_id=t4.subject_id 
+       inner join myw_interest_often_change_info t5 on t5.interest_id=t1.interest_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	   t1.subject_interest_sort ASC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_subject_interest t1 inner join myw_interest t2 on t1.interest_id=t2.interest_id
+       inner join myw_user t3 on t2.interest_creator=t3.user_id
+       inner join myw_subject t4 on t1.subject_id=t4.subject_id 
+       inner join myw_interest_often_change_info t5 on t5.interest_id=t1.interest_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_subject_interest(subject_interest_id,subject_id,interest_id,subject_interest_state,subject_interest_sort,create_time) values(
+         #{subjectInterest.subjectInterestId},
+         #{subjectInterest.subjectId},
+         #{subjectInterest.interestId},
+         #{subjectInterest.subjectInterestState},
+         #{subjectInterest.subjectInterestSort},
+         #{subjectInterest.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_subject_interest set
+      <if test="subjectInterest.subjectId!=null and subjectInterest.subjectId!='' ">
+        subject_id=#{subjectInterest.subjectId},
+      </if>
+      <if test="subjectInterest.interestId!=null and subjectInterest.interestId!='' ">
+        interest_id=#{subjectInterest.interestId},
+      </if>
+      <if test="subjectInterest.subjectInterestState!=null and subjectInterest.subjectInterestState!='' ">
+        subject_interest_state=#{subjectInterest.subjectInterestState},
+      </if>
+      <if test="subjectInterest.subjectInterestSort!=null and subjectInterest.subjectInterestSort!='' ">
+        subject_interest_sort=#{subjectInterest.subjectInterestSort},
+      </if>
+      <if test="subjectInterest.createTime!=null and subjectInterest.createTime!='' ">
+        create_time=#{subjectInterest.createTime},
+      </if>
+      <if test="subjectInterest.subjectInterestId!=null and subjectInterest.subjectInterestId!='' ">
+        subject_interest_id=#{subjectInterest.subjectInterestId}
+      </if>
+      where subject_interest_id=#{subjectInterest.subjectInterestId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_subject_interest WHERE subject_interest_id=#{subjectInterest.subjectInterestId}
+   </delete>
+
+
+   <select id="findSubjectInterestById" resultMap="BaseResultMap">
+       select * from myw_subject_interest where subject_interest_id=#{subjectInterestId}
+   </select>
+
+   <select id="findSubjectInterestCountById" resultMap="BaseResultMap">
+        select * from myw_subject_interest where interest_id=#{interestId}
+   </select>
+</mapper>

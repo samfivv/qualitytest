@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/web/!svn/ver/7102/code/manage/src/main/webapp/securityJsp/operations
+END
+recommendation.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/6138/code/manage/src/main/webapp/securityJsp/operations/recommendation.jsp
+END
+approvalRecommend.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/7102/code/manage/src/main/webapp/securityJsp/operations/approvalRecommend.jsp
+END
+recommendationForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/6146/code/manage/src/main/webapp/securityJsp/operations/recommendationForm.jsp
+END
+approvalRecommendForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/web/!svn/ver/7095/code/manage/src/main/webapp/securityJsp/operations/approvalRecommendForm.jsp
+END
+lookImg.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/4836/code/manage/src/main/webapp/securityJsp/operations/lookImg.jsp
+END

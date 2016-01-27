@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/web/!svn/ver/4315/code/manage/src/main/webapp/securityJsp/ask
+END
+AskWhistle.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/web/!svn/ver/4315/code/manage/src/main/webapp/securityJsp/ask/AskWhistle.jsp
+END
+AskWhistleForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/4256/code/manage/src/main/webapp/securityJsp/ask/AskWhistleForm.jsp
+END
+askForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/web/!svn/ver/4082/code/manage/src/main/webapp/securityJsp/ask/askForm.jsp
+END
+manageAsk.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/web/!svn/ver/4082/code/manage/src/main/webapp/securityJsp/ask/manageAsk.jsp
+END
+askReplyForm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/web/!svn/ver/4120/code/manage/src/main/webapp/securityJsp/ask/askReplyForm.jsp
+END
+manageAskreply.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/4082/code/manage/src/main/webapp/securityJsp/ask/manageAskreply.jsp
+END

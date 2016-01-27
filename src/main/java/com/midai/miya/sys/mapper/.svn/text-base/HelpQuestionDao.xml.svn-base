@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.HelpQuestionDao">
+	<resultMap id="BaseResultMap" type="com.midai.miya.sys.model.HelpQuestion">
+			<id column="help_question_id" property="helpQuestionId" jdbcType="VARCHAR" />
+			<id column="help_operator_id" property="helpUserId" jdbcType="VARCHAR" />
+			<result column="help_question" property="helpQuestion" jdbcType="VARCHAR" />
+			<result column="help_url" property="helpUrl" jdbcType="VARCHAR" />
+			<result column="help_contact_way" property="helpContactWay" jdbcType="VARCHAR" />
+			<result column="help_region" property="helpRegion" jdbcType="VARCHAR" />
+			<result column="operator_name" property="operatorName" jdbcType="VARCHAR" />
+			<result column="help_suggestion" property="helpSuggestion" jdbcType="VARCHAR" />
+			<result column="help_state" property="helpState" jdbcType="INTEGER" />
+			<result column="help_create_time" property="helpCreateTime" jdbcType="TIMESTAMP"/>
+			<result column="help_deal_time" property="helpDealTime" jdbcType="TIMESTAMP"/>	
+	</resultMap>
+	
+	<sql id="findWhere">
+	<where>
+	<if test="help.helpQuestion!=null and help.helpQuestion!='' ">
+	and t1.help_question like CONCAT('%',#{help.helpQuestion},'%')
+	</if>
+	<if test="help.operatorName!=null and help.operatorName!='' ">
+	and t2.operator_name like CONCAT('%',#{help.operatorName},'%')
+	</if>
+	<if test="help.helpState!=null and help.helpState!='' or help.helpState==0">
+	and t1.help_state =#{help.helpState}
+	</if>
+	<if test="help.queryTimeBegin!=null and help.queryTimeBegin!='' ">
+	and t1.help_create_time &gt;=#{help.queryTimeBegin}
+	</if>
+	<if test="help.queryTimeEnd!=null and help.queryTimeEnd!='' ">
+	and t1.help_create_time &lt;=#{help.queryTimeEnd}
+	</if>
+	<if test="help.handleTimeStart!=null and help.handleTimeStart!='' ">
+	and t1.help_deal_time &gt;=#{help.handleTimeStart}
+	</if>
+	<if test="help.handleTimeEnd!=null and help.handleTimeEnd!='' ">
+	and t1.help_deal_time &lt;=#{help.handleTimeEnd}
+	</if>
+	</where>
+	</sql>
+	 <select id="findAll" resultMap="BaseResultMap">
+	 SELECT t1.*,t2.operator_name FROM myw_help_question t1 
+	 Left JOIN myw_operator t2 ON t1.help_operator_id=t2.operator_id
+	 <include refid="findWhere"></include>
+	 order by
+	 <choose>
+	 <when test="page.sort!=null and page.sort!='' ">
+	${page.sort}  ${page.order}
+	 </when>
+	 <otherwise>
+	 t1.help_create_time DESC
+	 </otherwise>
+	 </choose>
+	  limit #{page.page},#{page.rows}
+	 </select>
+	 
+	 <select id="findCount" resultType="java.lang.Long">
+	 select count(1) FROM myw_help_question t1 
+	 INNER JOIN myw_operator t2 ON t1.help_operator_id=t2.operator_id
+	 <include refid="findWhere"></include>
+	 </select>
+	 
+	 <update id="update" parameterType="com.midai.miya.sys.model.HelpQuestion">
+	 update myw_help_question set help_state=#{helpState},help_suggestion=#{helpSuggestion}
+	 ,help_deal_time=#{helpDealTime},help_operator_id=#{helpUserId}
+	 where help_question_id=#{helpQuestionId}
+	 </update>
+	 
+	 <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+	 select * from myw_help_question where help_question_id=#{helpQuestionId}
+	 </select>
+</mapper>

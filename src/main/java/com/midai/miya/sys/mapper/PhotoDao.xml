@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.PhotoDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Photo">
+         <id column="photo_id" property="photoId" jdbcType="VARCHAR" />
+         <result column="photo_name" property="photoName" jdbcType="VARCHAR" />
+         <result column="photo_desc" property="photoDesc" jdbcType="VARCHAR" />
+         <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
+         <result column="photo_create_time" property="photoCreateTime" jdbcType="TIMESTAMP" />
+         <result column="photo_album_id" property="photoAlbumId" jdbcType="VARCHAR" />
+         <result column="photo_state" property="photoState" jdbcType="INTEGER" />
+         <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="photo.photoId!=null and photo.photoId!='' ">
+        and t1.photo_id=#{photo.photoId}
+      </if>
+      <if test="photo.photoName!=null and photo.photoName!='' ">
+        and t1.photo_name like CONCAT('%',#{photo.photoName},'%')
+      </if>
+      <if test="photo.userNickname!=null and photo.userNickname!='' ">
+        and t3.user_nickname like CONCAT('%',#{photo.userNickname},'%')
+      </if>
+      <if test="photo.photoDesc!=null and photo.photoDesc!='' ">
+        and t1.photo_desc=#{photo.photoDesc}
+      </if>
+       <if test="photo.photoState!=null and photo.photoState!='' ">
+        and t1.photo_state=#{photo.photoState}
+      </if>
+      <if test="photo.photoPath!=null and photo.photoPath!='' ">
+        and t1.photo_path=#{photo.photoPath}
+      </if>
+      <if test="photo.photoCreateTime!=null and photo.photoCreateTime!='' ">
+        and t1.photo_create_time=#{photo.photoCreateTime}
+      </if>
+      <if test="photo.photoAlbumId!=null and photo.photoAlbumId!='' ">
+        and t1.photo_album_id=#{photo.photoAlbumId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t3.user_nickname from myw_photo t1 
+       inner join myw_photo_album t2 on t1.photo_album_id=t2.photo_album_id 
+       inner join myw_user t3 on t2.user_id=t3.user_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    t1.photo_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_photo t1 
+      inner join myw_photo_album t2 on t1.photo_album_id=t2.photo_album_id
+      inner join myw_user t3 on t2.user_id=t3.user_id
+      <include refid="findWhere"></include>
+   </select>
+   
+   <select id="findById" resultMap="BaseResultMap">
+   select t1.* from myw_photo t1 inner join myw_photo_album t2 on t1.photo_album_id=t2.photo_album_id
+   where t1.photo_id=#{photoId}
+   </select>
+   
+   <insert id="save">
+      insert into myw_photo values(
+         #{photo.photoId},
+         #{photo.photoName},
+         #{photo.photoDesc},
+         #{photo.photoPath},
+         #{photo.photoCreateTime},
+         #{photo.photoAlbumId}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_photo set
+      <if test="photo.photoName!=null and photo.photoName!='' ">
+        photo_name=#{photo.photoName},
+      </if>
+      <if test="photo.photoDesc!=null and photo.photoDesc!='' ">
+        photo_desc=#{photo.photoDesc},
+      </if>
+       <if test="photo.photoState!=null and photo.photoState!='' ">
+        photo_state=#{photo.photoState},
+      </if>
+      <if test="photo.photoPath!=null and photo.photoPath!='' ">
+        photo_path=#{photo.photoPath},
+      </if>
+      <if test="photo.photoCreateTime!=null and photo.photoCreateTime!='' ">
+        photo_create_time=#{photo.photoCreateTime},
+      </if>
+      <if test="photo.photoAlbumId!=null and photo.photoAlbumId!='' ">
+        photo_album_id=#{photo.photoAlbumId},
+      </if>
+      <if test="photo.photoId!=null and photo.photoId!='' ">
+        photo_id=#{photo.photoId}
+      </if>
+      where photo_id=#{photo.photoId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_photo WHERE photo_id=#{photo.photoId}
+   </delete>
+
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.RewardDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.Reward">
+         <id column="reward_id" property="rewardId" jdbcType="VARCHAR" />
+         <result column="reward_user_id" property="rewardUserId" jdbcType="VARCHAR" />
+         <result column="reward_interest_id" property="rewardInterestId" jdbcType="VARCHAR" />
+         <result column="reward_to_user_id" property="rewardToUserId" jdbcType="VARCHAR" />
+         <result column="reward_gift_id" property="rewardGiftId" jdbcType="VARCHAR" />
+         <result column="reward_gift_num" property="rewardGiftNum" jdbcType="INTEGER" />
+         <result column="reward_price" property="rewardPrice" jdbcType="DOUBLE" />
+         <result column="reward_payee_type" property="rewardPayeeType" jdbcType="INTEGER" />
+         <result column="reward_create_time" property="rewardCreateTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="reward.rewardId!=null and reward.rewardId!='' ">
+        and t1.reward_id=#{reward.rewardId}
+      </if>
+      <if test="reward.rewardUserId!=null and reward.rewardUserId!='' ">
+        and t1.reward_user_id=#{reward.rewardUserId}
+      </if>
+      <if test="reward.rewardInterestId!=null and reward.rewardInterestId!='' ">
+        and t1.reward_interest_id=#{reward.rewardInterestId}
+      </if>
+       <if test="reward.rewardUserName!=null and reward.rewardUserName!='' ">
+        and t2.user_nickname like CONCAT('%',#{reward.rewardUserName},'%')
+      </if>
+      <if test="reward.rewardToUserName!=null and reward.rewardToUserName!='' ">
+        and t3.user_nickname like CONCAT('%',#{reward.rewardToUserName},'%')
+      </if>
+       <if test="reward.interestTitle!=null and reward.interestTitle!='' ">
+        and t4.interest_title=#{reward.interestTitle}
+      </if>
+       <if test="reward.queryBeginRegisterTime!=null and reward.queryBeginRegisterTime!='' ">
+        and t1.reward_create_time @gt;=#{reward.queryBeginRegisterTime}
+      </if>
+       <if test="reward.queryEndRegisterTime!=null and reward.queryEndRegisterTime!='' ">
+        and t1.reward_create_time @lt;=#{reward.queryEndRegisterTime}
+      </if>
+      <if test="reward.rewardToUserId!=null and reward.rewardToUserId!='' ">
+        and t1.reward_to_user_id=#{reward.rewardToUserId}
+      </if>
+      <if test="reward.rewardGiftId!=null and reward.rewardGiftId!='' ">
+        and t1.reward_gift_id=#{reward.rewardGiftId}
+      </if>
+      <if test="reward.rewardGiftNum!=null and reward.rewardGiftNum!='' ">
+        and t1.reward_gift_num=#{reward.rewardGiftNum}
+      </if>
+      <if test="reward.rewardPrice!=null and reward.rewardPrice!='' ">
+        and t1.reward_price=#{reward.rewardPrice}
+      </if>
+      <if test="reward.rewardPayeeType!=null and reward.rewardPayeeType!='' ">
+        and t1.reward_payee_type=#{reward.rewardPayeeType}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultType="com.midai.miya.user.model.Reward">
+       select t1.reward_price as rewardPrice,t1.reward_payee_type as rewardPayeeType,t1.reward_create_time as rewardCreateTime,
+       t1.reward_to_user_id as rewardToUserId,t1.reward_user_id as rewardUserId,t1.reward_id as rewardId,t1.reward_interest_id as rewardInterestId,
+       t2.user_nickname as rewardUserName, t3.user_nickname as rewardToUserName , t4.interest_title as interestTitle
+       from myw_reward t1 
+       inner join myw_user t2 on t1.reward_user_id=t2.user_id
+       inner join myw_user t3 on t1.reward_to_user_id=t3.user_id 
+       inner join myw_interest t4 on t1.reward_interest_id=t4.interest_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+         <when test="page.sort!=null and page.sort!='' ">
+      ${page.sort} ${page.order}
+      </when>
+      <otherwise>
+      t1.reward_create_time DESC
+      </otherwise>
+       </choose>
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_reward t1
+       inner join myw_user t2 on t1.reward_user_id=t2.user_id
+       inner join myw_user t3 on t1.reward_to_user_id=t3.user_id
+       inner join myw_interest t4 on t1.reward_interest_id=t4.interest_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_reward(reward_id,reward_user_id,reward_interest_id,reward_to_user_id,reward_gift_id,reward_gift_num,reward_price,reward_payee_type,reward_create_time) values(
+         #{reward.rewardId},
+         #{reward.rewardUserId},
+         #{reward.rewardInterestId},
+         #{reward.rewardToUserId},
+         #{reward.rewardGiftId},
+         #{reward.rewardGiftNum},
+         #{reward.rewardPrice},
+         #{reward.rewardPayeeType},
+         #{reward.rewardCreateTime}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_reward set
+      <if test="reward.rewardUserId!=null and reward.rewardUserId!='' ">
+        reward_user_id=#{reward.rewardUserId},
+      </if>
+      <if test="reward.rewardInterestId!=null and reward.rewardInterestId!='' ">
+        reward_interest_id=#{reward.rewardInterestId},
+      </if>
+      <if test="reward.rewardToUserId!=null and reward.rewardToUserId!='' ">
+        reward_to_user_id=#{reward.rewardToUserId},
+      </if>
+      <if test="reward.rewardGiftId!=null and reward.rewardGiftId!='' ">
+        reward_gift_id=#{reward.rewardGiftId},
+      </if>
+      <if test="reward.rewardGiftNum!=null and reward.rewardGiftNum!='' ">
+        reward_gift_num=#{reward.rewardGiftNum},
+      </if>
+      <if test="reward.rewardPrice!=null and reward.rewardPrice!='' ">
+        reward_price=#{reward.rewardPrice},
+      </if>
+      <if test="reward.rewardPayeeType!=null and reward.rewardPayeeType!='' ">
+        reward_payee_type=#{reward.rewardPayeeType},
+      </if>
+      <if test="reward.rewardCreateTime!=null and reward.rewardCreateTime!='' ">
+        reward_create_time=#{reward.rewardCreateTime},
+      </if>
+      <if test="reward.rewardId!=null and reward.rewardId!='' ">
+        reward_id=#{reward.rewardId}
+      </if>
+      where reward_id=#{reward.rewardId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_reward WHERE reward_id=#{reward.rewardId}
+   </delete>
+
+</mapper>

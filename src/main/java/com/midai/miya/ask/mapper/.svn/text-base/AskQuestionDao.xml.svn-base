@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.ask.dao.AskQuestionDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.ask.model.AskQuestion">
+         <id column="question_id" property="questionId" jdbcType="VARCHAR" />
+         <result column="question_title" property="questionTitle" jdbcType="VARCHAR" />
+         <result column="question_desc" property="questionDesc" jdbcType="VARCHAR" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="question_state" property="questionState" jdbcType="INTEGER" />
+         <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+         <result column="question_create_time" property="questionCreateTime" jdbcType="TIMESTAMP" />
+         <result column="question_update_time" property="questionUpdateTime" jdbcType="TIMESTAMP" />
+         <result column="question_tag" property="questionTag" jdbcType="VARCHAR" />
+         <result column="question_is_settle" property="questionIsSettle" jdbcType="INTEGER" />
+         <result column="question_is_offer" property="questionIsOffer" jdbcType="INTEGER" />
+         <result column="question_offer_count" property="questionOfferCount" jdbcType="INTEGER" />
+         <result column="question_from" property="questionFrom" jdbcType="INTEGER" />
+         <result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+         <result column="question_wacth_count" property="questionWacthCount" jdbcType="INTEGER" />
+         <result column="question_recommend_count" property="questionRecommendCount" jdbcType="INTEGER" />
+         <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+         <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="askQuestion.questionId!=null and askQuestion.questionId!='' ">
+        and t1.question_id=#{askQuestion.questionId}
+      </if>
+      <if test="askQuestion.questionTitle!=null and askQuestion.questionTitle!='' ">
+        and t1.question_title like CONCAT('%',#{askQuestion.questionTitle},'%')
+      </if>
+      <if test="askQuestion.questionDesc!=null and askQuestion.questionDesc!='' ">
+        and t1.question_desc like CONCAT('%',#{askQuestion.questionDesc},'%')
+      </if>
+      <if test="askQuestion.userId!=null and askQuestion.userId!='' ">
+        and t1.user_id=#{askQuestion.userId}
+      </if>
+      <if test="askQuestion.questionState!=null and askQuestion.questionState!='' ">
+        and t1.question_state=#{askQuestion.questionState}
+      </if>
+      <if test="askQuestion.categoryId!=null and askQuestion.categoryId!='' ">
+        and t1.category_id=#{askQuestion.categoryId}
+      </if>
+      <if test="askQuestion.questionCreateTime!=null and askQuestion.questionCreateTime!='' ">
+        and t1.question_create_time=#{askQuestion.questionCreateTime}
+      </if>
+      <if test="askQuestion.questionBeginTime!=null and askQuestion.questionBeginTime!='' ">
+        and t1.question_update_time &gt;=#{askQuestion.questionBeginTime}
+      </if>
+       <if test="askQuestion.questionEndTime!=null and askQuestion.questionEndTime!='' ">
+        and t1.question_update_time &lt;=#{askQuestion.questionEndTime}
+      </if>
+      <if test="askQuestion.questionTag!=null and askQuestion.questionTag!='' ">
+        and t1.question_tag like CONCAT('%',#{askQuestion.questionTag},'%')
+      </if>
+      <if test="askQuestion.questionIsSettle!=null and askQuestion.questionIsSettle!='' ">
+        and t1.question_is_settle=#{askQuestion.questionIsSettle}
+      </if>
+      <if test="askQuestion.questionIsOffer!=null and askQuestion.questionIsOffer!='' ">
+        and t1.question_is_offer=#{askQuestion.questionIsOffer}
+      </if>
+      <if test="askQuestion.questionOfferCount!=null and askQuestion.questionOfferCount!='' ">
+        and t1.question_offer_count=#{askQuestion.questionOfferCount}
+      </if>
+      <if test="askQuestion.questionFrom!=null and askQuestion.questionFrom!='' ">
+        and t1.question_from=#{askQuestion.questionFrom}
+      </if>
+      <if test="askQuestion.replyCount!=null and askQuestion.replyCount!='' ">
+        and t1.reply_count=#{askQuestion.replyCount}
+      </if>
+      <if test="askQuestion.questionWacthCount!=null and askQuestion.questionWacthCount!='' ">
+        and t1.question_wacth_count=#{askQuestion.questionWacthCount}
+      </if>
+      <if test="askQuestion.questionRecommendCount!=null and askQuestion.questionRecommendCount!='' ">
+        and t1.question_recommend_count=#{askQuestion.questionRecommendCount}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.user_nickname,t3.category_name from myw_ask_question t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_category t3 on t1.category_id=t3.category_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	   t1.question_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_ask_question t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_category t3 on t1.category_id=t3.category_id
+      <include refid="findWhere"></include>
+   </select>
+   
+   <select id="findById" resultMap="BaseResultMap">
+   select * from myw_ask_question where question_id=#{questionId}
+   </select>
+   
+   <insert id="save">
+      insert into myw_ask_question values(
+         #{askQuestion.questionId},
+         #{askQuestion.questionTitle},
+         #{askQuestion.questionDesc},
+         #{askQuestion.userId},
+         #{askQuestion.questionState},
+         #{askQuestion.categoryId},
+         #{askQuestion.questionCreateTime},
+         #{askQuestion.questionUpdateTime},
+         #{askQuestion.questionTag},
+         #{askQuestion.questionIsSettle},
+         #{askQuestion.questionIsOffer},
+         #{askQuestion.questionOfferCount},
+         #{askQuestion.questionFrom},
+         #{askQuestion.replyCount},
+         #{askQuestion.questionWacthCount},
+         #{askQuestion.questionRecommendCount}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_ask_question set
+      <if test="askQuestion.questionTitle!=null and askQuestion.questionTitle!='' ">
+        question_title=#{askQuestion.questionTitle},
+      </if>
+      <if test="askQuestion.questionDesc!=null and askQuestion.questionDesc!='' ">
+        question_desc=#{askQuestion.questionDesc},
+      </if>
+      <if test="askQuestion.userId!=null and askQuestion.userId!='' ">
+        user_id=#{askQuestion.userId},
+      </if>
+      <if test="askQuestion.questionState!=null and askQuestion.questionState!='' ">
+        question_state=#{askQuestion.questionState},
+      </if>
+      <if test="askQuestion.categoryId!=null and askQuestion.categoryId!='' ">
+        category_id=#{askQuestion.categoryId},
+      </if>
+      <if test="askQuestion.questionCreateTime!=null and askQuestion.questionCreateTime!='' ">
+        question_create_time=#{askQuestion.questionCreateTime},
+      </if>
+      <if test="askQuestion.questionUpdateTime!=null and askQuestion.questionUpdateTime!='' ">
+        question_update_time=#{askQuestion.questionUpdateTime},
+      </if>
+      <if test="askQuestion.questionTag!=null and askQuestion.questionTag!='' ">
+        question_tag=#{askQuestion.questionTag},
+      </if>
+      <if test="askQuestion.questionIsSettle!=null and askQuestion.questionIsSettle!='' ">
+        question_is_settle=#{askQuestion.questionIsSettle},
+      </if>
+      <if test="askQuestion.questionIsOffer!=null and askQuestion.questionIsOffer!='' ">
+        question_is_offer=#{askQuestion.questionIsOffer},
+      </if>
+      <if test="askQuestion.questionOfferCount!=null and askQuestion.questionOfferCount!='' ">
+        question_offer_count=#{askQuestion.questionOfferCount},
+      </if>
+      <if test="askQuestion.questionFrom!=null and askQuestion.questionFrom!='' ">
+        question_from=#{askQuestion.questionFrom},
+      </if>
+      <if test="askQuestion.replyCount!=null and askQuestion.replyCount!='' ">
+        reply_count=#{askQuestion.replyCount},
+      </if>
+      <if test="askQuestion.questionWacthCount!=null and askQuestion.questionWacthCount!='' ">
+        question_wacth_count=#{askQuestion.questionWacthCount},
+      </if>
+      <if test="askQuestion.questionRecommendCount!=null and askQuestion.questionRecommendCount!='' ">
+        question_recommend_count=#{askQuestion.questionRecommendCount},
+      </if>
+      <if test="askQuestion.questionId!=null and askQuestion.questionId!='' ">
+        question_id=#{askQuestion.questionId}
+      </if>
+      where question_id=#{askQuestion.questionId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_ask_question WHERE question_id=#{askQuestion.questionId}
+   </delete>
+
+</mapper>

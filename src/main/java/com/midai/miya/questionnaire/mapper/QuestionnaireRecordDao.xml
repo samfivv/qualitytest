@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.questionnaire.dao.QuestionnaireRecordDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.questionnaire.model.QuestionnaireRecord">
+         <id column="questionnaire_record_id" property="questionnaireRecordId" jdbcType="VARCHAR" />
+         <id column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+         <result column="user_begin_time" property="userBeginTime" jdbcType="TIMESTAMP" />
+         <result column="user_end_time" property="userEndTime" jdbcType="TIMESTAMP" />
+         <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+         <result column="user_name" property="userName" jdbcType="VARCHAR" />
+   </resultMap>
+   <select id="findAll" resultMap="BaseResultMap">
+       select * from myw_questionnaire_record
+   </select>
+
+   <select id="findAllCount" resultType="java.lang.Long">
+      select count(1) from myw_questionnaire_record
+   </select>
+   
+   <select id="selectCount" resultType="java.lang.Long">
+      select count(1) from myw_questionnaire_record where user_end_time IS NOT NULL and user_end_time &lt;=now()and questionnaire_id = #{questionnaireId}
+   </select>
+   
+   <select id="findById" resultMap="BaseResultMap">
+   SELECT * from myw_questionnaire_record WHERE questionnaire_id=#{questionnaireId}
+   </select>
+   
+   <select id="selectAvg" resultType="java.lang.Double">
+   SELECT 
+	avg(
+		TIMESTAMPDIFF(
+			SECOND,
+			t.user_begin_time,
+			t.user_end_time
+		)
+	) FROM myw_questionnaire_record t
+      WHERE
+	t.user_end_time IS NOT NULL
+    AND t.questionnaire_id = #{questionnaireId} 
+    <if test="optionValue==1">
+    AND DATEDIFF(user_begin_time,CURDATE())=0
+   </if>
+   </select>
+    
+   <select id="selectViewCount" resultType="java.lang.Long">
+   SELECT COUNT(1) FROM myw_questionnaire_record WHERE questionnaire_id = #{questionnaireId}
+   <if test="optionValue==1">
+   AND DATEDIFF(user_begin_time,CURDATE())=0
+   </if>
+   </select>
+   
+   <select id="selectIp" resultType="java.lang.Long">
+   SELECT COUNT(1) FROM (SELECT DISTINCT(user_ip) FROM myw_questionnaire_record 
+   WHERE questionnaire_id = #{questionnaireId}
+   <if test="optionValue==1">
+    AND DATEDIFF(user_begin_time,CURDATE())=0
+   </if>
+   )t
+   </select>
+   
+   <select id="selectFinishingRate" resultType="java.lang.Long">
+   SELECT COUNT(1) FROM myw_questionnaire_record WHERE 
+    user_end_time IS NOT NULL AND questionnaire_id=#{questionnaireId}
+    <if test="optionValue==1">
+    AND DATEDIFF(user_begin_time,CURDATE())=0
+   </if>
+   </select>
+   
+   <sql id="findByDay">
+   <where>
+   <if test="questionnaire.questionnaireCreateTime !=null and questionnaire.questionnaireCreateTime !='' ">
+   and user_begin_time &gt;=#{questionnaire.questionnaireCreateTime}
+   </if>
+   <if test="questionnaire.questionnaireEndTime !=null and questionnaire.questionnaireEndTime !='' ">
+   and user_begin_time &lt;#{questionnaire.questionnaireEndTime}
+   </if>
+   </where>
+   </sql>
+   
+   <select id="findViewCountByDay" resultType="com.midai.miya.questionnaire.model.QuestionSurvey">
+   select DATE_FORMAT(t.user_begin_time
+        ,'%Y%m%d') days,
+       count(1) viewCount from myw_questionnaire_record t 
+      <include refid="findByDay"></include>
+      AND questionnaire_id=#{questionnaire.questionnaireId}
+       group by days;
+   </select>
+   
+    <select id="findIpCountByDay" resultType="com.midai.miya.questionnaire.model.QuestionSurvey">
+  SELECT t.days days,COUNT(1)ipCount FROM
+	(SELECT DISTINCT user_ip,DATE_FORMAT(user_begin_time, '%Y%m%d') days
+		FROM myw_questionnaire_record
+		<include refid="findByDay"></include>
+			AND questionnaire_id =#{questionnaire.questionnaireId}
+	) t 
+	GROUP BY days;
+   </select>
+   
+   <insert id="save">
+      insert into myw_questionnaire_record values(
+         #{QuestionnaireRecord.questionnaireRecordId},
+         #{QuestionnaireRecord.userId},
+         #{QuestionnaireRecord.userIp},
+         #{QuestionnaireRecord.userBeginTime},
+         #{QuestionnaireRecord.userEndTime},
+         #{QuestionnaireRecord.userPhone},
+         #{QuestionnaireRecord.userName}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_questionnaire_record set
+      <if test="QuestionnaireRecord.userId!=null and QuestionnaireRecord.userId!='' ">
+        user_id=#{QuestionnaireRecord.userId},
+      </if>
+      <if test="QuestionnaireRecord.userIp!=null and QuestionnaireRecord.userIp!='' ">
+        user_ip=#{QuestionnaireRecord.userIp},
+      </if>
+      <if test="QuestionnaireRecord.userBeginTime!=null and QuestionnaireRecord.userBeginTime!='' ">
+        user_begin_time=#{QuestionnaireRecord.userBeginTime},
+      </if>
+      <if test="QuestionnaireRecord.userEndTime!=null and QuestionnaireRecord.userEndTime!='' ">
+        user_end_time=#{QuestionnaireRecord.userEndTime},
+      </if>
+      <if test="QuestionnaireRecord.userPhone!=null and QuestionnaireRecord.userPhone!='' ">
+        user_phone=#{QuestionnaireRecord.userPhone},
+      </if>
+      <if test="QuestionnaireRecord.userName!=null and QuestionnaireRecord.userName!='' ">
+        user_name=#{QuestionnaireRecord.userName},
+      </if>
+      <if test="QuestionnaireRecord.questionnaireRecordId!=null and QuestionnaireRecord.questionnaireRecordId!='' ">
+        questionnaire_record_id=#{QuestionnaireRecord.questionnaireRecordId}
+      </if>
+      where user_id=#{QuestionnaireRecord.userId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_questionnaire_record WHERE user_id=#{QuestionnaireRecord.userId}
+   </delete>
+
+</mapper>

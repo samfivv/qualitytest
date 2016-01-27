@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.ask.dao.AskWhistleBlowingDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.ask.model.AskWhistleBlowing">
+         <id column="whistle_blowing" property="whistleBlowing" jdbcType="VARCHAR" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="whistle_blowing_content" property="whistleBlowingContent" jdbcType="VARCHAR" />
+         <result column="whistle_blowing_type" property="whistleBlowingType" jdbcType="INTEGER" />
+         <result column="question_or_reply_id" property="questionOrReplyId" jdbcType="VARCHAR" />
+         <result column="question_id" property="questionId" jdbcType="VARCHAR" />
+         <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+         <result column="question_title" property="questionTitle" jdbcType="VARCHAR" />
+         <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+         <result column="whistle_state" property="whistleState" jdbcType="INTEGER" />
+         <result column="question_state" property="questionState" jdbcType="INTEGER" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="askWhistleBlowing.whistleBlowing!=null and askWhistleBlowing.whistleBlowing!='' ">
+        and t1.whistle_blowing=#{askWhistleBlowing.whistleBlowing}
+      </if>
+      <if test="askWhistleBlowing.userId!=null and askWhistleBlowing.userId!='' ">
+        and t1.user_id=#{askWhistleBlowing.userId}
+      </if>
+      <if test="askWhistleBlowing.createTime!=null and askWhistleBlowing.createTime!='' ">
+        and t1.create_time=#{askWhistleBlowing.createTime}
+      </if>
+      <if test="askWhistleBlowing.whistleBlowingContent!=null and askWhistleBlowing.whistleBlowingContent!='' ">
+        and t1.whistle_blowing_content=#{askWhistleBlowing.whistleBlowingContent}
+      </if>
+      <if test="askWhistleBlowing.whistleBlowingType!=null and askWhistleBlowing.whistleBlowingType!='' ">
+        and t1.whistle_blowing_type=#{askWhistleBlowing.whistleBlowingType}
+      </if>
+      <if test="askWhistleBlowing.questionOrReplyId!=null and askWhistleBlowing.questionOrReplyId!='' ">
+        and t1.question_or_reply_id=#{askWhistleBlowing.questionOrReplyId}
+      </if>
+      <if test="askWhistleBlowing.questionId!=null and askWhistleBlowing.questionId!='' ">
+        and t1.question_id=#{askWhistleBlowing.questionId}
+      </if>
+      <if test="askWhistleBlowing.whistleState!=null and askWhistleBlowing.whistleState!='' ">
+        and t1.whistle_state=#{askWhistleBlowing.whistleState}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.user_nickname,t3.question_title,t3.question_state from myw_ask_whistle_blowing t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_ask_question t3 on t1.question_or_reply_id=t3.question_id 
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+       t1.create_time DESC
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_ask_whistle_blowing t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       <if test="askWhistleBlowing.whistleBlowingType!=null and askWhistleBlowing.whistleBlowingType!='' and askWhistleBlowing.whistleBlowingType==1">
+       inner join myw_ask_question t3 on t1.question_or_reply_id=t3.question_id 
+       </if>
+       <if test="askWhistleBlowing.whistleBlowingType!=null and askWhistleBlowing.whistleBlowingType!='' and askWhistleBlowing.whistleBlowingType==2">
+       inner join myw_ask_reply t4 on t1.question_or_reply_id=t4.reply_id
+       </if>
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_ask_whistle_blowing(whistle_blowing,user_id,create_time,whistle_blowing_content,whistle_blowing_type,question_or_reply_id,question_id,whistle_state) values(
+         #{askWhistleBlowing.whistleBlowing},
+         #{askWhistleBlowing.userId},
+         #{askWhistleBlowing.createTime},
+         #{askWhistleBlowing.whistleBlowingContent},
+         #{askWhistleBlowing.whistleBlowingType},
+         #{askWhistleBlowing.questionOrReplyId},
+         #{askWhistleBlowing.questionId},
+         #{askWhistleBlowing.whistleState}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_ask_whistle_blowing set
+      <if test="askWhistleBlowing.userId!=null and askWhistleBlowing.userId!='' ">
+        user_id=#{askWhistleBlowing.userId},
+      </if>
+      <if test="askWhistleBlowing.createTime!=null and askWhistleBlowing.createTime!='' ">
+        create_time=#{askWhistleBlowing.createTime},
+      </if>
+      <if test="askWhistleBlowing.whistleBlowingContent!=null and askWhistleBlowing.whistleBlowingContent!='' ">
+        whistle_blowing_content=#{askWhistleBlowing.whistleBlowingContent},
+      </if>
+      <if test="askWhistleBlowing.whistleBlowingType!=null and askWhistleBlowing.whistleBlowingType!='' ">
+        whistle_blowing_type=#{askWhistleBlowing.whistleBlowingType},
+      </if>
+      <if test="askWhistleBlowing.questionOrReplyId!=null and askWhistleBlowing.questionOrReplyId!='' ">
+        question_or_reply_id=#{askWhistleBlowing.questionOrReplyId},
+      </if>
+      <if test="askWhistleBlowing.questionId!=null and askWhistleBlowing.questionId!='' ">
+        question_id=#{askWhistleBlowing.questionId},
+      </if>
+      <if test="askWhistleBlowing.whistleState!=null and askWhistleBlowing.whistleState!='' ">
+        whistle_state=#{askWhistleBlowing.whistleState},
+      </if>
+      <if test="askWhistleBlowing.whistleBlowing!=null and askWhistleBlowing.whistleBlowing!='' ">
+        whistle_blowing=#{askWhistleBlowing.whistleBlowing}
+      </if>
+      where whistle_blowing=#{askWhistleBlowing.whistleBlowing}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_ask_whistle_blowing WHERE whistle_blowing=#{askWhistleBlowing.whistleBlowing}
+   </delete>
+
+
+   <select id="findAskWhistleBlowingById" resultMap="BaseResultMap">
+      select t1.*,t2.user_nickname,t3.question_title,t3.question_state from myw_ask_whistle_blowing t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_ask_question t3 on t1.question_or_reply_id=t3.question_id
+        WHERE whistle_blowing=#{whistleBlowing}
+   </select>
+
+   <select id="findReplyByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.user_nickname,t4.reply_content as questionTitle,t4.reply_state as questionState from myw_ask_whistle_blowing t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_ask_reply t4 on t1.question_or_reply_id=t4.reply_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+       t1.create_time DESC
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findReplyById" resultMap="BaseResultMap">
+     select t1.*,t2.user_nickname,t4.reply_content as questionTitle,t4.reply_state as questionState from myw_ask_whistle_blowing t1 
+       inner join myw_user t2 on t1.user_id=t2.user_id
+       inner join myw_ask_reply t4 on t1.question_or_reply_id=t4.reply_id WHERE whistle_blowing=#{whistleBlowing}
+   </select>
+</mapper>

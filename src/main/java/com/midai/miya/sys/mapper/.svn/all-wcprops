@@ -1,0 +1,161 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/web/!svn/ver/7183/code/manage/src/main/java/com/midai/miya/sys/mapper
+END
+VideoDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/6777/code/manage/src/main/java/com/midai/miya/sys/mapper/VideoDao.xml
+END
+BottomPageDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/6541/code/manage/src/main/java/com/midai/miya/sys/mapper/BottomPageDao.xml
+END
+RoleDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/1313/code/manage/src/main/java/com/midai/miya/sys/mapper/RoleDao.xml
+END
+SubjectInterestDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/6055/code/manage/src/main/java/com/midai/miya/sys/mapper/SubjectInterestDao.xml
+END
+HobbyDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/772/code/manage/src/main/java/com/midai/miya/sys/mapper/HobbyDao.xml
+END
+PhotoDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/4075/code/manage/src/main/java/com/midai/miya/sys/mapper/PhotoDao.xml
+END
+SysConfigDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/997/code/manage/src/main/java/com/midai/miya/sys/mapper/SysConfigDao.xml
+END
+PermissionDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/3797/code/manage/src/main/java/com/midai/miya/sys/mapper/PermissionDao.xml
+END
+InterestBoutiqueDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/6514/code/manage/src/main/java/com/midai/miya/sys/mapper/InterestBoutiqueDao.xml
+END
+ApprovalInterestDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/4826/code/manage/src/main/java/com/midai/miya/sys/mapper/ApprovalInterestDao.xml
+END
+SubjectDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/5097/code/manage/src/main/java/com/midai/miya/sys/mapper/SubjectDao.xml
+END
+InterestDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/7048/code/manage/src/main/java/com/midai/miya/sys/mapper/InterestDao.xml
+END
+SearchDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/web/!svn/ver/2433/code/manage/src/main/java/com/midai/miya/sys/mapper/SearchDao.xml
+END
+CopywriterDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/6387/code/manage/src/main/java/com/midai/miya/sys/mapper/CopywriterDao.xml
+END
+PartnerDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/3525/code/manage/src/main/java/com/midai/miya/sys/mapper/PartnerDao.xml
+END
+HelpQuestionDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/2349/code/manage/src/main/java/com/midai/miya/sys/mapper/HelpQuestionDao.xml
+END
+RecommendUserDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/6684/code/manage/src/main/java/com/midai/miya/sys/mapper/RecommendUserDao.xml
+END
+UserApplicationDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/7183/code/manage/src/main/java/com/midai/miya/sys/mapper/UserApplicationDao.xml
+END
+LogDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/996/code/manage/src/main/java/com/midai/miya/sys/mapper/LogDao.xml
+END
+OperatorDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/875/code/manage/src/main/java/com/midai/miya/sys/mapper/OperatorDao.xml
+END
+SensitiveWordDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/1323/code/manage/src/main/java/com/midai/miya/sys/mapper/SensitiveWordDao.xml
+END
+CommentDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/6088/code/manage/src/main/java/com/midai/miya/sys/mapper/CommentDao.xml
+END
+CategoryDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/6142/code/manage/src/main/java/com/midai/miya/sys/mapper/CategoryDao.xml
+END
+OrganizationApplicationDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/web/!svn/ver/6784/code/manage/src/main/java/com/midai/miya/sys/mapper/OrganizationApplicationDao.xml
+END
+PhotoAlbumDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/4694/code/manage/src/main/java/com/midai/miya/sys/mapper/PhotoAlbumDao.xml
+END
+RecommendDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/web/!svn/ver/6143/code/manage/src/main/java/com/midai/miya/sys/mapper/RecommendDao.xml
+END

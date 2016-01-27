@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.InterestDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Interest">
+         <id column="interest_id" property="interestId" jdbcType="VARCHAR" />
+         <result column="interest_title" property="interestTitle" jdbcType="VARCHAR" />
+         <result column="interest_desc" property="interestDesc" jdbcType="VARCHAR" />
+         <result column="interest_createTime" property="interestCreatetime" jdbcType="TIMESTAMP" />
+         <result column="interest_creator" property="interestCreator" jdbcType="VARCHAR" />
+         <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+         <result column="category_parent_id" property="categoryParentId" jdbcType="VARCHAR" />
+         <result column="interest_state" property="interestState" jdbcType="INTEGER" />
+         <result column="interest_publishTime" property="interestPublishTime" jdbcType="TIMESTAMP" />
+         <result column="interest_tags" property="interestTags" jdbcType="VARCHAR" />
+         <result column="interest_count" property="interestCount" jdbcType="INTEGER" />
+         <result column="interest_update_time" property="interestUpdateTime" jdbcType="TIMESTAMP" />
+         <result column="interest_imgUrl" property="interestImgUrl" jdbcType="VARCHAR" />
+         <result column="interest_big_imgUrl" property="interestBigImgUrl" jdbcType="VARCHAR" />
+         <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+         <result column="user_mail" property="userMail" jdbcType="VARCHAR" />
+         <result column="not_pass_reason" property="notPassReason" jdbcType="VARCHAR" />
+         <result column="club_num" property="clubNum" jdbcType="VARCHAR" />
+         <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+         <result column="school_num" property="schoolNum" jdbcType="VARCHAR" />
+         <result column="club_name" property="clubName" jdbcType="VARCHAR" />
+         <result column="interest_big_long_imgUrl" property="interestBigLongImgUrl" jdbcType="VARCHAR" />
+         <result column="interest_play_count" property="interestPlayCount" jdbcType="INTEGER" />
+         <result column="interest_praise_count" property="interestPraiseCount" jdbcType="INTEGER" />
+         <result column="user_type" property="userType" jdbcType="INTEGER" />
+         <result column="approval_time" property="approvalTime" jdbcType="TIMESTAMP" />
+          <result column="interest_type" property="interestType" jdbcType="INTEGER" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+   and t2.user_state=1
+   and t3.interest_video_count>0
+      <if test="interest.interestId!=null and interest.interestId!='' ">
+        and t1.interest_id like CONCAT('%',#{interest.interestId},'%')
+      </if>
+      <if test="interest.interestTitle!=null and interest.interestTitle!='' ">
+        and t1.interest_title like CONCAT('%',#{interest.interestTitle},'%')
+      </if>
+      <if test="interest.interestDesc!=null and interest.interestDesc!='' ">
+        and t1.interest_desc like CONCAT('%',#{interest.interestDesc},'%')
+      </if>
+      <if test="interest.interestCreatetime!=null and interest.interestCreatetime!='' ">
+        and t1.interest_createTime=#{interest.interestCreatetime}
+      </if>
+      <if test="interest.interestCreator!=null and interest.interestCreator!='' ">
+        and t1.interest_creator=#{interest.interestCreator}
+      </if>
+      <if test="interest.categoryId!=null and interest.categoryId!='' ">
+        and t1.category_id=#{interest.categoryId}
+      </if>
+      <if test="interest.interestState!=null and interest.interestState!='' ">
+        and t1.interest_state=#{interest.interestState}
+      </if>
+      <if test="interest.interestPublishTime!=null and interest.interestPublishTime!='' ">
+        and t1.interest_publishTime=#{interest.interestPublishTime}
+      </if>
+      <if test="interest.interestTags!=null and interest.interestTags!='' ">
+        and t1.interest_tags=#{interest.interestTags}
+      </if>
+      <if test="interest.interestCount!=null and interest.interestCount!='' ">
+        and t1.interest_count=#{interest.interestCount}
+      </if>
+      <if test="interest.interestUpdateTime!=null and interest.interestUpdateTime!='' ">
+        and t1.interest_update_time=#{interest.interestUpdateTime}
+      </if>
+      <if test="interest.interestImgUrl!=null and interest.interestImgUrl!='' ">
+        and t1.interest_imgUrl=#{interest.interestImgUrl}
+      </if>
+      <if test="interest.interestBigImgUrl!=null and interest.interestBigImgUrl!='' ">
+        and t1.interest_big_imgUrl=#{interest.interestBigImgUrl}
+      </if>
+      <if test="interest.interestPlayCount!=null and interest.interestPlayCount!='' ">
+        and t1.interest_play_count=#{interest.interestPlayCount}
+      </if>
+      <if test="interest.userNickname!=null and interest.userNickname!='' ">
+        and t2.user_nickname like CONCAT('%',#{interest.userNickname},'%')
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.user_nickname,t4.category_parent_id from myw_interest t1 
+       INNER JOIN myw_user t2 on t1.interest_creator=t2.user_id 
+       inner join myw_interest_often_change_info t3 on t1.interest_id=t3.interest_id
+       left join myw_category t4 on t1.category_id=t4.category_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    t1.interest_createTime DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_interest t1 
+      INNER join myw_user t2 on t1.interest_creator=t2.user_id
+      inner join myw_interest_often_change_info t3 on t1.interest_id=t3.interest_id
+      <include refid="findWhere"></include>
+   </select>
+   
+   <sql id="findAll">
+   <where>
+   <if test="interest.interestId!=null and interest.interestId!='' ">
+        and t1.interest_id=#{interest.interestId}
+      </if>
+      <if test="interest.interestTitle!=null and interest.interestTitle!='' ">
+        and t1.interest_title like CONCAT('%',#{interest.interestTitle},'%')
+      </if>
+      <if test="interest.interestDesc!=null and interest.interestDesc!='' ">
+        and t1.interest_desc like CONCAT('%',#{interest.interestDesc},'%')
+      </if>
+      <if test="interest.queryTimeBegin!=null and interest.queryTimeBegin!='' ">
+        and t1.interest_createTime &gt;=#{interest.queryTimeBegin}
+      </if>
+      <if test="interest.queryTimeEnd!=null and interest.queryTimeEnd!='' ">
+        and t1.interest_createTime &lt;=#{interest.queryTimeEnd}
+      </if>
+      <if test="interest.interestState!=null and interest.interestState!='' ">
+        and t1.interest_state=#{interest.interestState}
+      </if>
+       <if test="interest.clubNum!=null and interest.clubNum!='' ">
+        and t2.club_num like CONCAT('%',#{interest.clubNum},'%')
+      </if>
+       <if test="interest.userNickname!=null and interest.userNickname!='' ">
+        and t2.user_nickname like CONCAT('%',#{interest.userNickname},'%')
+      </if>
+      <if test="interest.userMail!=null and interest.userMail!='' ">
+        and t2.user_mail like CONCAT('%',#{interest.userMail},'%')
+      </if>
+   </where>
+   </sql>
+   
+   <select id="findAllInterest" resultMap="BaseResultMap">
+   select t1.*,t2.user_nickname,t2.user_mail,t4.club_num,t4.club_name,t3.interest_praise_count,t4.school_name 
+   from myw_interest t1 
+    INNER JOIN myw_user t2 on t1.interest_creator=t2.user_id 
+    inner join myw_interest_often_change_info t3 on t1.interest_id=t3.interest_id
+    left join myw_subject_interest t4 on t4.interest_id=t1.interest_id
+    left join myw_school t5 on t4.school_num=t5.school_num
+    
+    <include refid="findAll"></include>
+    order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    t1.interest_createTime DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findAllInterestCount" resultType="java.lang.Long">
+   select count(1) from myw_interest t1 
+    INNER JOIN myw_user t2 on t1.interest_creator=t2.user_id 
+     inner join myw_interest_often_change_info t3 on t1.interest_id=t3.interest_id
+     <include refid="findAll"></include>
+   </select>
+   
+   <select id="findInterestById" resultMap="BaseResultMap">
+   select * from myw_interest where interest_id=#{interestId}
+   </select>
+   
+   <select id="findInterestOftenChange" resultType="java.lang.String">
+   select interest_video_timelong  from myw_interest_often_change_info where interest_id=#{interestId}
+   </select>
+   
+    <select id="findInterestOftenChangeVideoCount" resultType="java.lang.Integer">
+   select interest_video_count  from myw_interest_often_change_info where interest_id=#{interestId}
+   </select>
+   
+   <update id="updateInterestOftenChange">
+   update myw_interest_often_change_info set interest_video_timelong =#{interestVideoTimelong},
+   interest_video_count=#{interestVideoCount}
+    where interest_id=#{interestId}
+   </update>
+   
+   <insert id="save">
+      insert into myw_interest values(
+         #{interest.interestId},
+         #{interest.interestTitle},
+         #{interest.interestDesc},
+         #{interest.interestCreateTime},
+         #{interest.interestCreator},
+         #{interest.categoryId},
+         #{interest.interestState},
+         #{interest.interestPublishTime},
+         #{interest.interestTags},
+         #{interest.interestCount},
+         #{interest.interestUpdateTime},
+         #{interest.interestImgUrl},
+         #{interest.interestBigImgUrl},
+         #{interest.interestPlayCount}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_interest set
+      <if test="interest.interestTitle!=null and interest.interestTitle!='' ">
+        interest_title=#{interest.interestTitle},
+      </if>
+      <if test="interest.interestDesc!=null and interest.interestDesc!='' ">
+        interest_desc=#{interest.interestDesc},
+      </if>
+      <if test="interest.interestCreatetime!=null and interest.interestCreatetime!='' ">
+        interest_createTime=#{interest.interestCreatetime},
+      </if>
+      <if test="interest.interestCreator!=null and interest.interestCreator!='' ">
+        interest_creator=#{interest.interestCreator},
+      </if>
+      <if test="interest.categoryId!=null and interest.categoryId!='' ">
+        category_id=#{interest.categoryId},
+      </if>
+      <if test="interest.interestState!=null and interest.interestState!='' ">
+        interest_state=#{interest.interestState},
+      </if>
+      <if test="interest.interestPublishTime!=null and interest.interestPublishTime!='' ">
+        interest_publishTime=#{interest.interestPublishTime},
+      </if>
+      <if test="interest.interestTags!=null and interest.interestTags!='' ">
+        interest_tags=#{interest.interestTags},
+      </if>
+      <if test="interest.interestCount!=null and interest.interestCount!='' ">
+        interest_count=#{interest.interestCount},
+      </if>
+      <if test="interest.interestUpdateTime!=null and interest.interestUpdateTime!='' ">
+        interest_update_time=#{interest.interestUpdateTime},
+      </if>
+      <if test="interest.interestImgUrl!=null and interest.interestImgUrl!='' ">
+        interest_imgUrl=#{interest.interestImgUrl},
+      </if>
+      <if test="interest.interestBigImgUrl!=null and interest.interestBigImgUrl!='' ">
+        interest_big_imgUrl=#{interest.interestBigImgUrl},
+      </if>
+      <if test="interest.interestBigLongImgUrl!=null and interest.interestBigLongImgUrl!='' ">
+        interest_big_long_imgUrl=#{interest.interestBigLongImgUrl},
+      </if>
+      <if test="interest.interestPlayCount!=null and interest.interestPlayCount!='' ">
+        interest_play_count=#{interest.interestPlayCount},
+      </if>
+      <if test="interest.interestId!=null and interest.interestId!='' ">
+        interest_id=#{interest.interestId}
+      </if>
+      where interest_id=#{interest.interestId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_interest WHERE interest_id=#{interest.interestId}
+   </delete>
+
+
+   <select id="findInterestByInterestId" resultMap="BaseResultMap">
+       select t1.*,t2.not_pass_reason  from myw_interest t1
+        left join myw_approval_interest t2 on t1.interest_id=t2.interest_id
+        where t1.interest_id=#{interestId}
+        order by t2.approval_time DESC limit 0,1
+   </select>
+
+   <select id="findAllInterestByUser" resultMap="BaseResultMap">
+      SELECT t1.*,t2.user_nickname,t2.user_type FROM myw_interest t1
+		INNER JOIN myw_user t2
+		ON t1.interest_creator=t2.user_id
+		INNER JOIN myw_interest_often_change_info t3 ON t3.interest_id = t1.interest_id
+		where 
+		t1.interest_state = 1 
+		<if test="interest.interestId!=null and interest.interestId!='' ">
+        and t1.interest_id like CONCAT('%',#{interest.interestId},'%')
+	      </if>
+	      <if test="interest.interestTitle!=null and interest.interestTitle!='' ">
+	        and t1.interest_title like CONCAT('%',#{interest.interestTitle},'%')
+	      </if>
+	      <if test="interest.userNickname!=null and interest.userNickname!='' ">
+	        and t2.user_nickname like CONCAT('%',#{interest.userNickname},'%')
+	      </if>
+		<if test="type==1">
+		<!-- and t1.interest_style=1 -->
+		and t1.interest_can_sale =1
+		</if>
+		<if test="type==2">
+		<!-- and t1.interest_style=2 -->
+		and t1.interest_can_sale =1
+		</if>
+		<!-- <if test="type==3">
+		and t1.interest_can_sale =2
+		</if> -->
+		and t2.user_state=1
+		AND t1.interest_id NOT IN(SELECT interest_id FROM myw_interest_boutique)
+   </select>
+
+   <select id="findAllInterestCountByUser" resultType="java.lang.Long">
+     SELECT count(1) FROM myw_interest t1
+		INNER JOIN myw_user t2
+		ON t1.interest_creator=t2.user_id
+		INNER JOIN myw_interest_often_change_info t3 ON t3.interest_id = t1.interest_id
+		where	
+			t1.interest_state = 1
+			<if test="interest.interestId!=null and interest.interestId!='' ">
+	        and t1.interest_id like CONCAT('%',#{interest.interestId},'%')
+	      </if>
+	      <if test="interest.interestTitle!=null and interest.interestTitle!='' ">
+	        and t1.interest_title like CONCAT('%',#{interest.interestTitle},'%')
+	      </if>
+	      <if test="interest.userNickname!=null and interest.userNickname!='' ">
+	        and t2.user_nickname like CONCAT('%',#{interest.userNickname},'%')
+	      </if>
+		<if test="type==1">
+		and t1.interest_style=1
+		and t1.interest_can_sale =1
+		</if>
+		<if test="type==2">
+		and t1.interest_style=2
+		and t1.interest_can_sale =1
+		</if>
+		<!-- <if test="type==3">
+		and t1.interest_can_sale =2
+		</if> -->
+		AND t1.interest_id NOT IN(SELECT IFNULL(interest_id,'') FROM myw_interest_boutique)
+   </select>
+</mapper>

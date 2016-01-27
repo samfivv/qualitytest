@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.CategoryDao">
+  <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.Category">
+		<id column="category_id" property="categoryId" jdbcType="VARCHAR" />
+		<result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+		<result column="category_cretor" property="categoryCretor" jdbcType="VARCHAR" />
+		<result column="category_img_url" property="categoryImgUrl" jdbcType="VARCHAR" />
+		<result column="category_parent_id" property="categoryParentId" jdbcType="VARCHAR" />
+		<result column="category_creatTime" property="categoryCreattime" jdbcType="TIMESTAMP" />
+		<result column="category_state" property="categoryState" jdbcType="INTEGER" />
+	</resultMap>
+  <select id="findAll"
+      resultMap="BaseResultMap">
+        select * from myw_category
+        <where>
+          <if test="category.categoryName!=null and category.categoryName!='' ">
+            and category_name like CONCAT('%',#{category.categoryName},'%')
+          </if>
+          <if test="category.categoryCretor!=null and category.categoryCretor!='' ">
+            and category_cretor like CONCAT('%',#{category.categoryCretor},'%')
+          </if>
+          <if test="category.categoryState!=null and category.categoryState!='' ">
+            and category_state=#{category.categoryState}
+          </if>
+           <if test="category.queryBeginCreateTimeStr!=null and category.queryBeginCreateTimeStr!='' ">
+	        and category_creatTime &gt;=#{category.queryBeginCreateTimeStr}
+	      </if>
+	      <if test="category.queryEndCreateTimeStr!=null and category.queryEndCreateTimeStr!='' ">
+	        and category_creatTime &lt;=#{category.queryEndCreateTimeStr}
+	      </if>
+        </where>
+         order by 
+	    <choose>
+			<when test="pageUtil.sort !=null and pageUtil.sort!='' ">
+			  		${pageUtil.sort}  ${pageUtil.order} 
+			   </when >
+			<otherwise>
+			category_creatTime DESC
+			</otherwise>
+	</choose >
+        limit #{pageUtil.page},#{pageUtil.rows}
+  </select>
+  <select id="findCount"
+      resultType="int">
+    select COUNT(1) from myw_category
+    <where>
+          <if test="category.categoryName!=null and category.categoryName!='' ">
+            and category_name like CONCAT('%',#{category.categoryName},'%')
+          </if>
+          <if test="category.categoryCretor!=null and category.categoryCretor!='' ">
+            and category_cretor like CONCAT('%',#{category.categoryCretor},'%')
+          </if>
+          <if test="category.categoryState!=null and category.categoryState!='' ">
+            and category_state=#{category.categoryState}
+          </if>
+           <if test="category.queryBeginCreateTimeStr!=null and category.queryBeginCreateTimeStr!='' ">
+	        and category_creatTime &gt;=#{category.queryBeginCreateTimeStr}
+	      </if>
+	      <if test="category.queryEndCreateTimeStr!=null and category.queryEndCreateTimeStr!='' ">
+	        and category_creatTime &lt;=#{category.queryEndCreateTimeStr}
+	      </if>
+        </where>
+  </select>
+  <select id="findWhetherExistCategoryName"
+      resultType="int">
+        select count(1) from myw_category
+        <where>
+        and category_name=#{category.categoryName} 
+        <if test="category.categoryId!=null">
+        and category_id &lt;&gt; #{category.categoryId}
+        </if>
+        </where>
+  </select>
+  <insert id="save">
+    insert into myw_category(category_id,category_name,category_cretor,category_img_url,category_creatTime,category_state)
+    values(#{category.categoryId},#{category.categoryName},
+          #{category.categoryCretor},#{category.categoryImgUrl},
+          #{category.categoryCreattime},#{category.categoryState})
+  </insert>
+  <delete id="delete"
+      parameterType="String">
+        delete from myw_category
+        where category_id=#{categoryId}
+  </delete>
+  <update id="update">
+    update myw_category
+    set category_name=#{category.categoryName}, 
+       category_img_url=#{category.categoryImgUrl}, 
+       category_state=#{category.categoryState}
+    where category_id=#{category.categoryId}
+  </update>
+  <select id="findCategoryById"  resultMap="BaseResultMap">
+    select * from myw_category where category_id=#{categoryId}
+  </select>
+
+   <select id="findCategoryByParentId" resultMap="BaseResultMap">
+      select * from myw_category where category_parent_id=0
+   </select>
+
+   <select id="findCategoryNameByParentId" resultType="java.lang.String">
+       select category_name from myw_category where category_id=#{categoryId}
+   </select>
+</mapper>

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/web/!svn/ver/6661/code/manage/src/main/resources
+END
+unCheckUrl.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/web/!svn/ver/1890/code/manage/src/main/resources/unCheckUrl.properties
+END
+spring-mvc.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/web/!svn/ver/6426/code/manage/src/main/resources/spring-mvc.xml
+END
+unPassReason.properties
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/1986/code/manage/src/main/resources/unPassReason.properties
+END
+spring.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/web/!svn/ver/31/code/manage/src/main/resources/spring.xml
+END
+log4j.properties
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/web/!svn/ver/2757/code/manage/src/main/resources/log4j.properties
+END
+userunPassReason.properties
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/web/!svn/ver/2928/code/manage/src/main/resources/userunPassReason.properties
+END
+spring-mybatis.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/web/!svn/ver/6434/code/manage/src/main/resources/spring-mybatis.xml
+END
+config.properties
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/web/!svn/ver/6661/code/manage/src/main/resources/config.properties
+END

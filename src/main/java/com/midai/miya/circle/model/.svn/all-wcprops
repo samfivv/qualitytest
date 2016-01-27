@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/web/!svn/ver/7171/code/manage/src/main/java/com/midai/miya/circle/model
+END
+Circle.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/web/!svn/ver/6670/code/manage/src/main/java/com/midai/miya/circle/model/Circle.java
+END
+CircleTopic.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/web/!svn/ver/5810/code/manage/src/main/java/com/midai/miya/circle/model/CircleTopic.java
+END
+RecommendCircle.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/6116/code/manage/src/main/java/com/midai/miya/circle/model/RecommendCircle.java
+END
+CircleReply.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/web/!svn/ver/7171/code/manage/src/main/java/com/midai/miya/circle/model/CircleReply.java
+END
+CircleTopicImg.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/7109/code/manage/src/main/java/com/midai/miya/circle/model/CircleTopicImg.java
+END

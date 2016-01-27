@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/web/!svn/ver/7186/code/manage/src/main/java/com/midai/miya/user/mapper
+END
+UserDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/7186/code/manage/src/main/java/com/midai/miya/user/mapper/UserDao.xml
+END
+UserOftenChangeInfoDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/4942/code/manage/src/main/java/com/midai/miya/user/mapper/UserOftenChangeInfoDao.xml
+END
+UserWithdrawDepositDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/web/!svn/ver/6706/code/manage/src/main/java/com/midai/miya/user/mapper/UserWithdrawDepositDao.xml
+END
+ClubDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/5083/code/manage/src/main/java/com/midai/miya/user/mapper/ClubDao.xml
+END
+UserInterviewDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/6171/code/manage/src/main/java/com/midai/miya/user/mapper/UserInterviewDao.xml
+END
+playDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/2707/code/manage/src/main/java/com/midai/miya/user/mapper/playDao.xml
+END
+SchoolDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/5090/code/manage/src/main/java/com/midai/miya/user/mapper/SchoolDao.xml
+END
+UserMoneyRmbLogDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/6617/code/manage/src/main/java/com/midai/miya/user/mapper/UserMoneyRmbLogDao.xml
+END
+UserMoneyLogDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/3858/code/manage/src/main/java/com/midai/miya/user/mapper/UserMoneyLogDao.xml
+END
+UserExperienceLogDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/web/!svn/ver/4945/code/manage/src/main/java/com/midai/miya/user/mapper/UserExperienceLogDao.xml
+END
+RewardDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/6025/code/manage/src/main/java/com/midai/miya/user/mapper/RewardDao.xml
+END
+UserBillChargebackDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/web/!svn/ver/4307/code/manage/src/main/java/com/midai/miya/user/mapper/UserBillChargebackDao.xml
+END
+UserUpgradeApplyDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/web/!svn/ver/4298/code/manage/src/main/java/com/midai/miya/user/mapper/UserUpgradeApplyDao.xml
+END

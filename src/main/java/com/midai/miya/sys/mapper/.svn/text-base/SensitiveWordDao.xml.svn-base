@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.SensitiveWordDao">
+  <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.SensitiveWord">
+		<id column="sensitive_word_id" property="sensitiveWordId" jdbcType="VARCHAR" />
+		<result column="sensitive_word" property="sensitiveWord" jdbcType="VARCHAR" />
+		<result column="sensitive_word_create_time" property="sensitiveWordCreateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+   <insert id="save" parameterType="com.midai.miya.sys.model.SensitiveWord">
+   insert into myw_sensitive_word 
+   (sensitive_word_id,sensitive_word,sensitive_word_create_time) 
+   values(#{sensitiveWordId},#{sensitiveWord},#{sensitiveWordCreateTime,jdbcType=TIMESTAMP })
+   </insert>
+   
+   <update id="update" parameterType="com.midai.miya.sys.model.SensitiveWord">
+   update myw_sensitive_word set sensitive_word=#{sensitiveWord} 
+   where sensitive_word_id=#{sensitiveWordId}
+   </update>
+   
+   <delete id="delete">
+   delete from myw_sensitive_word where sensitive_word_id=#{sensitiveWordId}
+   </delete>
+   
+   <sql id="findWhere">
+   <where>
+      <if test="sensitiveWord.sensitiveWord !=null and sensitiveWord.sensitiveWord != '' ">
+      and sensitive_word like CONCAT('%',#{sensitiveWord.sensitiveWord},'%')
+      </if>
+   </where>
+   </sql>
+   
+   <select id="findAll" resultMap="BaseResultMap">
+   select * from myw_sensitive_word 
+   <include refid="findWhere"></include>
+    order by 
+	    <choose>
+			<when test="page.sort !=null and page.sort!='' ">
+			  		${page.sort}  ${page.order} 
+			   </when >
+			<otherwise>
+			sensitive_word_create_time DESC
+			</otherwise>
+	</choose >
+		limit #{page.page},#{page.rows}
+   </select>
+   
+   <select id="findAllCount" resultType="java.lang.Long">
+   select count(1) from myw_sensitive_word 
+   <include refid="findWhere"></include>
+   </select>
+   
+   <select id="findById" parameterType="String" resultMap="BaseResultMap">
+   select * from myw_sensitive_word where sensitive_word_id=#{sensitiveWordId}
+   </select>
+   
+   <select id="findCountByName" parameterType="com.midai.miya.sys.model.SensitiveWord" resultType="int">
+   select count(1) from myw_sensitive_word 
+   <where>
+   and sensitive_word=#{sensitiveWord}
+   <if test="sensitiveWordId !=null">
+   and sensitive_word_id &lt;&gt;#{sensitiveWordId}
+   </if>
+   </where>
+   </select>
+</mapper>

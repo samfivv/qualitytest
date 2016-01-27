@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock
+END
+lock_break.png
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_break.png
+END
+lock.png
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock.png
+END
+lock_go.png
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_go.png
+END
+lock_add.png
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_add.png
+END
+lock_edit.png
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_edit.png
+END
+lock_open.png
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_open.png
+END
+lock_delete.png
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/35/code/manage/src/main/webapp/style/images/ext_icons/lock/lock_delete.png
+END

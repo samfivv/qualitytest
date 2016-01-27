@@ -1,0 +1,161 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/web/!svn/ver/7087/code/manage/src/main/java/com/midai/miya/sys/service
+END
+UserApplicationService.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/web/!svn/ver/2933/code/manage/src/main/java/com/midai/miya/sys/service/UserApplicationService.java
+END
+HelpQuestionService.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/web/!svn/ver/2055/code/manage/src/main/java/com/midai/miya/sys/service/HelpQuestionService.java
+END
+RecommendUserService.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/web/!svn/ver/3742/code/manage/src/main/java/com/midai/miya/sys/service/RecommendUserService.java
+END
+SearchService.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/2441/code/manage/src/main/java/com/midai/miya/sys/service/SearchService.java
+END
+CopywriterService.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/2890/code/manage/src/main/java/com/midai/miya/sys/service/CopywriterService.java
+END
+PartnerService.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/3523/code/manage/src/main/java/com/midai/miya/sys/service/PartnerService.java
+END
+InterestService.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/6814/code/manage/src/main/java/com/midai/miya/sys/service/InterestService.java
+END
+SubjectService.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/4049/code/manage/src/main/java/com/midai/miya/sys/service/SubjectService.java
+END
+ApprovalInterestService.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/web/!svn/ver/4832/code/manage/src/main/java/com/midai/miya/sys/service/ApprovalInterestService.java
+END
+InterestBoutiqueService.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/web/!svn/ver/6441/code/manage/src/main/java/com/midai/miya/sys/service/InterestBoutiqueService.java
+END
+SysConfigService.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/722/code/manage/src/main/java/com/midai/miya/sys/service/SysConfigService.java
+END
+PermissionService.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/3796/code/manage/src/main/java/com/midai/miya/sys/service/PermissionService.java
+END
+HobbyService.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/775/code/manage/src/main/java/com/midai/miya/sys/service/HobbyService.java
+END
+PhotoService.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/web/!svn/ver/3766/code/manage/src/main/java/com/midai/miya/sys/service/PhotoService.java
+END
+RoleService.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/web/!svn/ver/1195/code/manage/src/main/java/com/midai/miya/sys/service/RoleService.java
+END
+SubjectInterestService.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/web/!svn/ver/5680/code/manage/src/main/java/com/midai/miya/sys/service/SubjectInterestService.java
+END
+BottomPageService.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/6543/code/manage/src/main/java/com/midai/miya/sys/service/BottomPageService.java
+END
+VideoService.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/web/!svn/ver/2492/code/manage/src/main/java/com/midai/miya/sys/service/VideoService.java
+END
+RecommendService.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/2900/code/manage/src/main/java/com/midai/miya/sys/service/RecommendService.java
+END
+OrganizationApplicationService.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/web/!svn/ver/3842/code/manage/src/main/java/com/midai/miya/sys/service/OrganizationApplicationService.java
+END
+PhotoAlbumService.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/web/!svn/ver/4483/code/manage/src/main/java/com/midai/miya/sys/service/PhotoAlbumService.java
+END
+CategoryService.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/web/!svn/ver/6140/code/manage/src/main/java/com/midai/miya/sys/service/CategoryService.java
+END
+CommentService.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/1341/code/manage/src/main/java/com/midai/miya/sys/service/CommentService.java
+END
+SensitiveWordService.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/web/!svn/ver/1321/code/manage/src/main/java/com/midai/miya/sys/service/SensitiveWordService.java
+END
+LogService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/66/code/manage/src/main/java/com/midai/miya/sys/service/LogService.java
+END
+OperatorService.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/web/!svn/ver/976/code/manage/src/main/java/com/midai/miya/sys/service/OperatorService.java
+END

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.sys.dao.InterestBoutiqueDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.sys.model.InterestBoutique">
+         <id column="interest_boutique_id" property="interestBoutiqueId" jdbcType="VARCHAR" />
+         <result column="interest_id" property="interestId" jdbcType="VARCHAR" />
+         <result column="interest_title" property="interestTitle" jdbcType="VARCHAR" />
+         <result column="interest_big_long_imgUrl" property="interestBigLongImgUrl" jdbcType="VARCHAR" />
+         <result column="interest_boutique_sort" property="interestBoutiqueSort" jdbcType="INTEGER" />
+         <result column="production_interest_type" property="productionInterestType" jdbcType="INTEGER" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="interestBoutique.interestBoutiqueId!=null and interestBoutique.interestBoutiqueId!='' ">
+        and t1. interest_boutique_id=#{interestBoutique.interestBoutiqueId}
+      </if>
+      <if test="interestBoutique.interestId!=null and interestBoutique.interestId!='' ">
+        and t1. interest_id=#{interestBoutique.interestId}
+      </if>
+      <if test="interestBoutique.interestBoutiqueSort!=null and interestBoutique.interestBoutiqueSort!='' ">
+        and t1. interest_boutique_sort=#{interestBoutique.interestBoutiqueSort}
+      </if>
+      <if test="interestBoutique.productionInterestType!=null and interestBoutique.productionInterestType!='' ">
+        and t1. production_interest_type=#{interestBoutique.productionInterestType}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select t1.*,t2.interest_title from myw_interest_boutique t1 
+       inner join myw_interest t2 on t1.interest_id=t2.interest_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+       t1.interest_boutique_sort
+       </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from myw_interest_boutique t1 
+       inner join myw_interest t2 on t1.interest_id=t2.interest_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into myw_interest_boutique(interest_boutique_id,interest_id,interest_boutique_sort,production_interest_type) values(
+         #{interestBoutique.interestBoutiqueId},
+         #{interestBoutique.interestId},
+         #{interestBoutique.interestBoutiqueSort},
+         #{interestBoutique.productionInterestType}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_interest_boutique set
+      <if test="interestBoutique.interestId!=null and interestBoutique.interestId!='' ">
+        interest_id=#{interestBoutique.interestId},
+      </if>
+      <if test="interestBoutique.interestBoutiqueSort!=null and interestBoutique.interestBoutiqueSort!='' ">
+        interest_boutique_sort=#{interestBoutique.interestBoutiqueSort},
+      </if>
+      <if test="interestBoutique.productionInterestType!=null and interestBoutique.productionInterestType!='' ">
+        production_interest_type=#{interestBoutique.productionInterestType},
+      </if>
+      <if test="interestBoutique.interestBoutiqueId!=null and interestBoutique.interestBoutiqueId!='' ">
+        interest_boutique_id=#{interestBoutique.interestBoutiqueId}
+      </if>
+      where interest_boutique_id=#{interestBoutique.interestBoutiqueId}
+    </update>
+
+   <delete id="delete">
+      DELETE FROM myw_interest_boutique WHERE interest_boutique_id=#{interestBoutique.interestBoutiqueId}
+   </delete>
+
+
+   <select id="findInterestBoutiqueById" resultMap="BaseResultMap">
+      select t1.*,t2.interest_title,t2.interest_big_long_imgUrl from myw_interest_boutique t1 
+       inner join myw_interest t2 on t1.interest_id=t2.interest_id
+        where t1.interest_boutique_id=#{interestBoutiqueId}
+   </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.questionnaire.dao.QuestionnaireOptionDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.questionnaire.model.QuestionnaireOption">
+         <id column="questionnaire_option_id" property="questionnaireOptionId" jdbcType="VARCHAR" />
+         <result column="questionnaire_option_desc" property="questionnaireOptionDesc" jdbcType="VARCHAR" />
+         <result column="questionnaire_question_id" property="questionnaireQuestionId" jdbcType="VARCHAR" />
+         <result column="questionnaire_question_sort" property="questionnaireQuestionSort" jdbcType="INTEGER" />
+   </resultMap>
+   <select id="findAll" resultMap="BaseResultMap">
+       select * from myw_questionnaire_option
+   </select>
+
+   <select id="findAllCount" resultType="java.lang.Long">
+      select count(1) from myw_questionnaire_option
+   </select>
+
+   <insert id="save">
+      insert into myw_questionnaire_option values(
+         #{QuestionnaireOption.questionnaireOptionId},
+         #{QuestionnaireOption.questionnaireOptionDesc},
+         #{QuestionnaireOption.questionnaireQuestionId},
+         #{QuestionnaireOption.questionnaireQuestionSort}
+      )
+   </insert>
+
+   <update id="update">
+      update myw_questionnaire_option set
+      <if test="QuestionnaireOption.questionnaireOptionDesc!=null and QuestionnaireOption.questionnaireOptionDesc!='' ">
+        questionnaire_option_desc=#{QuestionnaireOption.questionnaireOptionDesc},
+      </if>
+      <if test="QuestionnaireOption.questionnaireQuestionId!=null and QuestionnaireOption.questionnaireQuestionId!='' ">
+        questionnaire_question_id=#{QuestionnaireOption.questionnaireQuestionId},
+      </if>
+      <if test="QuestionnaireOption.questionnaireOptionId!=null and QuestionnaireOption.questionnaireOptionId!='' ">
+        questionnaire_option_id=#{QuestionnaireOption.questionnaireOptionId}
+      </if>
+      where questionnaire_question_id=#{QuestionnaireOption.questionnaireQuestionId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM myw_questionnaire_option WHERE questionnaire_question_id=#{QuestionnaireOption.questionnaireQuestionId}
+   </delete>
+
+</mapper>
