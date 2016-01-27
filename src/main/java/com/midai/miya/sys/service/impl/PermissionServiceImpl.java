@@ -26,7 +26,7 @@ public class PermissionServiceImpl implements PermissionService{
 		node1.setPermissionIsshow(1);
 		node1.setPermissionType(1);
 		node1.setPermissionSort(0);
-		node1.setText("趣米芽后台管理系统");
+		node1.setText("后台管理系统");
 		node1.setId("0");
 		node1.setState("open");
 		tree.add(node1);

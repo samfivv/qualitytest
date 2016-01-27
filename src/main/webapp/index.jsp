@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>米芽网后台管理系统</title>
+<title>质检平台管理系统</title>
 <jsp:include page="inc.jsp"></jsp:include>
 <%
 	Operator operator = (Operator) session.getAttribute("_loginOperator");

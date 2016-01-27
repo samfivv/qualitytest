@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>米芽网后台管理系统登录</title>
+<title>质检平台管理系统登录</title>
 <jsp:include page="inc.jsp"></jsp:include>
 <script type="text/javascript">
 if(window !=top){  

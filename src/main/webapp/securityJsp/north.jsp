@@ -24,7 +24,7 @@
 	欢迎,${_loginOperator.operatorName}
 </div>
 <div style="position: center; text-align:center;width:500px; height:60px;font-size:30px;
-    line-height:60px; margin:0 auto;border:0px solid #000;">米芽网后台管理系统</div>
+    line-height:60px; margin:0 auto;border:0px solid #000;">质检平台管理系统</div>
 <div  style="position: absolute; right: 0px; bottom: 0px; " >
 	<a href="javascript:void(0);" class="easyui-menubutton" style="display: none;"
 	 data-options="menu:'#layout_north_pfMenu',iconCls:'ext-icon-rainbow'">更换皮肤</a>

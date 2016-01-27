@@ -58,7 +58,7 @@ public class SimpleMailSender  {
       Message mailMessage = new MimeMessage(sendMailSession);  
       String nick="";
       try {
-		 nick=javax.mail.internet.MimeUtility.encodeText("趣米芽");
+		 nick=javax.mail.internet.MimeUtility.encodeText("质检平台");
 	} catch (UnsupportedEncodingException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
