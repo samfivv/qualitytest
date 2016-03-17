@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.item.dao.ItemAddtitionalDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.item.model.ItemAddtitional">
+         <id column="addtitional_id" property="addtitionalId" jdbcType="VARCHAR" />
+         <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+         <result column="addtitional_name" property="addtitionalName" jdbcType="VARCHAR" />
+         <result column="addtitional_price" property="addtitionalPrice" jdbcType="DOUBLE" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="itemAddtitional.addtitionalId!=null and itemAddtitional.addtitionalId!='' ">
+        and addtitional_id=#{itemAddtitional.addtitionalId}
+      </if>
+      <if test="itemAddtitional.itemId!=null and itemAddtitional.itemId!='' ">
+        and item_id=#{itemAddtitional.itemId}
+      </if>
+      <if test="itemAddtitional.addtitionalName!=null and itemAddtitional.addtitionalName!='' ">
+        and addtitional_name=#{itemAddtitional.addtitionalName}
+      </if>
+      <if test="itemAddtitional.addtitionalPrice!=null and itemAddtitional.addtitionalPrice!='' ">
+        and addtitional_price=#{itemAddtitional.addtitionalPrice}
+      </if>
+      <if test="itemAddtitional.createTime!=null and itemAddtitional.createTime!='' ">
+        and create_time=#{itemAddtitional.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_item_addtitional
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_item_addtitional
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_item_addtitional values(
+         #{itemAddtitional.addtitionalId},
+         #{itemAddtitional.itemId},
+         #{itemAddtitional.addtitionalName},
+         #{itemAddtitional.addtitionalPrice},
+         #{itemAddtitional.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_item_addtitional set
+      <if test="itemAddtitional.addtitionalId!=null and itemAddtitional.addtitionalId!='' ">
+        addtitional_id=#{itemAddtitional.addtitionalId},
+      </if>
+      <if test="itemAddtitional.itemId!=null and itemAddtitional.itemId!='' ">
+        item_id=#{itemAddtitional.itemId},
+      </if>
+      <if test="itemAddtitional.addtitionalName!=null and itemAddtitional.addtitionalName!='' ">
+        addtitional_name=#{itemAddtitional.addtitionalName},
+      </if>
+      <if test="itemAddtitional.addtitionalPrice!=null and itemAddtitional.addtitionalPrice!='' ">
+        addtitional_price=#{itemAddtitional.addtitionalPrice},
+      </if>
+      <if test="itemAddtitional.createTime!=null and itemAddtitional.createTime!='' ">
+        create_time=#{itemAddtitional.createTime},
+      </if>
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_item_addtitional WHERE addtitional_id=#{itemAddtitional.addtitionalId}
+   </delete>
+   
+   <!-- 按item_id批量删除 -->
+    <delete id="deleteByItemId">
+      DELETE FROM zyzj_item_addtitional WHERE item_id=#{itemId}
+   </delete>
+   
+
+</mapper>

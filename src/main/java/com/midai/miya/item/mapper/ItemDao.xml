@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.item.dao.ItemDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.item.model.Item">
+         <id column="item_id" property="itemId" jdbcType="VARCHAR" />
+         <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+         <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+         <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+         <result column="item_price" property="itemPrice" jdbcType="DOUBLE" />
+         <result column="item_sort" property="itemSort" jdbcType="INTEGER" />
+         <result column="item_note" property="itemNote" jdbcType="VARCHAR" />
+         <result column="item_creator" property="itemCreator" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="item.itemId!=null and item.itemId!='' ">
+        and item_id=#{item.itemId}
+      </if>
+      <if test="item.typeId!=null and item.typeId!='' ">
+        and type_id=#{item.typeId}
+      </if>
+      <if test="item.itemName!=null and item.itemName!='' ">
+        and item_name=#{item.itemName}
+      </if>
+      <if test="item.parentId!=null and item.parentId!='' ">
+        and parent_id=#{item.parentId}
+      </if>
+      <if test="item.itemPrice!=null and item.itemPrice!='' ">
+        and item_price=#{item.itemPrice}
+      </if>
+      <if test="item.itemSort!=null and item.itemSort!='' ">
+        and item_sort=#{item.itemSort}
+      </if>
+      <if test="item.itemNote!=null and item.itemNote!='' ">
+        and item_note=#{item.itemNote}
+      </if>
+      <if test="item.itemCreator!=null and item.itemCreator!='' ">
+        and item_creator=#{item.itemCreator}
+      </if>
+      <if test="item.createTime!=null and item.createTime!='' ">
+        and create_time=#{item.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_item
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_item
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_item values(
+         #{item.itemId},
+         #{item.typeId},
+         #{item.itemName},
+         #{item.parentId},
+         #{item.itemPrice},
+         #{item.itemSort},
+         #{item.itemNote},
+         #{item.itemCreator},
+         #{item.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_item set
+      <if test="item.itemId!=null and item.itemId!='' ">
+        item_id=#{item.itemId}
+      </if>
+      <if test="item.typeId!=null and item.typeId!='' ">
+        ,type_id=#{item.typeId}
+      </if>
+      <if test="item.itemName!=null and item.itemName!='' ">
+        ,item_name=#{item.itemName}
+      </if>
+      <if test="item.parentId!=null and item.parentId!='' ">
+        ,parent_id=#{item.parentId}
+      </if>
+      <if test="item.itemPrice!=null">
+        ,item_price=#{item.itemPrice}
+      </if>
+      <if test="item.itemSort!=null">
+        ,item_sort=#{item.itemSort}
+      </if>
+      <if test="item.itemNote!=null and item.itemNote!='' ">
+        ,item_note=#{item.itemNote}
+      </if>
+      <if test="item.itemCreator!=null and item.itemCreator!='' ">
+        ,item_creator=#{item.itemCreator}
+      </if>
+      <if test="item.createTime!=null">
+        ,create_time=#{item.createTime}
+      </if>
+      where item_id = #{item.itemId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_item WHERE item_id=#{item.itemId}
+   </delete>
+   
+   <!--  是否含有下级项目 -->
+   <select id="findCountItemByParentId" resultType="java.lang.Integer">
+      select count(1)  from zyzj_item where parent_id = #{itemId}
+   </select>
+   
+   <!--  是否含有附加项目 -->
+   <select id="findCountAddtitionalByItemId" resultType="java.lang.Integer">
+      select count(1)  from zyzj_item_addtitional where item_id = #{itemId}
+   </select>
+   
+   <select id="findItemAll" resultMap="BaseResultMap">
+      select *  from zyzj_item
+   </select>
+   
+   <!-- 名称是否重复 -->
+   <select id="findCountByItemName" resultType="java.lang.Integer">
+       select count(1) from zyzj_item where item_name = #{itemName} and item_id != #{itemId}
+   </select>
+   
+   <select id="findItemById" resultMap="BaseResultMap">
+      select *  from zyzj_item where item_id = #{itemId}
+   </select>
+   
+   <!-- 查询第一级项目 -->
+   <select id="findTopLevelItem" resultMap="BaseResultMap">
+       select * from zyzj_item A where IFNULL(parent_id,'') = ''
+   </select>
+   
+</mapper>

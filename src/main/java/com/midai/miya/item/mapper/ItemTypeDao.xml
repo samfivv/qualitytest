@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.item.dao.ItemTypeDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.item.model.ItemType">
+         <id column="type_id" property="typeId" jdbcType="VARCHAR" />
+         <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   
+   <sql id="findWhere">
+   <where>
+      <if test="itemType.typeId!=null and itemType.typeId!='' ">
+        and type_id=#{itemType.typeId}
+      </if>
+      <if test="itemType.typeName!=null and itemType.typeName!='' ">
+        and type_name=#{itemType.typeName}
+      </if>
+      <if test="itemType.createTime!=null and itemType.createTime!='' ">
+        and create_time=#{itemType.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_item_type
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_item_type
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_item_type values(
+         #{itemType.typeId},
+         #{itemType.typeName},
+         #{itemType.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_item_type set
+       <if test="itemType.typeId!=null and itemType.typeId!='' ">
+        type_id=#{itemType.typeId}
+      </if>
+      <if test="itemType.typeName!=null and itemType.typeName!='' ">
+        ,type_name=#{itemType.typeName}
+      </if>
+      <if test="itemType.createTime!=null and itemType.createTime!='' ">
+        ,create_time=#{itemType.createTime}
+      </if>
+      where type_id = #{itemType.typeId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_item_type WHERE type_id=#{itemType.typeId}
+   </delete>
+   
+   <!-- 是否有重复编号 -->
+    <select id="findItemTypeCountById" resultType="java.lang.Integer">
+    select count(1) from zyzj_item_type 
+	    where type_id =#{typeId}
+   </select>
+   <!-- 是否有重复名称 -->
+    <select id="findItemTypeCountByName" resultType="java.lang.Integer">
+    select count(1) from zyzj_item_type 
+	    where type_name =#{typeName}
+   </select>
+   
+   <select id="findItemTypeById" resultMap="BaseResultMap">
+     select * from zyzj_item_type WHERE type_id=#{typeId}
+   </select>
+    
+   <!-- 为下拉选项准备数据用 -->
+   <select id="findItemForOption" resultMap="BaseResultMap">
+       select * from zyzj_item_type order by type_id
+   </select>
+    
+</mapper>

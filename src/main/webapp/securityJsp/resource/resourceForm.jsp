@@ -116,7 +116,7 @@
 				<th>资源路径</th>
 					<td><input name="permissionUrl" /></td>
 					<th>顺序</th>
-					<td colspan="3"><input name="permissionSort" class="easyui-numberspinner" data-options="required:true,min:0,max:100000,editable:false" style="width: 155px;" value="1" /></td>
+					<td colspan="3"><input name="permissionSort" class="easyui-numberspinner" data-options="required:true,min:0,max:100000,editable:true" style="width: 155px;" value="1" /></td>
 				</tr>
 			</table>
 		</fieldset>
