@@ -10,7 +10,16 @@ public class ItemAddtitional implements Serializable {
     private String addtitionalName;
     private Double addtitionalPrice;
     private Date createTime;
-    public String getAddtitionalId(){
+    
+    private String itemName; //关联item的表item_name
+    
+    public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	public String getAddtitionalId(){
         return addtitionalId;
     }
     public void setAddtitionalId(String addtitionalId){

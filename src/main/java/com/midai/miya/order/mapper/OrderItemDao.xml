@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.order.dao.OrderItemDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.order.model.OrderItem">
+         <id column="order_item_id" property="orderItemId" jdbcType="VARCHAR" />
+         <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <id column="item_addtitional_id" property="itemAddtitionalId" jdbcType="VARCHAR" />
+         <result column="item_type" property="itemType" jdbcType="INTEGER" />
+         <result column="item_price" property="itemPrice" jdbcType="DOUBLE" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="orderItem.orderItemId!=null and orderItem.orderItemId!='' ">
+        and order_item_id=#{orderItem.orderItemId}
+      </if>
+      <if test="orderItem.orderId!=null and orderItem.orderId!='' ">
+        and order_id=#{orderItem.orderId}
+      </if>
+      <if test="orderItem.itemAddtitionalId!=null and orderItem.itemAddtitionalId!='' ">
+        and item_addtitional_id=#{orderItem.itemAddtitionalId}
+      </if>
+      <if test="orderItem.itemType!=null and orderItem.itemType!='' ">
+        and item_type=#{orderItem.itemType}
+      </if>
+      <if test="orderItem.itemPrice!=null and orderItem.itemPrice!='' ">
+        and item_price=#{orderItem.itemPrice}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_order_item
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_order_item
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_order_item values(
+         #{orderItem.orderItemId},
+         #{orderItem.orderId},
+         #{orderItem.itemAddtitionalId},
+         #{orderItem.itemType},
+         #{orderItem.itemPrice}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_order_item set
+      <if test="orderItem.orderItemId!=null and orderItem.orderItemId!='' ">
+        order_item_id=#{orderItem.orderItemId},
+      </if>
+      <if test="orderItem.orderId!=null and orderItem.orderId!='' ">
+        order_id=#{orderItem.orderId},
+      </if>
+      <if test="orderItem.itemAddtitionalId!=null and orderItem.itemAddtitionalId!='' ">
+        item_addtitional_id=#{orderItem.itemAddtitionalId},
+      </if>
+      <if test="orderItem.itemType!=null and orderItem.itemType!='' ">
+        item_type=#{orderItem.itemType},
+      </if>
+      <if test="orderItem.itemPrice!=null and orderItem.itemPrice!='' ">
+        item_price=#{orderItem.itemPrice},
+      </if>
+null   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_order_item WHERE =#{orderItem.}
+   </delete>
+
+</mapper>

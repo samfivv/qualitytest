@@ -11,6 +11,9 @@
          <result column="item_note" property="itemNote" jdbcType="VARCHAR" />
          <result column="item_creator" property="itemCreator" jdbcType="VARCHAR" />
          <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="promotion_price" property="promotionPrice" jdbcType="DOUBLE" />
+         <result column="promotion_start_time" property="promotionStartTime" jdbcType="TIMESTAMP" />
+         <result column="promotion_eff_time" property="promotionEffTime" jdbcType="TIMESTAMP" />
    </resultMap>
    <sql id="findWhere">
    <where>
@@ -26,7 +29,7 @@
       <if test="item.parentId!=null and item.parentId!='' ">
         and parent_id=#{item.parentId}
       </if>
-      <if test="item.itemPrice!=null and item.itemPrice!='' ">
+      <if test="item.itemPrice!=null">
         and item_price=#{item.itemPrice}
       </if>
       <if test="item.itemSort!=null and item.itemSort!='' ">
@@ -41,6 +44,16 @@
       <if test="item.createTime!=null and item.createTime!='' ">
         and create_time=#{item.createTime}
       </if>
+      <if test="item.promotionPrice!=null">
+        and promotion_price=#{item.promotionPrice}
+      </if>
+      <if test="promotionStartTime!=null">
+        and promotion_start_time=#{item.promotionStartTime}
+      </if>
+      <if test="promotionEffTime!=null">
+        and promotion_eff_time=#{item.promotionEffTime}
+      </if>
+      
    </where>
    </sql>
    <select id="findByConditions" resultMap="BaseResultMap">
@@ -70,7 +83,10 @@
          #{item.itemSort},
          #{item.itemNote},
          #{item.itemCreator},
-         #{item.createTime}
+         #{item.createTime},
+         #{item.promotionPrice},
+         #{item.promotionStartTime},
+         #{item.promotionEffTime}
       )
    </insert>
 
@@ -103,6 +119,10 @@
       <if test="item.createTime!=null">
         ,create_time=#{item.createTime}
       </if>
+      <if test="item.promotionPrice!=null">
+        ,promotion_price=#{item.promotionPrice}
+      </if>
+      
       where item_id = #{item.itemId}
    </update>
 

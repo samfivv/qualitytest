@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserCertImgDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.UserCertImg">
+         <id column="user_img_id" property="userImgId" jdbcType="VARCHAR" />
+         <id column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="big_img_url" property="bigImgUrl" jdbcType="VARCHAR" />
+         <result column="small_img_url" property="smallImgUrl" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="userCertImg.userImgId!=null and userCertImg.userImgId!='' ">
+        and user_img_id=#{userCertImg.userImgId}
+      </if>
+      <if test="userCertImg.userId!=null and userCertImg.userId!='' ">
+        and user_id=#{userCertImg.userId}
+      </if>
+      <if test="userCertImg.bigImgUrl!=null and userCertImg.bigImgUrl!='' ">
+        and big_img_url=#{userCertImg.bigImgUrl}
+      </if>
+      <if test="userCertImg.smallImgUrl!=null and userCertImg.smallImgUrl!='' ">
+        and small_img_url=#{userCertImg.smallImgUrl}
+      </if>
+      <if test="userCertImg.createTime!=null and userCertImg.createTime!='' ">
+        and create_time=#{userCertImg.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_user_cert_img
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_user_cert_img
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_user_cert_img values(
+         #{userCertImg.userImgId},
+         #{userCertImg.userId},
+         #{userCertImg.bigImgUrl},
+         #{userCertImg.smallImgUrl},
+         #{userCertImg.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_user_cert_img set
+      <if test="userCertImg.userImgId!=null and userCertImg.userImgId!='' ">
+        user_img_id=#{userCertImg.userImgId},
+      </if>
+      <if test="userCertImg.userId!=null and userCertImg.userId!='' ">
+        user_id=#{userCertImg.userId},
+      </if>
+      <if test="userCertImg.bigImgUrl!=null and userCertImg.bigImgUrl!='' ">
+        big_img_url=#{userCertImg.bigImgUrl},
+      </if>
+      <if test="userCertImg.smallImgUrl!=null and userCertImg.smallImgUrl!='' ">
+        small_img_url=#{userCertImg.smallImgUrl},
+      </if>
+      <if test="userCertImg.createTime!=null and userCertImg.createTime!='' ">
+        create_time=#{userCertImg.createTime},
+      </if>
+null   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_user_cert_img WHERE =#{userCertImg.}
+   </delete>
+
+</mapper>

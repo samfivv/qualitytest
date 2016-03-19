@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.order.dao.OrderDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.order.model.Order">
+         <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+         <result column="order_date" property="orderDate" jdbcType="TIMESTAMP" />
+         <result column="order_nature" property="orderNature" jdbcType="VARCHAR" />
+         <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+         <result column="order_office" property="orderOffice" jdbcType="VARCHAR" />
+         <result column="order_address" property="orderAddress" jdbcType="VARCHAR" />
+         <result column="order_report_delivery" property="orderReportDelivery" jdbcType="VARCHAR" />
+         <result column="member_tel" property="memberTel" jdbcType="VARCHAR" />
+         <result column="member_fax" property="memberFax" jdbcType="VARCHAR" />
+         <result column="testing_institution" property="testingInstitution" jdbcType="VARCHAR" />
+         <result column="material_components" property="materialComponents" jdbcType="VARCHAR" />
+         <result column="material_producers" property="materialProducers" jdbcType="VARCHAR" />
+         <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+         <result column="material_barcode" property="materialBarcode" jdbcType="VARCHAR" />
+         <result column="material_spec" property="materialSpec" jdbcType="VARCHAR" />
+         <result column="material_subcontract" property="materialSubcontract" jdbcType="VARCHAR" />
+         <result column="made_date" property="madeDate" jdbcType="TIMESTAMP" />
+         <result column="material_lot_no" property="materialLotNo" jdbcType="VARCHAR" />
+         <result column="material_ brand" property="material brand" jdbcType="VARCHAR" />
+         <result column="material_quantity" property="materialQuantity" jdbcType="VARCHAR" />
+         <result column="material_state" property="materialState" jdbcType="VARCHAR" />
+         <result column="material_grade" property="materialGrade" jdbcType="VARCHAR" />
+         <result column="material_dispose" property="materialDispose" jdbcType="VARCHAR" />
+         <result column="material_attachment" property="materialAttachment" jdbcType="VARCHAR" />
+         <result column="testing_gist" property="testingGist" jdbcType="VARCHAR" />
+         <result column="require_date" property="requireDate" jdbcType="TIMESTAMP" />
+         <result column="testing_amout" property="testingAmout" jdbcType="DOUBLE" />
+         <result column="report_copies" property="reportCopies" jdbcType="INTEGER" />
+         <result column="order_note" property="orderNote" jdbcType="VARCHAR" />
+         <result column="order_priority" property="orderPriority" jdbcType="INTEGER" />
+         <result column="order_state" property="orderState" jdbcType="INTEGER" />
+         <result column="order_closed" property="orderClosed" jdbcType="BOOLEAN" />
+         <result column="order_approve_date" property="orderApproveDate" jdbcType="TIMESTAMP" />
+         <result column="order_paying_date" property="orderPayingDate" jdbcType="TIMESTAMP" />
+         <result column="order_delivery_date" property="orderDeliveryDate" jdbcType="TIMESTAMP" />
+         <result column="order_received_date" property="orderReceivedDate" jdbcType="TIMESTAMP" />
+         <result column="order_tested_date" property="orderTestedDate" jdbcType="TIMESTAMP" />
+         <result column="order_return_date" property="orderReturnDate" jdbcType="TIMESTAMP" />
+         <result column="order_close_date" property="orderCloseDate" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="order.orderId!=null and order.orderId!='' ">
+        and order_id=#{order.orderId}
+      </if>
+      <if test="order.orderNo!=null and order.orderNo!='' ">
+        and order_no=#{order.orderNo}
+      </if>
+      <if test="order.orderDate!=null and order.orderDate!='' ">
+        and order_date=#{order.orderDate}
+      </if>
+      <if test="order.orderNature!=null and order.orderNature!='' ">
+        and order_nature=#{order.orderNature}
+      </if>
+      <if test="order.memberId!=null and order.memberId!='' ">
+        and member_id=#{order.memberId}
+      </if>
+      <if test="order.orderOffice!=null and order.orderOffice!='' ">
+        and order_office=#{order.orderOffice}
+      </if>
+      <if test="order.orderAddress!=null and order.orderAddress!='' ">
+        and order_address=#{order.orderAddress}
+      </if>
+      <if test="order.orderReportDelivery!=null and order.orderReportDelivery!='' ">
+        and order_report_delivery=#{order.orderReportDelivery}
+      </if>
+      <if test="order.memberTel!=null and order.memberTel!='' ">
+        and member_tel=#{order.memberTel}
+      </if>
+      <if test="order.memberFax!=null and order.memberFax!='' ">
+        and member_fax=#{order.memberFax}
+      </if>
+      <if test="order.testingInstitution!=null and order.testingInstitution!='' ">
+        and testing_institution=#{order.testingInstitution}
+      </if>
+      <if test="order.materialComponents!=null and order.materialComponents!='' ">
+        and material_components=#{order.materialComponents}
+      </if>
+      <if test="order.materialProducers!=null and order.materialProducers!='' ">
+        and material_producers=#{order.materialProducers}
+      </if>
+      <if test="order.materialName!=null and order.materialName!='' ">
+        and material_name=#{order.materialName}
+      </if>
+      <if test="order.materialBarcode!=null and order.materialBarcode!='' ">
+        and material_barcode=#{order.materialBarcode}
+      </if>
+      <if test="order.materialSpec!=null and order.materialSpec!='' ">
+        and material_spec=#{order.materialSpec}
+      </if>
+      <if test="order.materialSubcontract!=null and order.materialSubcontract!='' ">
+        and material_subcontract=#{order.materialSubcontract}
+      </if>
+      <if test="order.madeDate!=null and order.madeDate!='' ">
+        and made_date=#{order.madeDate}
+      </if>
+      <if test="order.materialLotNo!=null and order.materialLotNo!='' ">
+        and material_lot_no=#{order.materialLotNo}
+      </if>
+      <if test="order.material brand!=null and order.material brand!='' ">
+        and material_ brand=#{order.material brand}
+      </if>
+      <if test="order.materialQuantity!=null and order.materialQuantity!='' ">
+        and material_quantity=#{order.materialQuantity}
+      </if>
+      <if test="order.materialState!=null and order.materialState!='' ">
+        and material_state=#{order.materialState}
+      </if>
+      <if test="order.materialGrade!=null and order.materialGrade!='' ">
+        and material_grade=#{order.materialGrade}
+      </if>
+      <if test="order.materialDispose!=null and order.materialDispose!='' ">
+        and material_dispose=#{order.materialDispose}
+      </if>
+      <if test="order.materialAttachment!=null and order.materialAttachment!='' ">
+        and material_attachment=#{order.materialAttachment}
+      </if>
+      <if test="order.testingGist!=null and order.testingGist!='' ">
+        and testing_gist=#{order.testingGist}
+      </if>
+      <if test="order.requireDate!=null and order.requireDate!='' ">
+        and require_date=#{order.requireDate}
+      </if>
+      <if test="order.testingAmout!=null and order.testingAmout!='' ">
+        and testing_amout=#{order.testingAmout}
+      </if>
+      <if test="order.reportCopies!=null and order.reportCopies!='' ">
+        and report_copies=#{order.reportCopies}
+      </if>
+      <if test="order.orderNote!=null and order.orderNote!='' ">
+        and order_note=#{order.orderNote}
+      </if>
+      <if test="order.orderPriority!=null and order.orderPriority!='' ">
+        and order_priority=#{order.orderPriority}
+      </if>
+      <if test="order.orderState!=null and order.orderState!='' ">
+        and order_state=#{order.orderState}
+      </if>
+      <if test="order.orderClosed!=null and order.orderClosed!='' ">
+        and order_closed=#{order.orderClosed}
+      </if>
+      <if test="order.orderApproveDate!=null and order.orderApproveDate!='' ">
+        and order_approve_date=#{order.orderApproveDate}
+      </if>
+      <if test="order.orderPayingDate!=null and order.orderPayingDate!='' ">
+        and order_paying_date=#{order.orderPayingDate}
+      </if>
+      <if test="order.orderDeliveryDate!=null and order.orderDeliveryDate!='' ">
+        and order_delivery_date=#{order.orderDeliveryDate}
+      </if>
+      <if test="order.orderReceivedDate!=null and order.orderReceivedDate!='' ">
+        and order_received_date=#{order.orderReceivedDate}
+      </if>
+      <if test="order.orderTestedDate!=null and order.orderTestedDate!='' ">
+        and order_tested_date=#{order.orderTestedDate}
+      </if>
+      <if test="order.orderReturnDate!=null and order.orderReturnDate!='' ">
+        and order_return_date=#{order.orderReturnDate}
+      </if>
+      <if test="order.orderCloseDate!=null and order.orderCloseDate!='' ">
+        and order_close_date=#{order.orderCloseDate}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_order
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_order
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_order values(
+         #{order.orderId},
+         #{order.orderNo},
+         #{order.orderDate},
+         #{order.orderNature},
+         #{order.memberId},
+         #{order.orderOffice},
+         #{order.orderAddress},
+         #{order.orderReportDelivery},
+         #{order.memberTel},
+         #{order.memberFax},
+         #{order.testingInstitution},
+         #{order.materialComponents},
+         #{order.materialProducers},
+         #{order.materialName},
+         #{order.materialBarcode},
+         #{order.materialSpec},
+         #{order.materialSubcontract},
+         #{order.madeDate},
+         #{order.materialLotNo},
+         #{order.material brand},
+         #{order.materialQuantity},
+         #{order.materialState},
+         #{order.materialGrade},
+         #{order.materialDispose},
+         #{order.materialAttachment},
+         #{order.testingGist},
+         #{order.requireDate},
+         #{order.testingAmout},
+         #{order.reportCopies},
+         #{order.orderNote},
+         #{order.orderPriority},
+         #{order.orderState},
+         #{order.orderClosed},
+         #{order.orderApproveDate},
+         #{order.orderPayingDate},
+         #{order.orderDeliveryDate},
+         #{order.orderReceivedDate},
+         #{order.orderTestedDate},
+         #{order.orderReturnDate},
+         #{order.orderCloseDate}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_order set
+      <if test="order.orderId!=null and order.orderId!='' ">
+        order_id=#{order.orderId},
+      </if>
+      <if test="order.orderNo!=null and order.orderNo!='' ">
+        order_no=#{order.orderNo},
+      </if>
+      <if test="order.orderDate!=null and order.orderDate!='' ">
+        order_date=#{order.orderDate},
+      </if>
+      <if test="order.orderNature!=null and order.orderNature!='' ">
+        order_nature=#{order.orderNature},
+      </if>
+      <if test="order.memberId!=null and order.memberId!='' ">
+        member_id=#{order.memberId},
+      </if>
+      <if test="order.orderOffice!=null and order.orderOffice!='' ">
+        order_office=#{order.orderOffice},
+      </if>
+      <if test="order.orderAddress!=null and order.orderAddress!='' ">
+        order_address=#{order.orderAddress},
+      </if>
+      <if test="order.orderReportDelivery!=null and order.orderReportDelivery!='' ">
+        order_report_delivery=#{order.orderReportDelivery},
+      </if>
+      <if test="order.memberTel!=null and order.memberTel!='' ">
+        member_tel=#{order.memberTel},
+      </if>
+      <if test="order.memberFax!=null and order.memberFax!='' ">
+        member_fax=#{order.memberFax},
+      </if>
+      <if test="order.testingInstitution!=null and order.testingInstitution!='' ">
+        testing_institution=#{order.testingInstitution},
+      </if>
+      <if test="order.materialComponents!=null and order.materialComponents!='' ">
+        material_components=#{order.materialComponents},
+      </if>
+      <if test="order.materialProducers!=null and order.materialProducers!='' ">
+        material_producers=#{order.materialProducers},
+      </if>
+      <if test="order.materialName!=null and order.materialName!='' ">
+        material_name=#{order.materialName},
+      </if>
+      <if test="order.materialBarcode!=null and order.materialBarcode!='' ">
+        material_barcode=#{order.materialBarcode},
+      </if>
+      <if test="order.materialSpec!=null and order.materialSpec!='' ">
+        material_spec=#{order.materialSpec},
+      </if>
+      <if test="order.materialSubcontract!=null and order.materialSubcontract!='' ">
+        material_subcontract=#{order.materialSubcontract},
+      </if>
+      <if test="order.madeDate!=null and order.madeDate!='' ">
+        made_date=#{order.madeDate},
+      </if>
+      <if test="order.materialLotNo!=null and order.materialLotNo!='' ">
+        material_lot_no=#{order.materialLotNo},
+      </if>
+      <if test="order.material brand!=null and order.material brand!='' ">
+        material_ brand=#{order.material brand},
+      </if>
+      <if test="order.materialQuantity!=null and order.materialQuantity!='' ">
+        material_quantity=#{order.materialQuantity},
+      </if>
+      <if test="order.materialState!=null and order.materialState!='' ">
+        material_state=#{order.materialState},
+      </if>
+      <if test="order.materialGrade!=null and order.materialGrade!='' ">
+        material_grade=#{order.materialGrade},
+      </if>
+      <if test="order.materialDispose!=null and order.materialDispose!='' ">
+        material_dispose=#{order.materialDispose},
+      </if>
+      <if test="order.materialAttachment!=null and order.materialAttachment!='' ">
+        material_attachment=#{order.materialAttachment},
+      </if>
+      <if test="order.testingGist!=null and order.testingGist!='' ">
+        testing_gist=#{order.testingGist},
+      </if>
+      <if test="order.requireDate!=null and order.requireDate!='' ">
+        require_date=#{order.requireDate},
+      </if>
+      <if test="order.testingAmout!=null and order.testingAmout!='' ">
+        testing_amout=#{order.testingAmout},
+      </if>
+      <if test="order.reportCopies!=null and order.reportCopies!='' ">
+        report_copies=#{order.reportCopies},
+      </if>
+      <if test="order.orderNote!=null and order.orderNote!='' ">
+        order_note=#{order.orderNote},
+      </if>
+      <if test="order.orderPriority!=null and order.orderPriority!='' ">
+        order_priority=#{order.orderPriority},
+      </if>
+      <if test="order.orderState!=null and order.orderState!='' ">
+        order_state=#{order.orderState},
+      </if>
+      <if test="order.orderClosed!=null and order.orderClosed!='' ">
+        order_closed=#{order.orderClosed},
+      </if>
+      <if test="order.orderApproveDate!=null and order.orderApproveDate!='' ">
+        order_approve_date=#{order.orderApproveDate},
+      </if>
+      <if test="order.orderPayingDate!=null and order.orderPayingDate!='' ">
+        order_paying_date=#{order.orderPayingDate},
+      </if>
+      <if test="order.orderDeliveryDate!=null and order.orderDeliveryDate!='' ">
+        order_delivery_date=#{order.orderDeliveryDate},
+      </if>
+      <if test="order.orderReceivedDate!=null and order.orderReceivedDate!='' ">
+        order_received_date=#{order.orderReceivedDate},
+      </if>
+      <if test="order.orderTestedDate!=null and order.orderTestedDate!='' ">
+        order_tested_date=#{order.orderTestedDate},
+      </if>
+      <if test="order.orderReturnDate!=null and order.orderReturnDate!='' ">
+        order_return_date=#{order.orderReturnDate},
+      </if>
+      <if test="order.orderCloseDate!=null and order.orderCloseDate!='' ">
+        order_close_date=#{order.orderCloseDate},
+      </if>
+null   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_order WHERE =#{order.}
+   </delete>
+
+</mapper>

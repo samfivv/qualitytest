@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.brand.dao.BrandDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.brand.model.Brand">
+         <id column="brand_id" property="brandId" jdbcType="VARCHAR" />
+         <result column="brand_title" property="brandTitle" jdbcType="VARCHAR" />
+         <result column="brand_text" property="brandText" jdbcType="VARCHAR" />
+         <result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+         <result column="brand_state" property="brandState" jdbcType="INTEGER" />
+         <result column="brand_img_url" property="brandImgUrl" jdbcType="VARCHAR" />
+         <result column="brand_enterprise" property="brandEnterprise" jdbcType="VARCHAR" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="oprator_id" property="opratorId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="brand.brandId!=null and brand.brandId!='' ">
+        and brand_id=#{brand.brandId}
+      </if>
+      <if test="brand.brandTitle!=null and brand.brandTitle!='' ">
+        and brand_title=#{brand.brandTitle}
+      </if>
+      <if test="brand.brandText!=null and brand.brandText!='' ">
+        and brand_text=#{brand.brandText}
+      </if>
+      <if test="brand.brandSort!=null and brand.brandSort!='' ">
+        and brand_sort=#{brand.brandSort}
+      </if>
+      <if test="brand.brandState!=null and brand.brandState!='' ">
+        and brand_state=#{brand.brandState}
+      </if>
+      <if test="brand.brandImgUrl!=null and brand.brandImgUrl!='' ">
+        and brand_img_url=#{brand.brandImgUrl}
+      </if>
+      <if test="brand.brandEnterprise!=null and brand.brandEnterprise!='' ">
+        and brand_enterprise=#{brand.brandEnterprise}
+      </if>
+      <if test="brand.userId!=null and brand.userId!='' ">
+        and user_id=#{brand.userId}
+      </if>
+      <if test="brand.opratorId!=null and brand.opratorId!='' ">
+        and oprator_id=#{brand.opratorId}
+      </if>
+      <if test="brand.createTime!=null and brand.createTime!='' ">
+        and create_time=#{brand.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_brand
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_brand
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_brand values(
+         #{brand.brandId},
+         #{brand.brandTitle},
+         #{brand.brandText},
+         #{brand.brandSort},
+         #{brand.brandState},
+         #{brand.brandImgUrl},
+         #{brand.brandEnterprise},
+         #{brand.userId},
+         #{brand.opratorId},
+         #{brand.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_brand set
+      <if test="brand.brandTitle!=null and brand.brandTitle!='' ">
+        brand_title=#{brand.brandTitle},
+      </if>
+      <if test="brand.brandText!=null and brand.brandText!='' ">
+        brand_text=#{brand.brandText},
+      </if>
+      <if test="brand.brandSort!=null and brand.brandSort!='' ">
+        brand_sort=#{brand.brandSort},
+      </if>
+      <if test="brand.brandState!=null and brand.brandState!='' ">
+        brand_state=#{brand.brandState},
+      </if>
+      <if test="brand.brandImgUrl!=null and brand.brandImgUrl!='' ">
+        brand_img_url=#{brand.brandImgUrl},
+      </if>
+      <if test="brand.brandEnterprise!=null and brand.brandEnterprise!='' ">
+        brand_enterprise=#{brand.brandEnterprise},
+      </if>
+      <if test="brand.userId!=null and brand.userId!='' ">
+        user_id=#{brand.userId},
+      </if>
+      <if test="brand.opratorId!=null and brand.opratorId!='' ">
+        oprator_id=#{brand.opratorId},
+      </if>
+      <if test="brand.createTime!=null and brand.createTime!='' ">
+        create_time=#{brand.createTime},
+      </if>
+      <if test="brand.brandId!=null and brand.brandId!='' ">
+        brand_id=#{brand.brandId}
+      </if>
+      where brand_id=#{brand.brandId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_brand WHERE brand_id=#{brand.brandId}
+   </delete>
+
+</mapper>

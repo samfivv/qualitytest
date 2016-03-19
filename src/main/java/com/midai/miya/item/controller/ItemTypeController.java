@@ -95,9 +95,9 @@ public class ItemTypeController extends BaseController {
     
     @RequestMapping("/findItemTypeById")
     public @ResponseBody ItemType findItemTypeById(HttpServletRequest request,String typeId){
-    	ItemType school=itemTypeService.findItemTypeById(typeId);
+    	ItemType itemType=itemTypeService.findItemTypeById(typeId);
     	this.addLog(request, "查看项目类型详情", Constant.LOG_TYPE_SELECT);
-    	return school;
+    	return itemType;
     }  
     
     @RequestMapping("/deleteItemTypeById")

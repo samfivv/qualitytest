@@ -33,8 +33,8 @@ public class Connections {
 	static String path = System.getProperty("user.dir") + "\\src\\main\\java";
 
 	public static void main(String[] args) throws Exception {
-		String pagekage = "com/midai/miya/item";
-		String tableName = "zyzj_item_addtitional";
+		String pagekage = "com/midai/miya/standard";
+		String tableName = "zyzj_standard";
 		create(pagekage, tableName);
 		createDao(pagekage, tableName, true);
 		createService(pagekage, tableName, true);
@@ -46,7 +46,7 @@ public class Connections {
 			throws SQLException {
 		Connection conn = getConnection();
 		String sql = "SELECT column_name as columnName, COLUMN_KEY as columnKey ,column_comment as columnComment FROM Information_schema. COLUMNS WHERE table_Name = '"
-				+ tableName + "' and table_schema='md_myw'";
+				+ tableName + "' ";
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		return rs;

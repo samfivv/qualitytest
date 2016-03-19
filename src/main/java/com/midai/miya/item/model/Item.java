@@ -14,7 +14,29 @@ public class Item implements Serializable {
     private String itemNote;
     private String itemCreator;
     private Date createTime;
-    public String getItemId(){
+    private Double promotionPrice;
+    private Date promotionStartTime;
+    private Date promotionEffTime;
+    
+    public Double getPromotionPrice() {
+		return promotionPrice;
+	}
+	public void setPromotionPrice(Double promotionPrice) {
+		this.promotionPrice = promotionPrice;
+	}
+	public Date getPromotionStartTime() {
+		return promotionStartTime;
+	}
+	public void setPromotionStartTime(Date promotionStartTime) {
+		this.promotionStartTime = promotionStartTime;
+	}
+	public Date getPromotionEffTime() {
+		return promotionEffTime;
+	}
+	public void setPromotionEffTime(Date promotionEffTime) {
+		this.promotionEffTime = promotionEffTime;
+	}
+	public String getItemId(){
         return itemId;
     }
     public void setItemId(String itemId){

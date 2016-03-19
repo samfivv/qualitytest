@@ -96,5 +96,19 @@ public class ItemServiceImpl implements ItemService {
 
 	}
 
+	@Override
+	public List<Tree> findAllItemTree() {
+		List<Item> items = itemDao.findItemAll();
+		List<Tree> trees = new ArrayList<Tree>();
+		for (Item item : items) {
+			Tree node = new Tree();
+			node.setText(item.getItemName());
+			node.setId(item.getItemId());
+			node.setPid(item.getParentId());
+			trees.add(node);
+		}
+		return trees;
+	}
+
 }
 

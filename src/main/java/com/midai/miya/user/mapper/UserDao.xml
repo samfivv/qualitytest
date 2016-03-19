@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.User">
+         <id column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="userr_no" property="userrNo" jdbcType="VARCHAR" />
+         <result column="userr_sort" property="userrSort" jdbcType="VARCHAR" />
+         <result column="userr_desc" property="userrDesc" jdbcType="VARCHAR" />
+         <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+         <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+         <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+         <result column="user_addr" property="userAddr" jdbcType="VARCHAR" />
+         <result column="user_type" property="userType" jdbcType="INTEGER" />
+         <result column="user_cert_no" property="userCertNo" jdbcType="VARCHAR" />
+         <result column="user_tel" property="userTel" jdbcType="VARCHAR" />
+         <result column="user_fax" property="userFax" jdbcType="VARCHAR" />
+         <result column="user_state" property="userState" jdbcType="INTEGER" />
+         <result column="user_vip" property="userVip" jdbcType="BOOLEAN" />
+         <result column="user_grade" property="userGrade" jdbcType="INTEGER" />
+         <result column="user_balance" property="userBalance" jdbcType="DOUBLE" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="user.userId!=null and user.userId!='' ">
+        and user_id=#{user.userId}
+      </if>
+      <if test="user.userrNo!=null and user.userrNo!='' ">
+        and userr_no=#{user.userrNo}
+      </if>
+      <if test="user.userrSort!=null and user.userrSort!='' ">
+        and userr_sort=#{user.userrSort}
+      </if>
+      <if test="user.userrDesc!=null and user.userrDesc!='' ">
+        and userr_desc=#{user.userrDesc}
+      </if>
+      <if test="user.userPhone!=null and user.userPhone!='' ">
+        and user_phone=#{user.userPhone}
+      </if>
+      <if test="user.userEmail!=null and user.userEmail!='' ">
+        and user_email=#{user.userEmail}
+      </if>
+      <if test="user.userPassword!=null and user.userPassword!='' ">
+        and user_password=#{user.userPassword}
+      </if>
+      <if test="user.userAddr!=null and user.userAddr!='' ">
+        and user_addr=#{user.userAddr}
+      </if>
+      <if test="user.userType!=null and user.userType!='' ">
+        and user_type=#{user.userType}
+      </if>
+      <if test="user.userCertNo!=null and user.userCertNo!='' ">
+        and user_cert_no=#{user.userCertNo}
+      </if>
+      <if test="user.userTel!=null and user.userTel!='' ">
+        and user_tel=#{user.userTel}
+      </if>
+      <if test="user.userFax!=null and user.userFax!='' ">
+        and user_fax=#{user.userFax}
+      </if>
+      <if test="user.userState!=null and user.userState!='' ">
+        and user_state=#{user.userState}
+      </if>
+      <if test="user.userVip!=null and user.userVip!='' ">
+        and user_vip=#{user.userVip}
+      </if>
+      <if test="user.userGrade!=null and user.userGrade!='' ">
+        and user_grade=#{user.userGrade}
+      </if>
+      <if test="user.userBalance!=null and user.userBalance!='' ">
+        and user_balance=#{user.userBalance}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_user
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_user
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_user values(
+         #{user.userId},
+         #{user.userrNo},
+         #{user.userrSort},
+         #{user.userrDesc},
+         #{user.userPhone},
+         #{user.userEmail},
+         #{user.userPassword},
+         #{user.userAddr},
+         #{user.userType},
+         #{user.userCertNo},
+         #{user.userTel},
+         #{user.userFax},
+         #{user.userState},
+         #{user.userVip},
+         #{user.userGrade},
+         #{user.userBalance}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_user set
+      <if test="user.userId!=null and user.userId!='' ">
+        user_id=#{user.userId},
+      </if>
+      <if test="user.userrNo!=null and user.userrNo!='' ">
+        userr_no=#{user.userrNo},
+      </if>
+      <if test="user.userrSort!=null and user.userrSort!='' ">
+        userr_sort=#{user.userrSort},
+      </if>
+      <if test="user.userrDesc!=null and user.userrDesc!='' ">
+        userr_desc=#{user.userrDesc},
+      </if>
+      <if test="user.userPhone!=null and user.userPhone!='' ">
+        user_phone=#{user.userPhone},
+      </if>
+      <if test="user.userEmail!=null and user.userEmail!='' ">
+        user_email=#{user.userEmail},
+      </if>
+      <if test="user.userPassword!=null and user.userPassword!='' ">
+        user_password=#{user.userPassword},
+      </if>
+      <if test="user.userAddr!=null and user.userAddr!='' ">
+        user_addr=#{user.userAddr},
+      </if>
+      <if test="user.userType!=null and user.userType!='' ">
+        user_type=#{user.userType},
+      </if>
+      <if test="user.userCertNo!=null and user.userCertNo!='' ">
+        user_cert_no=#{user.userCertNo},
+      </if>
+      <if test="user.userTel!=null and user.userTel!='' ">
+        user_tel=#{user.userTel},
+      </if>
+      <if test="user.userFax!=null and user.userFax!='' ">
+        user_fax=#{user.userFax},
+      </if>
+      <if test="user.userState!=null and user.userState!='' ">
+        user_state=#{user.userState},
+      </if>
+      <if test="user.userVip!=null and user.userVip!='' ">
+        user_vip=#{user.userVip},
+      </if>
+      <if test="user.userGrade!=null and user.userGrade!='' ">
+        user_grade=#{user.userGrade},
+      </if>
+      <if test="user.userBalance!=null and user.userBalance!='' ">
+        user_balance=#{user.userBalance},
+      </if>
+null   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_user WHERE =#{user.}
+   </delete>
+
+</mapper>

@@ -19,5 +19,9 @@ public interface ItemAddtitionalDao {
      
      //按item_id删除 
      void deleteByItemId(@Param("ItemId")String ItemId);
+     
+     List<ItemAddtitional> findItemAddtitionalAll(@Param("itemAddtitional")ItemAddtitional itemAddtitional,@Param("page")PageUtil page);  
+     long findItemAddtitionalAllCount(@Param("itemAddtitional")ItemAddtitional itemAddtitional);
+     ItemAddtitional findItemAddtitionalById(@Param("addtitionalId")String addtitionalId);
  
 }

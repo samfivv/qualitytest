@@ -128,5 +128,10 @@ public class ItemController extends BaseController{
 		//return tree;
 	}
  	
-    
+	////查询所有项目返回Tree
+	@RequestMapping("/findAllItemTree")
+	public @ResponseBody List<Tree> findAllItemTree(HttpServletRequest request) {
+		return itemService.findAllItemTree();
+	}
+	
 }

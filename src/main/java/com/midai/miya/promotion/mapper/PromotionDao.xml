@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.promotion.dao.PromotionDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.promotion.model.Promotion">
+         <id column="promotion_id" property="promotionId" jdbcType="VARCHAR" />
+         <result column="promotion_title" property="promotionTitle" jdbcType="VARCHAR" />
+         <result column="promotion_text" property="promotionText" jdbcType="VARCHAR" />
+         <result column="promotion_sort" property="promotionSort" jdbcType="INTEGER" />
+         <result column="promotion_state" property="promotionState" jdbcType="INTEGER" />
+         <result column="promotion_img_url" property="promotionImgUrl" jdbcType="VARCHAR" />
+         <result column="promotion_start_time" property="promotionStartTime" jdbcType="TIMESTAMP" />
+         <result column="promotion_eff_time" property="promotionEffTime" jdbcType="TIMESTAMP" />
+         <result column="oprator_id" property="opratorId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="promotion.promotionId!=null and promotion.promotionId!='' ">
+        and promotion_id=#{promotion.promotionId}
+      </if>
+      <if test="promotion.promotionTitle!=null and promotion.promotionTitle!='' ">
+        and promotion_title=#{promotion.promotionTitle}
+      </if>
+      <if test="promotion.promotionText!=null and promotion.promotionText!='' ">
+        and promotion_text=#{promotion.promotionText}
+      </if>
+      <if test="promotion.promotionSort!=null and promotion.promotionSort!='' ">
+        and promotion_sort=#{promotion.promotionSort}
+      </if>
+      <if test="promotion.promotionState!=null and promotion.promotionState!='' ">
+        and promotion_state=#{promotion.promotionState}
+      </if>
+      <if test="promotion.promotionImgUrl!=null and promotion.promotionImgUrl!='' ">
+        and promotion_img_url=#{promotion.promotionImgUrl}
+      </if>
+      <if test="promotion.promotionStartTime!=null and promotion.promotionStartTime!='' ">
+        and promotion_start_time=#{promotion.promotionStartTime}
+      </if>
+      <if test="promotion.promotionEffTime!=null and promotion.promotionEffTime!='' ">
+        and promotion_eff_time=#{promotion.promotionEffTime}
+      </if>
+      <if test="promotion.opratorId!=null and promotion.opratorId!='' ">
+        and oprator_id=#{promotion.opratorId}
+      </if>
+      <if test="promotion.createTime!=null and promotion.createTime!='' ">
+        and create_time=#{promotion.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_promotion
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_promotion
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_promotion values(
+         #{promotion.promotionId},
+         #{promotion.promotionTitle},
+         #{promotion.promotionText},
+         #{promotion.promotionSort},
+         #{promotion.promotionState},
+         #{promotion.promotionImgUrl},
+         #{promotion.promotionStartTime},
+         #{promotion.promotionEffTime},
+         #{promotion.opratorId},
+         #{promotion.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_promotion set
+      <if test="promotion.promotionTitle!=null and promotion.promotionTitle!='' ">
+        promotion_title=#{promotion.promotionTitle},
+      </if>
+      <if test="promotion.promotionText!=null and promotion.promotionText!='' ">
+        promotion_text=#{promotion.promotionText},
+      </if>
+      <if test="promotion.promotionSort!=null and promotion.promotionSort!='' ">
+        promotion_sort=#{promotion.promotionSort},
+      </if>
+      <if test="promotion.promotionState!=null and promotion.promotionState!='' ">
+        promotion_state=#{promotion.promotionState},
+      </if>
+      <if test="promotion.promotionImgUrl!=null and promotion.promotionImgUrl!='' ">
+        promotion_img_url=#{promotion.promotionImgUrl},
+      </if>
+      <if test="promotion.promotionStartTime!=null and promotion.promotionStartTime!='' ">
+        promotion_start_time=#{promotion.promotionStartTime},
+      </if>
+      <if test="promotion.promotionEffTime!=null and promotion.promotionEffTime!='' ">
+        promotion_eff_time=#{promotion.promotionEffTime},
+      </if>
+      <if test="promotion.opratorId!=null and promotion.opratorId!='' ">
+        oprator_id=#{promotion.opratorId},
+      </if>
+      <if test="promotion.createTime!=null and promotion.createTime!='' ">
+        create_time=#{promotion.createTime},
+      </if>
+      <if test="promotion.promotionId!=null and promotion.promotionId!='' ">
+        promotion_id=#{promotion.promotionId}
+      </if>
+      where promotion_id=#{promotion.promotionId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_promotion WHERE promotion_id=#{promotion.promotionId}
+   </delete>
+
+</mapper>

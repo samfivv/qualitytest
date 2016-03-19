@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.news.dao.NewsDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.news.model.News">
+         <id column="news_id" property="newsId" jdbcType="VARCHAR" />
+         <result column="news_title" property="newsTitle" jdbcType="VARCHAR" />
+         <result column="news_text" property="newsText" jdbcType="VARCHAR" />
+         <result column="news_sort" property="newsSort" jdbcType="INTEGER" />
+         <result column="news_state" property="newsState" jdbcType="INTEGER" />
+         <result column="news_img_url" property="newsImgUrl" jdbcType="VARCHAR" />
+         <result column="news_source_from" property="newsSourceFrom" jdbcType="VARCHAR" />
+         <result column="oprator_id" property="opratorId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="news.newsId!=null and news.newsId!='' ">
+        and news_id=#{news.newsId}
+      </if>
+      <if test="news.newsTitle!=null and news.newsTitle!='' ">
+        and news_title=#{news.newsTitle}
+      </if>
+      <if test="news.newsText!=null and news.newsText!='' ">
+        and news_text=#{news.newsText}
+      </if>
+      <if test="news.newsSort!=null and news.newsSort!='' ">
+        and news_sort=#{news.newsSort}
+      </if>
+      <if test="news.newsState!=null and news.newsState!='' ">
+        and news_state=#{news.newsState}
+      </if>
+      <if test="news.newsImgUrl!=null and news.newsImgUrl!='' ">
+        and news_img_url=#{news.newsImgUrl}
+      </if>
+      <if test="news.newsSourceFrom!=null and news.newsSourceFrom!='' ">
+        and news_source_from=#{news.newsSourceFrom}
+      </if>
+      <if test="news.opratorId!=null and news.opratorId!='' ">
+        and oprator_id=#{news.opratorId}
+      </if>
+      <if test="news.createTime!=null and news.createTime!='' ">
+        and create_time=#{news.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_news
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_news
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_news values(
+         #{news.newsId},
+         #{news.newsTitle},
+         #{news.newsText},
+         #{news.newsSort},
+         #{news.newsState},
+         #{news.newsImgUrl},
+         #{news.newsSourceFrom},
+         #{news.opratorId},
+         #{news.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_news set
+      <if test="news.newsTitle!=null and news.newsTitle!='' ">
+        news_title=#{news.newsTitle},
+      </if>
+      <if test="news.newsText!=null and news.newsText!='' ">
+        news_text=#{news.newsText},
+      </if>
+      <if test="news.newsSort!=null and news.newsSort!='' ">
+        news_sort=#{news.newsSort},
+      </if>
+      <if test="news.newsState!=null and news.newsState!='' ">
+        news_state=#{news.newsState},
+      </if>
+      <if test="news.newsImgUrl!=null and news.newsImgUrl!='' ">
+        news_img_url=#{news.newsImgUrl},
+      </if>
+      <if test="news.newsSourceFrom!=null and news.newsSourceFrom!='' ">
+        news_source_from=#{news.newsSourceFrom},
+      </if>
+      <if test="news.opratorId!=null and news.opratorId!='' ">
+        oprator_id=#{news.opratorId},
+      </if>
+      <if test="news.createTime!=null and news.createTime!='' ">
+        create_time=#{news.createTime},
+      </if>
+      <if test="news.newsId!=null and news.newsId!='' ">
+        news_id=#{news.newsId}
+      </if>
+      where news_id=#{news.newsId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_news WHERE news_id=#{news.newsId}
+   </delete>
+
+</mapper>

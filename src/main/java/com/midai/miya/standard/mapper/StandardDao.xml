@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.standard.dao.StandardDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.standard.model.Standard">
+         <id column="standard_id" property="standardId" jdbcType="VARCHAR" />
+         <result column="standard_title" property="standardTitle" jdbcType="VARCHAR" />
+         <result column="standard_text" property="standardText" jdbcType="VARCHAR" />
+         <result column="standard_sort" property="standardSort" jdbcType="INTEGER" />
+         <result column="standard_state" property="standardState" jdbcType="INTEGER" />
+         <result column="standard_img_url" property="standardImgUrl" jdbcType="VARCHAR" />
+         <result column="oprator_id" property="opratorId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="standard.standardId!=null and standard.standardId!='' ">
+        and standard_id=#{standard.standardId}
+      </if>
+      <if test="standard.standardTitle!=null and standard.standardTitle!='' ">
+        and standard_title=#{standard.standardTitle}
+      </if>
+      <if test="standard.standardText!=null and standard.standardText!='' ">
+        and standard_text=#{standard.standardText}
+      </if>
+      <if test="standard.standardSort!=null and standard.standardSort!='' ">
+        and standard_sort=#{standard.standardSort}
+      </if>
+      <if test="standard.standardState!=null and standard.standardState!='' ">
+        and standard_state=#{standard.standardState}
+      </if>
+      <if test="standard.standardImgUrl!=null and standard.standardImgUrl!='' ">
+        and standard_img_url=#{standard.standardImgUrl}
+      </if>
+      <if test="standard.opratorId!=null and standard.opratorId!='' ">
+        and oprator_id=#{standard.opratorId}
+      </if>
+      <if test="standard.createTime!=null and standard.createTime!='' ">
+        and create_time=#{standard.createTime}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_standard
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_standard
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_standard values(
+         #{standard.standardId},
+         #{standard.standardTitle},
+         #{standard.standardText},
+         #{standard.standardSort},
+         #{standard.standardState},
+         #{standard.standardImgUrl},
+         #{standard.opratorId},
+         #{standard.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_standard set
+      <if test="standard.standardTitle!=null and standard.standardTitle!='' ">
+        standard_title=#{standard.standardTitle},
+      </if>
+      <if test="standard.standardText!=null and standard.standardText!='' ">
+        standard_text=#{standard.standardText},
+      </if>
+      <if test="standard.standardSort!=null and standard.standardSort!='' ">
+        standard_sort=#{standard.standardSort},
+      </if>
+      <if test="standard.standardState!=null and standard.standardState!='' ">
+        standard_state=#{standard.standardState},
+      </if>
+      <if test="standard.standardImgUrl!=null and standard.standardImgUrl!='' ">
+        standard_img_url=#{standard.standardImgUrl},
+      </if>
+      <if test="standard.opratorId!=null and standard.opratorId!='' ">
+        oprator_id=#{standard.opratorId},
+      </if>
+      <if test="standard.createTime!=null and standard.createTime!='' ">
+        create_time=#{standard.createTime},
+      </if>
+      <if test="standard.standardId!=null and standard.standardId!='' ">
+        standard_id=#{standard.standardId}
+      </if>
+      where standard_id=#{standard.standardId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_standard WHERE standard_id=#{standard.standardId}
+   </delete>
+
+</mapper>

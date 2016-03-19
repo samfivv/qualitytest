@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.UserAccountDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.UserAccount">
+         <id column="account_log_id" property="accountLogId" jdbcType="VARCHAR" />
+         <result column="user_id" property="userId" jdbcType="VARCHAR" />
+         <result column="account_log_time" property="accountLogTime" jdbcType="TIMESTAMP" />
+         <result column="account_log_amout" property="accountLogAmout" jdbcType="DOUBLE" />
+         <result column="account_log_desc" property="accountLogDesc" jdbcType="VARCHAR" />
+         <result column="plus_or_minus" property="plusOrMinus" jdbcType="INTEGER" />
+         <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="userAccount.accountLogId!=null and userAccount.accountLogId!='' ">
+        and account_log_id=#{userAccount.accountLogId}
+      </if>
+      <if test="userAccount.userId!=null and userAccount.userId!='' ">
+        and user_id=#{userAccount.userId}
+      </if>
+      <if test="userAccount.accountLogTime!=null and userAccount.accountLogTime!='' ">
+        and account_log_time=#{userAccount.accountLogTime}
+      </if>
+      <if test="userAccount.accountLogAmout!=null and userAccount.accountLogAmout!='' ">
+        and account_log_amout=#{userAccount.accountLogAmout}
+      </if>
+      <if test="userAccount.accountLogDesc!=null and userAccount.accountLogDesc!='' ">
+        and account_log_desc=#{userAccount.accountLogDesc}
+      </if>
+      <if test="userAccount.plusOrMinus!=null and userAccount.plusOrMinus!='' ">
+        and plus_or_minus=#{userAccount.plusOrMinus}
+      </if>
+      <if test="userAccount.orderId!=null and userAccount.orderId!='' ">
+        and order_id=#{userAccount.orderId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_user_account
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_user_account
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_user_account values(
+         #{userAccount.accountLogId},
+         #{userAccount.userId},
+         #{userAccount.accountLogTime},
+         #{userAccount.accountLogAmout},
+         #{userAccount.accountLogDesc},
+         #{userAccount.plusOrMinus},
+         #{userAccount.orderId}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_user_account set
+      <if test="userAccount.accountLogId!=null and userAccount.accountLogId!='' ">
+        account_log_id=#{userAccount.accountLogId},
+      </if>
+      <if test="userAccount.userId!=null and userAccount.userId!='' ">
+        user_id=#{userAccount.userId},
+      </if>
+      <if test="userAccount.accountLogTime!=null and userAccount.accountLogTime!='' ">
+        account_log_time=#{userAccount.accountLogTime},
+      </if>
+      <if test="userAccount.accountLogAmout!=null and userAccount.accountLogAmout!='' ">
+        account_log_amout=#{userAccount.accountLogAmout},
+      </if>
+      <if test="userAccount.accountLogDesc!=null and userAccount.accountLogDesc!='' ">
+        account_log_desc=#{userAccount.accountLogDesc},
+      </if>
+      <if test="userAccount.plusOrMinus!=null and userAccount.plusOrMinus!='' ">
+        plus_or_minus=#{userAccount.plusOrMinus},
+      </if>
+      <if test="userAccount.orderId!=null and userAccount.orderId!='' ">
+        order_id=#{userAccount.orderId},
+      </if>
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_user_account WHERE =#{userAccount.}
+   </delete>
+
+</mapper>

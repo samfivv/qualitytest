@@ -47,5 +47,25 @@ public class ItemAddtitionalServiceImpl implements ItemAddtitionalService {
 	public void deleteByItemId(String ItemId) {
 		itemAddtitionalDao.deleteByItemId(ItemId);
 	}
+
+	@Override
+	public List<ItemAddtitional> findItemAddtitionalAll(ItemAddtitional itemAddtitional,PageUtil page){  
+	//public List<ItemAddtitional> findItemAddtitionalAll(ItemAddtitional itemAddtitional,PageUtil page) {
+		List<ItemAddtitional> lists=itemAddtitionalDao.findItemAddtitionalAll(itemAddtitional,page);
+        return lists;
+	}
+
+	@Override
+	public long findItemAddtitionalAllCount(ItemAddtitional itemAddtitional) {
+        long count=itemAddtitionalDao.findItemAddtitionalAllCount(itemAddtitional);
+        return count;
+	}
+
+	@Override
+	public ItemAddtitional findItemAddtitionalById(String addtitionalId) {
+		ItemAddtitional itemAddtitional=itemAddtitionalDao.findItemAddtitionalById(addtitionalId);
+		return itemAddtitional;
+	}
+
 }
 

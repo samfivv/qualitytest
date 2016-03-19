@@ -34,5 +34,8 @@ public interface ItemService {
      Item findItemById(String itemId);
      
      //查询第一级项目
-     List<Tree> findTopLevelItem();     
+     List<Tree> findTopLevelItem();    
+     
+     //查询所有项目返回Tree
+     List<Tree> findAllItemTree();      
 }

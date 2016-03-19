@@ -7,6 +7,7 @@
          <result column="addtitional_name" property="addtitionalName" jdbcType="VARCHAR" />
          <result column="addtitional_price" property="addtitionalPrice" jdbcType="DOUBLE" />
          <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="item_name" property="itemName" jdbcType="VARCHAR" />
    </resultMap>
    <sql id="findWhere">
    <where>
@@ -45,7 +46,13 @@
    </select>
 
    <insert id="save">
-      insert into zyzj_item_addtitional values(
+      insert into zyzj_item_addtitional
+         (addtitional_id,
+         item_id,
+         addtitional_name,
+         addtitional_price,
+         create_time)
+       values(
          #{itemAddtitional.addtitionalId},
          #{itemAddtitional.itemId},
          #{itemAddtitional.addtitionalName},
@@ -56,21 +63,19 @@
 
    <update id="update">
       update zyzj_item_addtitional set
-      <if test="itemAddtitional.addtitionalId!=null and itemAddtitional.addtitionalId!='' ">
-        addtitional_id=#{itemAddtitional.addtitionalId},
+      <if test="itemAddtitional.addtitionalName!=null and itemAddtitional.addtitionalName!='' ">
+        addtitional_name=#{itemAddtitional.addtitionalName}
       </if>
       <if test="itemAddtitional.itemId!=null and itemAddtitional.itemId!='' ">
-        item_id=#{itemAddtitional.itemId},
-      </if>
-      <if test="itemAddtitional.addtitionalName!=null and itemAddtitional.addtitionalName!='' ">
-        addtitional_name=#{itemAddtitional.addtitionalName},
+        ,item_id=#{itemAddtitional.itemId}
       </if>
       <if test="itemAddtitional.addtitionalPrice!=null and itemAddtitional.addtitionalPrice!='' ">
-        addtitional_price=#{itemAddtitional.addtitionalPrice},
+        ,addtitional_price=#{itemAddtitional.addtitionalPrice}
       </if>
       <if test="itemAddtitional.createTime!=null and itemAddtitional.createTime!='' ">
-        create_time=#{itemAddtitional.createTime},
+        ,create_time=#{itemAddtitional.createTime}
       </if>
+      where addtitional_id = #{itemAddtitional.addtitionalId}
    </update>
 
    <delete id="delete">
@@ -81,6 +86,29 @@
     <delete id="deleteByItemId">
       DELETE FROM zyzj_item_addtitional WHERE item_id=#{itemId}
    </delete>
-   
+
+   <select id="findItemAddtitionalAll" resultMap="BaseResultMap">
+       select a.*,i.item_name from zyzj_item_addtitional a 
+       left join zyzj_item i on a.item_id = i.item_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+   <select id="findItemAddtitionalAllCount" resultType="java.lang.Long">
+      select count(1) from zyzj_item_addtitional
+      <include refid="findWhere"></include>
+    </select>    
+  
+   <select id="findItemAddtitionalById" resultMap="BaseResultMap">
+       select a.*,i.item_name from zyzj_item_addtitional a 
+       left join zyzj_item i on a.item_id = i.item_id
+       where addtitional_id = #{addtitionalId}
+   </select>
+      
 
 </mapper>
