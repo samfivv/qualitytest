@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.order.dao.OrderAddtitionalItemDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.order.model.OrderAddtitionalItem">
+         <id column="order_addtitional_item_id" property="orderAddtitionalItemId" jdbcType="VARCHAR" />
+         <result column="order_item_id" property="orderItemId" jdbcType="VARCHAR" />
+         <result column="addtitional_id" property="addtitionalId" jdbcType="VARCHAR" />
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      1=1
+      <if test="orderAddtitionalItem.orderAddtitionalItemId!=null and orderAddtitionalItem.orderAddtitionalItemId!='' ">
+        and order_addtitional_item_id=#{orderAddtitionalItem.orderAddtitionalItemId}
+      </if>
+      <if test="orderAddtitionalItem.orderItemId!=null and orderAddtitionalItem.orderItemId!='' ">
+        and order_item_id=#{orderAddtitionalItem.orderItemId}
+      </if>
+      <if test="orderAddtitionalItem.addtitionalId!=null and orderAddtitionalItem.addtitionalId!='' ">
+        and addtitional_id=#{orderAddtitionalItem.addtitionalId}
+      </if>
+   </where>
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select * from zyzj_order_addtitional_item
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_order_addtitional_item
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_order_addtitional_item values(
+         #{orderAddtitionalItem.orderAddtitionalItemId},
+         #{orderAddtitionalItem.orderItemId},
+         #{orderAddtitionalItem.addtitionalId}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_order_addtitional_item set
+      <if test="orderAddtitionalItem.orderAddtitionalItemId!=null and orderAddtitionalItem.orderAddtitionalItemId!='' ">
+        order_addtitional_item_id=#{orderAddtitionalItem.orderAddtitionalItemId}
+      </if>
+      <if test="orderAddtitionalItem.orderItemId!=null and orderAddtitionalItem.orderItemId!='' ">
+        ,order_item_id=#{orderAddtitionalItem.orderItemId}
+      </if>
+      <if test="orderAddtitionalItem.addtitionalId!=null and orderAddtitionalItem.addtitionalId!='' ">
+       ,addtitional_id=#{orderAddtitionalItem.addtitionalId}
+      </if>
+      where order_addtitional_item_id=#{orderAddtitionalItem.orderAddtitionalItemId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_order_addtitional_item WHERE order_addtitional_item_id=#{orderAddtitionalItem.orderAddtitionalItemId}
+   </delete>
+
+</mapper>

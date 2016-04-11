@@ -17,4 +17,6 @@ public interface OrderItemDao {
 
      void delete(@Param("orderItem")OrderItem orderItem);
 
+     /////////////////////////////////////////////////////
+     List<OrderItem> findByOrderId(@Param("orderId")String orderId);
 }

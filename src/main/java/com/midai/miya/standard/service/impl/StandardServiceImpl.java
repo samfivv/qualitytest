@@ -1,8 +1,10 @@
 package com.midai.miya.standard.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.midai.miya.standard.dao.StandardDao;
 import com.midai.miya.standard.service.StandardService;
 import com.midai.miya.standard.model.Standard;
@@ -40,5 +42,17 @@ public class StandardServiceImpl implements StandardService {
      public void delete(Standard standard) {
         standardDao.delete(standard);
      }
+
+     /////////////////////////////////////////////////////////
+	@Override
+	public Standard findById(String standardId) {
+		return standardDao.findById(standardId);
+	}
+
+	//////////////////////////////////////////////////////////
+	@Override
+	public int findByStandardTitle(String standardTitle, String standardId) {
+		return standardDao.findByStandardTitle(standardTitle,standardId);
+	}
 }
 

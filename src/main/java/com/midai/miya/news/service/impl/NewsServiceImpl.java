@@ -1,8 +1,10 @@
 package com.midai.miya.news.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.midai.miya.news.dao.NewsDao;
 import com.midai.miya.news.service.NewsService;
 import com.midai.miya.news.model.News;
@@ -40,5 +42,15 @@ public class NewsServiceImpl implements NewsService {
      public void delete(News news) {
         newsDao.delete(news);
      }
+
+	@Override
+	public News findById(String newsId) {
+		return newsDao.findById(newsId);
+	}
+
+	@Override
+	public int findByNewsTitle(String newsTitle, String newsId) {
+		return newsDao.findByNewsTitle(newsTitle,newsId);
+	}
 }
 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.order.dao.ApprovalOrderDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.order.model.ApprovalOrder">
+         <id column="approval_order_id" property="approvalOrderId" jdbcType="VARCHAR" />
+         <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <id column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+         <result column="approval_state" property="approvalState" jdbcType="INTEGER" />
+         <result column="not_pass_reason" property="notPassReason" jdbcType="VARCHAR" />
+         <result column="approval_time" property="approvalTime" jdbcType="TIMESTAMP" />
+         <result column="approval_create_time" property="approvalCreateTime" jdbcType="TIMESTAMP" />
+
+         <result column="user_desc" property="userDesc" jdbcType="VARCHAR" />
+         <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+         <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+         <result column="require_date" property="requireDate" jdbcType="TIMESTAMP" />
+         <result column="testing_amout" property="testingAmout" jdbcType="DOUBLE" />
+         <result column="member_tel" property="memberTel" jdbcType="VARCHAR" />
+         <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+         <result column="material_components" property="materialComponents" jdbcType="VARCHAR" />
+         <result column="material_barcode" property="materialBarcode" jdbcType="VARCHAR" />
+         <result column="material_spec" property="materialSpec" jdbcType="VARCHAR" />
+         <result column="material_brand" property="materialBrand" jdbcType="VARCHAR" />
+         <result column="order_state" property="orderState" jdbcType="INTEGER" />
+         <result column="order_approve_date" property="orderApproveDate" jdbcType="TIMESTAMP" />
+         <result column="order_address" property="orderAddress" jdbcType="VARCHAR" />
+         <result column="createTimeBeginStr" property="createTimeBeginStr" jdbcType="VARCHAR" />
+         <result column="createTimeEndStr" property="createTimeEndStr" jdbcType="VARCHAR" />
+         <result column="approvalTimeBeginStr" property="approvalTimeBeginStr" jdbcType="VARCHAR" />
+         <result column="approvalTimeEndStr" property="approvalTimeEndStr" jdbcType="VARCHAR" />
+    </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="approvalOrder.approvalOrderId!=null and approvalOrder.approvalOrderId!='' ">
+        and approval_order_id=#{approvalOrder.approvalOrderId}
+      </if>
+      <if test="approvalOrder.orderId!=null and approvalOrder.orderId!='' ">
+        and ao.order_id=#{approvalOrder.orderId}
+      </if>
+      <if test="approvalOrder.operatorId!=null and approvalOrder.operatorId!='' ">
+        and operator_id=#{approvalOrder.operatorId}
+      </if>
+      <if test="approvalOrder.approvalState!=null and approvalOrder.approvalState!='' ">
+        and approval_state=#{approvalOrder.approvalState}
+      </if>
+      <if test="approvalOrder.notPassReason!=null and approvalOrder.notPassReason!='' ">
+        and not_pass_reason=#{approvalOrder.notPassReason}
+      </if>
+      <if test="approvalOrder.approvalTime!=null and approvalOrder.approvalTime!='' ">
+        and approval_time=#{approvalOrder.approvalTime}
+      </if>
+      <if test="approvalOrder.approvalCreateTime!=null and approvalOrder.approvalCreateTime!='' ">
+        and approval_create_time=#{approvalOrder.approvalCreateTime}
+      </if>
+      <if test="approvalOrder.orderNo!=null and approvalOrder.orderNo!='' ">
+        and o.order_no like CONCAT('%',#{approvalOrder.orderNo},'%')
+      </if>
+      <if test="approvalOrder.memberTel!=null and approvalOrder.memberTel!='' ">
+        and o.member_tel like CONCAT('%',#{approvalOrder.memberTel},'%')
+      </if>
+      <if test="approvalOrder.materialName!=null and approvalOrder.materialName!='' ">
+        and o.material_name like CONCAT('%',#{approvalOrder.materialName},'%')
+      </if>
+      <if test="approvalOrder.createTimeEndStr!=null and approvalOrder.createTimeEndStr!='' ">
+        and ao.approval_create_time  &lt;=#{approvalOrder.createTimeEndStr}
+      </if>
+      <if test="approvalOrder.createTimeBeginStr!=null and approvalOrder.createTimeBeginStr!='' ">
+        and ao.approval_create_time  &gt;=#{approvalOrder.createTimeBeginStr}
+      </if>
+      <if test="approvalOrder.approvalTimeEndStr!=null and approvalOrder.approvalTimeEndStr!='' ">
+        and ao.approval_time  &lt;=#{approvalOrder.approvalTimeEndStr}
+      </if>
+      <if test="approvalOrder.approvalTimeBeginStr!=null and approvalOrder.approvalTimeBeginStr!='' ">
+        and ao.approval_time  &gt;=#{approvalOrder.approvalTimeBeginStr}
+      </if>
+      
+   </where>
+
+   </sql>
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select ao.*,
+       u.user_desc,         u.user_email,        o.order_no,     o.require_date,
+       o.testing_amout,     o.member_tel,       o.material_name,o.material_components,
+       o.material_barcode,  o.material_spec,    o.material_brand,o.order_state,
+       o.order_approve_date,o.order_address 
+       from zyzj_approval_order ao
+       left join zyzj_order o on ao.order_id = o.order_id
+       left join zyzj_user u on o.member_id = u.user_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       <otherwise>
+	    approval_create_time DESC
+	   </otherwise>
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) 
+      from zyzj_approval_order ao
+       left join zyzj_order o on ao.order_id = o.order_id
+       left join zyzj_user u on o.member_id = u.user_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_approval_order values(
+         #{approvalOrder.approvalOrderId},
+         #{approvalOrder.orderId},
+         #{approvalOrder.operatorId},
+         #{approvalOrder.approvalState},
+         #{approvalOrder.notPassReason},
+         #{approvalOrder.approvalTime},
+         #{approvalOrder.approvalCreateTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_approval_order set
+      <if test="approvalOrder.approvalOrderId!=null and approvalOrder.approvalOrderId!='' ">
+         approval_order_id=#{approvalOrder.approvalOrderId}
+      </if>      
+      <if test="approvalOrder.orderId!=null and approvalOrder.orderId!='' ">
+        ,order_id=#{approvalOrder.orderId}
+      </if>
+      <if test="approvalOrder.operatorId!=null and approvalOrder.operatorId!='' ">
+        ,operator_id=#{approvalOrder.operatorId}
+      </if>
+      <if test="approvalOrder.approvalState!=null ">
+        ,approval_state=#{approvalOrder.approvalState}
+      </if>
+      <if test="approvalOrder.notPassReason!=null and approvalOrder.notPassReason!='' ">
+        ,not_pass_reason=#{approvalOrder.notPassReason}
+      </if>
+      <if test="approvalOrder.approvalTime!=null ">
+        ,approval_time=#{approvalOrder.approvalTime}
+      </if>
+      <if test="approvalOrder.approvalCreateTime!=null ">
+        ,approval_create_time=#{approvalOrder.approvalCreateTime}
+      </if>
+      where approval_order_id=#{approvalOrder.approvalOrderId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_approval_order WHERE approval_order_id=#{approvalOrder.approvalOrderId}
+   </delete>
+   
+   <select id="findById" resultMap="BaseResultMap">
+       select * from zyzj_approval_order where approval_order_id=#{approvalOrderId}
+   </select>
+   
+   
+
+</mapper>

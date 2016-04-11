@@ -13,6 +13,7 @@
    </resultMap>
    <sql id="findWhere">
    <where>
+       1=1  
       <if test="standard.standardId!=null and standard.standardId!='' ">
         and standard_id=#{standard.standardId}
       </if>
@@ -22,10 +23,10 @@
       <if test="standard.standardText!=null and standard.standardText!='' ">
         and standard_text=#{standard.standardText}
       </if>
-      <if test="standard.standardSort!=null and standard.standardSort!='' ">
+      <if test="standard.standardSort!=null ">
         and standard_sort=#{standard.standardSort}
       </if>
-      <if test="standard.standardState!=null and standard.standardState!='' ">
+      <if test="standard.standardState!=null ">
         and standard_state=#{standard.standardState}
       </if>
       <if test="standard.standardImgUrl!=null and standard.standardImgUrl!='' ">
@@ -34,7 +35,7 @@
       <if test="standard.opratorId!=null and standard.opratorId!='' ">
         and oprator_id=#{standard.opratorId}
       </if>
-      <if test="standard.createTime!=null and standard.createTime!='' ">
+      <if test="standard.createTime!=null  ">
         and create_time=#{standard.createTime}
       </if>
    </where>
@@ -71,29 +72,29 @@
 
    <update id="update">
       update zyzj_standard set
-      <if test="standard.standardTitle!=null and standard.standardTitle!='' ">
-        standard_title=#{standard.standardTitle},
-      </if>
-      <if test="standard.standardText!=null and standard.standardText!='' ">
-        standard_text=#{standard.standardText},
-      </if>
-      <if test="standard.standardSort!=null and standard.standardSort!='' ">
-        standard_sort=#{standard.standardSort},
-      </if>
-      <if test="standard.standardState!=null and standard.standardState!='' ">
-        standard_state=#{standard.standardState},
-      </if>
-      <if test="standard.standardImgUrl!=null and standard.standardImgUrl!='' ">
-        standard_img_url=#{standard.standardImgUrl},
-      </if>
-      <if test="standard.opratorId!=null and standard.opratorId!='' ">
-        oprator_id=#{standard.opratorId},
-      </if>
-      <if test="standard.createTime!=null and standard.createTime!='' ">
-        create_time=#{standard.createTime},
-      </if>
       <if test="standard.standardId!=null and standard.standardId!='' ">
         standard_id=#{standard.standardId}
+      </if>      
+      <if test="standard.standardTitle!=null and standard.standardTitle!='' ">
+        ,standard_title=#{standard.standardTitle}
+      </if>
+      <if test="standard.standardText!=null and standard.standardText!='' ">
+        ,standard_text=#{standard.standardText}
+      </if>
+      <if test="standard.standardSort!=null  ">
+        ,standard_sort=#{standard.standardSort}
+      </if>
+      <if test="standard.standardState!=null  ">
+        ,standard_state=#{standard.standardState}
+      </if>
+      <if test="standard.standardImgUrl!=null and standard.standardImgUrl!='' ">
+        ,standard_img_url=#{standard.standardImgUrl}
+      </if>
+      <if test="standard.opratorId!=null and standard.opratorId!='' ">
+        ,oprator_id=#{standard.opratorId}
+      </if>
+      <if test="standard.createTime!=null and standard.createTime!='' ">
+        ,create_time=#{standard.createTime}
       </if>
       where standard_id=#{standard.standardId}
    </update>
@@ -102,4 +103,14 @@
       DELETE FROM zyzj_standard WHERE standard_id=#{standard.standardId}
    </delete>
 
+    <!--///////////////////////////////////////////////////////////////-->
+    <select id="findById" resultMap="BaseResultMap">
+       select * from zyzj_standard where standard_id=#{standardId}
+    </select>
+    
+     <select id="findByStandardTitle" resultType="java.lang.Integer">
+       select count(1) from zyzj_standard  
+         where standard_title = #{standardTitle} and standard_id &lt;&gt; #{standardId}
+    </select>
+    
 </mapper>

@@ -1,9 +1,12 @@
 package com.midai.miya.promotion.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.io.Serializable;
 public class Promotion implements Serializable {
 
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	
     private static final long serialVersionUID = 1L;
     /**
      * 促销Id
@@ -45,7 +48,11 @@ public class Promotion implements Serializable {
      * 创建时间
      */
     private Date createTime;
-    public String getPromotionId(){
+    
+    private String promotionStartTimeStr;
+    private String promotionEffTimeStr;
+    
+	public String getPromotionId(){
         return promotionId;
     }
     public void setPromotionId(String promotionId){
@@ -86,12 +93,17 @@ public class Promotion implements Serializable {
     }
     public void setPromotionStartTime(Date promotionStartTime){
         this.promotionStartTime=promotionStartTime;
+		if(promotionStartTime!=null){
+			this.promotionStartTimeStr = sdf.format(promotionStartTime);}
     }
     public Date getPromotionEffTime(){
         return promotionEffTime;
     }
     public void setPromotionEffTime(Date promotionEffTime){
         this.promotionEffTime=promotionEffTime;
+		if(promotionEffTime!=null){
+			this.promotionEffTimeStr = sdf.format(promotionEffTime);}
+
     }
     public String getOpratorId(){
         return opratorId;
@@ -105,4 +117,17 @@ public class Promotion implements Serializable {
     public void setCreateTime(Date createTime){
         this.createTime=createTime;
     }
+	public String getPromotionStartTimeStr() {
+		return promotionStartTimeStr;
+	}
+	public void setPromotionStartTimeStr(String promotionStartTimeStr) {
+		this.promotionStartTimeStr = promotionStartTimeStr;
+	}
+	public String getPromotionEffTimeStr() {
+		return promotionEffTimeStr;
+	}
+	public void setPromotionEffTimeStr(String promotionEffTimeStr) {
+		this.promotionEffTimeStr = promotionEffTimeStr;
+	}
+
 }

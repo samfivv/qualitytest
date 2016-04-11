@@ -14,6 +14,7 @@
    </resultMap>
    <sql id="findWhere">
    <where>
+      1 = 1
       <if test="news.newsId!=null and news.newsId!='' ">
         and news_id=#{news.newsId}
       </if>
@@ -76,32 +77,32 @@
 
    <update id="update">
       update zyzj_news set
-      <if test="news.newsTitle!=null and news.newsTitle!='' ">
-        news_title=#{news.newsTitle},
-      </if>
-      <if test="news.newsText!=null and news.newsText!='' ">
-        news_text=#{news.newsText},
-      </if>
-      <if test="news.newsSort!=null and news.newsSort!='' ">
-        news_sort=#{news.newsSort},
-      </if>
-      <if test="news.newsState!=null and news.newsState!='' ">
-        news_state=#{news.newsState},
-      </if>
-      <if test="news.newsImgUrl!=null and news.newsImgUrl!='' ">
-        news_img_url=#{news.newsImgUrl},
-      </if>
-      <if test="news.newsSourceFrom!=null and news.newsSourceFrom!='' ">
-        news_source_from=#{news.newsSourceFrom},
-      </if>
-      <if test="news.opratorId!=null and news.opratorId!='' ">
-        oprator_id=#{news.opratorId},
-      </if>
-      <if test="news.createTime!=null and news.createTime!='' ">
-        create_time=#{news.createTime},
-      </if>
       <if test="news.newsId!=null and news.newsId!='' ">
         news_id=#{news.newsId}
+      </if>
+      <if test="news.newsTitle!=null and news.newsTitle!='' ">
+        ,news_title=#{news.newsTitle}
+      </if>
+      <if test="news.newsText!=null and news.newsText!='' ">
+        ,news_text=#{news.newsText}
+      </if>
+      <if test="news.newsSort!=null and news.newsSort!='' ">
+        ,news_sort=#{news.newsSort}
+      </if>
+      <if test="news.newsState!=null and news.newsState!='' ">
+        ,news_state=#{news.newsState}
+      </if>
+      <if test="news.newsImgUrl!=null and news.newsImgUrl!='' ">
+        ,news_img_url=#{news.newsImgUrl}
+      </if>
+      <if test="news.newsSourceFrom!=null and news.newsSourceFrom!='' ">
+        ,news_source_from=#{news.newsSourceFrom}
+      </if>
+      <if test="news.opratorId!=null and news.opratorId!='' ">
+        ,oprator_id=#{news.opratorId}
+      </if>
+      <if test="news.createTime!=null and news.createTime!='' ">
+        ,create_time=#{news.createTime}
       </if>
       where news_id=#{news.newsId}
    </update>
@@ -110,4 +111,14 @@
       DELETE FROM zyzj_news WHERE news_id=#{news.newsId}
    </delete>
 
+   <select id="findById" resultMap="BaseResultMap">
+      select * from zyzj_news where news_id = #{newsId}
+   </select>
+   
+    <select id="findByNewsTitle" resultType="java.lang.Integer">
+      select count(1) from zyzj_news where news_title=#{newsTitle}
+       <if test="newsId !=null and newsId !='' ">
+         and news_id &lt;&gt;#{newsId}
+       </if>
+   </select>  
 </mapper>

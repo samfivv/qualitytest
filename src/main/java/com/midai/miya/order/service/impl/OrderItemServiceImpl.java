@@ -1,8 +1,10 @@
 package com.midai.miya.order.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.midai.miya.order.dao.OrderItemDao;
 import com.midai.miya.order.service.OrderItemService;
 import com.midai.miya.order.model.OrderItem;
@@ -40,5 +42,11 @@ public class OrderItemServiceImpl implements OrderItemService {
      public void delete(OrderItem orderItem) {
         orderItemDao.delete(orderItem);
      }
+
+     /////////////////////////////////////////////////////////////////
+	@Override
+	public List<OrderItem> findByOrderId(String orderId) {
+		return findByOrderId(orderId);
+	}
 }
 

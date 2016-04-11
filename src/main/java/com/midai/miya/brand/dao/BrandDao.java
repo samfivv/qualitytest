@@ -1,8 +1,11 @@
 package com.midai.miya.brand.dao;
 
 import com.midai.miya.brand.model.Brand;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.midai.miya.utils.PageUtil;
 
 public interface BrandDao {
@@ -17,4 +20,7 @@ public interface BrandDao {
 
      void delete(@Param("brand")Brand brand);
 
+     ///////////////////////////////////////////////
+     Brand findById(@Param("brandId")String brandId);
+     int findByBrandTitle(@Param("brand")Brand brand);
 }

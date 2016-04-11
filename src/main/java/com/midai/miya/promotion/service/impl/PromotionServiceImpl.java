@@ -1,8 +1,10 @@
 package com.midai.miya.promotion.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.midai.miya.promotion.dao.PromotionDao;
 import com.midai.miya.promotion.service.PromotionService;
 import com.midai.miya.promotion.model.Promotion;
@@ -40,5 +42,16 @@ public class PromotionServiceImpl implements PromotionService {
      public void delete(Promotion promotion) {
         promotionDao.delete(promotion);
      }
+
+    ////////////////////////////////////////////////////////////////////////////
+	@Override
+	public Promotion findById(String promotionId) {
+		return promotionDao.findById(promotionId);
+	}
+
+	@Override
+	public int findByPromotionTitle(String promotionTitle, String promotionId) {
+		return promotionDao.findByPromotionTitle(promotionTitle,promotionId);
+	}
 }
 

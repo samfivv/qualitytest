@@ -45,7 +45,17 @@ public class Brand implements Serializable {
      * 创建时间
      */
     private Date createTime;
-    public String getBrandId(){
+ 
+    //会员名称
+    private String userDesc;
+    
+    public String getUserDesc() {
+		return userDesc;
+	}
+	public void setUserDesc(String userDesc) {
+		this.userDesc = userDesc;
+	}
+	public String getBrandId(){
         return brandId;
     }
     public void setBrandId(String brandId){

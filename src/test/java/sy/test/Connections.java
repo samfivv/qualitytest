@@ -33,8 +33,8 @@ public class Connections {
 	static String path = System.getProperty("user.dir") + "\\src\\main\\java";
 
 	public static void main(String[] args) throws Exception {
-		String pagekage = "com/midai/miya/standard";
-		String tableName = "zyzj_standard";
+		String pagekage = "com/midai/miya/order";
+		String tableName = "zyzj_order_addtitional_item";
 		create(pagekage, tableName);
 		createDao(pagekage, tableName, true);
 		createService(pagekage, tableName, true);

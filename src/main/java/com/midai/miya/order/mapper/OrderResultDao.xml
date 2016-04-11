@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.order.dao.OrderResultDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.order.model.OrderResult">
+         <id column="result_id" property="resultId" jdbcType="VARCHAR" />
+         <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <result column="result_date" property="resultDate" jdbcType="TIMESTAMP" />
+         <result column="result_attachment" property="resultAttachment" jdbcType="VARCHAR" />
+         <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="result_note" property="resultNote" jdbcType="VARCHAR" />
+         <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+         <result column="user_desc" property="userDesc" jdbcType="VARCHAR" />
+         <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+         <result column="member_tel" property="memberTel" jdbcType="VARCHAR" />
+         <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+         <result column="material_barcode" property="materialBarcode" jdbcType="VARCHAR" />
+         <result column="order_address" property="orderAddress" jdbcType="VARCHAR" />
+    </resultMap>
+    
+   <sql id="findWhere">
+   <where>
+      <if test="orderResult.resultId!=null and orderResult.resultId!='' ">
+        and result_id=#{orderResult.resultId}
+      </if>
+      <if test="orderResult.orderId!=null and orderResult.orderId!='' ">
+        and r.order_id=#{orderResult.orderId}
+      </if>
+      <if test="orderResult.orderNo!=null and orderResult.orderNo!='' ">
+        and o.order_no like CONCAT('%',#{orderResult.orderNo},'%')
+      </if>
+      <if test="orderResult.resultDate!=null and orderResult.resultDate!='' ">
+        and result_date=#{orderResult.resultDate}
+      </if>
+      <if test="orderResult.resultAttachment!=null and orderResult.resultAttachment!='' ">
+        and result_attachment=#{orderResult.resultAttachment}
+      </if>
+      <if test="orderResult.operatorId!=null and orderResult.operatorId!='' ">
+        and operator_id=#{orderResult.operatorId}
+      </if>
+      <if test="orderResult.createTime!=null and orderResult.createTime!='' ">
+        and create_time=#{orderResult.createTime}
+      </if>
+      <if test="orderResult.materialBarcode!=null and orderResult.materialBarcode!='' ">
+        and o.material_barcode like CONCAT('%',#{orderResult.materialBarcode},'%')
+      </if>
+    </where>
+   </sql>
+   
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select r.*,o.order_no,o.member_tel,o.material_name,o.material_barcode,o.order_address,
+          u.user_desc,u.user_email
+       from zyzj_order_result r
+       left join zyzj_order o on r.order_id = o.order_id
+       left join zyzj_user u on o.member_id = u.user_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_order_result
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_order_result values(
+         #{orderResult.resultId},
+         #{orderResult.orderId},
+         #{orderResult.resultDate},
+         #{orderResult.resultAttachment},
+         #{orderResult.resultNote},
+         #{orderResult.operatorId},
+         #{orderResult.createTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_order_result set
+      <if test="orderResult.resultId!=null and orderResult.resultId!='' ">
+        result_id=#{orderResult.resultId}
+      </if>
+      <if test="orderResult.orderId!=null and orderResult.orderId!='' ">
+        ,order_id=#{orderResult.orderId}
+      </if>
+      <if test="orderResult.resultDate!=null and orderResult.resultDate!='' ">
+        ,result_date=#{orderResult.resultDate}
+      </if>
+      <if test="orderResult.resultAttachment!=null and orderResult.resultAttachment!='' ">
+        ,result_attachment=#{orderResult.resultAttachment}
+      </if>
+      <if test="orderResult.operatorId!=null and orderResult.operatorId!='' ">
+        ,operator_id=#{orderResult.operatorId}
+      </if>
+      <if test="orderResult.resultNote!=null and orderResult.resultNote!='' ">
+        ,result_note=#{orderResult.resultNote}
+      </if>
+      <if test="orderResult.createTime!=null and orderResult.createTime!='' ">
+        ,create_time=#{orderResult.createTime}
+      </if>
+      where result_id=#{orderResult.resultId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_order_result WHERE result_id=#{orderResult.resultId}
+   </delete>
+   
+   <!-- /////////////////////////////////////////////////////////////////////////////////-->
+   <select id="findById" resultMap="BaseResultMap">
+       select r.*,o.order_no,o.member_tel,o.material_name,o.material_barcode,o.order_address,
+          u.user_desc,u.user_email
+       from zyzj_order_result r
+       left join zyzj_order o on r.order_id = o.order_id
+       left join zyzj_user u on o.member_id = u.user_id
+       where r.result_id = #{resultId}
+   </select>   
+
+</mapper>

@@ -12,9 +12,11 @@
          <result column="user_id" property="userId" jdbcType="VARCHAR" />
          <result column="oprator_id" property="opratorId" jdbcType="VARCHAR" />
          <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         <result column="user_desc" property="userDesc" jdbcType="VARCHAR" />
    </resultMap>
    <sql id="findWhere">
    <where>
+       1=1
       <if test="brand.brandId!=null and brand.brandId!='' ">
         and brand_id=#{brand.brandId}
       </if>
@@ -24,10 +26,10 @@
       <if test="brand.brandText!=null and brand.brandText!='' ">
         and brand_text=#{brand.brandText}
       </if>
-      <if test="brand.brandSort!=null and brand.brandSort!='' ">
+      <if test="brand.brandSort!=null">
         and brand_sort=#{brand.brandSort}
       </if>
-      <if test="brand.brandState!=null and brand.brandState!='' ">
+      <if test="brand.brandState!=null">
         and brand_state=#{brand.brandState}
       </if>
       <if test="brand.brandImgUrl!=null and brand.brandImgUrl!='' ">
@@ -81,41 +83,55 @@
 
    <update id="update">
       update zyzj_brand set
-      <if test="brand.brandTitle!=null and brand.brandTitle!='' ">
-        brand_title=#{brand.brandTitle},
-      </if>
-      <if test="brand.brandText!=null and brand.brandText!='' ">
-        brand_text=#{brand.brandText},
-      </if>
-      <if test="brand.brandSort!=null and brand.brandSort!='' ">
-        brand_sort=#{brand.brandSort},
-      </if>
-      <if test="brand.brandState!=null and brand.brandState!='' ">
-        brand_state=#{brand.brandState},
-      </if>
-      <if test="brand.brandImgUrl!=null and brand.brandImgUrl!='' ">
-        brand_img_url=#{brand.brandImgUrl},
-      </if>
-      <if test="brand.brandEnterprise!=null and brand.brandEnterprise!='' ">
-        brand_enterprise=#{brand.brandEnterprise},
-      </if>
-      <if test="brand.userId!=null and brand.userId!='' ">
-        user_id=#{brand.userId},
-      </if>
-      <if test="brand.opratorId!=null and brand.opratorId!='' ">
-        oprator_id=#{brand.opratorId},
-      </if>
-      <if test="brand.createTime!=null and brand.createTime!='' ">
-        create_time=#{brand.createTime},
-      </if>
       <if test="brand.brandId!=null and brand.brandId!='' ">
         brand_id=#{brand.brandId}
       </if>
-      where brand_id=#{brand.brandId}
+      <if test="brand.brandTitle!=null and brand.brandTitle!='' ">
+        ,brand_title=#{brand.brandTitle}
+      </if>
+      <if test="brand.brandText!=null and brand.brandText!='' ">
+        ,brand_text=#{brand.brandText}
+      </if>
+      <if test="brand.brandSort!=null">
+        ,brand_sort=#{brand.brandSort}
+      </if>
+      <if test="brand.brandState!=null">
+        ,brand_state=#{brand.brandState}
+      </if>
+      <if test="brand.brandImgUrl!=null and brand.brandImgUrl!='' ">
+        ,brand_img_url=#{brand.brandImgUrl}
+      </if>
+      <if test="brand.brandEnterprise!=null and brand.brandEnterprise!='' ">
+        ,brand_enterprise=#{brand.brandEnterprise}
+      </if>
+      <if test="brand.userId!=null and brand.userId!='' ">
+        ,user_id=#{brand.userId}
+      </if>
+      <if test="brand.opratorId!=null and brand.opratorId!='' ">
+        ,oprator_id=#{brand.opratorId}
+      </if>
+      <if test="brand.createTime!=null and brand.createTime!='' ">
+        ,create_time=#{brand.createTime}
+      </if>
+     where brand_id=#{brand.brandId}
    </update>
 
    <delete id="delete">
       DELETE FROM zyzj_brand WHERE brand_id=#{brand.brandId}
    </delete>
+   
+   <!--/////////////////////////////////////////////////////////////////////-->
+   <select id="findById" resultMap="BaseResultMap">
+       select a.*,b.user_desc from zyzj_brand a 
+         left join zyzj_user b on a.user_id = b.user_id
+         where a.brand_id = #{brandId}
+   </select>
+   
+   <select id="findByBrandTitle" resultType="java.lang.Integer">
+       select count(1) from zyzj_brand
+         where brand_title = #{brand.brandTitle} and brand_id &lt;&gt; #{brand.brandId}
+   </select>
+   
+   
 
 </mapper>

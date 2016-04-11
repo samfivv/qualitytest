@@ -75,11 +75,11 @@
    </update>
 
    <delete id="delete">
-      DELETE FROM zyzj_copywriter WHERE =#{copywriter.copywriterId}
+      DELETE FROM zyzj_copywriter WHERE copywriter_id = #{copywriter.copywriterId}
    </delete>
    
    <select id="findByName" resultType="java.lang.Long">
-   		select count(1) from myw_copywriter where copywriter_desc=#{copywriter.copywriterDesc} 
+   		select count(1) from zyzj_copywriter where copywriter_desc=#{copywriter.copywriterDesc} 
    		<if test="copywriter.copywriterId !=null and copywriter.copywriterId !='' ">
   			 and copywriter_id &lt;&gt;#{copywriter.copywriterId}
    		</if>
@@ -87,7 +87,7 @@
    
    
    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
-   		select * from myw_copywriter where copywriter_id=#{copywriterId}
+   		select * from zyzj_copywriter where copywriter_id=#{copywriterId}
    </select>
 
 </mapper>

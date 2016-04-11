@@ -1,8 +1,11 @@
 package com.midai.miya.order.dao;
 
 import com.midai.miya.order.model.Order;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.midai.miya.utils.PageUtil;
 
 public interface OrderDao {
@@ -16,5 +19,7 @@ public interface OrderDao {
      void update(@Param("order")Order order);
 
      void delete(@Param("order")Order order);
-
+     /////////////////////////////////////////////////////
+     Order findByBarcode(@Param("materialBarcode")String materialBarcode);
+     Order findByNo(@Param("orderNo")String orderNo);
 }

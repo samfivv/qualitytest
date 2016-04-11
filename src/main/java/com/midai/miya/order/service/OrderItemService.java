@@ -1,7 +1,11 @@
 package com.midai.miya.order.service;
 
 import com.midai.miya.order.model.OrderItem;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.midai.miya.utils.PageUtil;
 
 public interface OrderItemService {
@@ -16,4 +20,6 @@ public interface OrderItemService {
 
      void delete(OrderItem orderItem);
 
+     ////////////////////////////////////////////////
+     List<OrderItem> findByOrderId(String orderId);
 }

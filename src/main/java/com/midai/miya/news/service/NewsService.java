@@ -15,5 +15,9 @@ public interface NewsService {
      void update(News news);
 
      void delete(News news);
+     
+     News findById(String newsId);
+     
+     int findByNewsTitle(String newsTitle,String newsId);
 
 }

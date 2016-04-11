@@ -58,7 +58,7 @@
 	var removeFun = function(id) {
 		parent.$.messager.confirm('询问', '您确定要删除此文案？', function(r) {
 			if (r) {
-				$.post(sy.contextPath + '/mdmy/copyriter/delete', {
+				$.post(sy.contextPath + '/mdmy/copywriter/delete', {
 					'copywriterId' : id
 				}, function() {
 					grid.datagrid('reload');

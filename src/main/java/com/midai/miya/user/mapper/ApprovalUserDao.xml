@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midai.miya.user.dao.ApprovalUserDao">
+   <resultMap id="BaseResultMap" type="com.midai.miya.user.model.ApprovalUser">
+         <id column="approval_user_id" property="approvalUserId" jdbcType="VARCHAR" />
+         <id column="user_id" property="userId" jdbcType="VARCHAR" />
+         <id column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+         <result column="approval_state" property="approvalState" jdbcType="INTEGER" />
+         <result column="not_pass_reason" property="notPassReason" jdbcType="VARCHAR" />
+         <result column="approval_time" property="approvalTime" jdbcType="TIMESTAMP" />
+         <result column="approval_create_time" property="approvalCreateTime" jdbcType="TIMESTAMP" />
+         <result column="user_no" property="userNo" jdbcType="VARCHAR" />
+         <result column="user_sort" property="userSort" jdbcType="VARCHAR" />
+         <result column="user_desc" property="userDesc" jdbcType="VARCHAR" />
+         <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+         <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+         <result column="user_addr" property="userAddr" jdbcType="VARCHAR" />
+         <result column="user_cert_no" property="userCertNo" jdbcType="VARCHAR" />
+         <result column="user_type" property="userType" jdbcType="INTEGER" />
+         <result column="approvalTimeBeginStr" property="approvalTimeBeginStr" jdbcType="VARCHAR" />
+         <result column="approvalTimeEndStr" property="approvalTimeEndStr" jdbcType="VARCHAR" />
+         <result column="approvalCreateTimeBeginStr" property="approvalCreateTimeBeginStr" jdbcType="VARCHAR" />
+         <result column="approvalCreateTimeEndStr" property="approvalCreateTimeEndStr" jdbcType="VARCHAR" />
+         
+   </resultMap>
+   <sql id="findWhere">
+   <where>
+      <if test="approvalUser.approvalUserId!=null and approvalUser.approvalUserId!='' ">
+        and approval_user_id=#{approvalUser.approvalUserId}
+      </if>
+      <if test="approvalUser.userId!=null and approvalUser.userId!='' ">
+        and zyzj_approval_user.user_id=#{approvalUser.userId}
+      </if>
+      <if test="approvalUser.operatorId!=null and approvalUser.operatorId!='' ">
+        and operator_id=#{approvalUser.operatorId}
+      </if>
+      <if test="approvalUser.approvalState!=null and approvalUser.approvalState!='' ">
+        and approval_state=#{approvalUser.approvalState}
+      </if>
+      <if test="approvalUser.notPassReason!=null and approvalUser.notPassReason!='' ">
+        and not_pass_reason=#{approvalUser.notPassReason}
+      </if>
+      <if test="approvalUser.approvalTime!=null and approvalUser.approvalTime!='' ">
+        and approval_time=#{approvalUser.approvalTime}
+      </if>
+      <if test="approvalUser.approvalCreateTimeBeginStr!=null and approvalUser.approvalCreateTimeBeginStr!='' ">
+        and approval_create_time  &gt;=#{approvalUser.approvalCreateTimeBeginStr}
+      </if>
+      <if test="approvalUser.approvalCreateTimeEndStr!=null and approvalUser.approvalCreateTimeEndStr!='' ">
+        and approval_create_time  &lt;=#{approvalUser.approvalCreateTimeEndStr}
+      </if>
+      <if test="approvalUser.approvalTimeEndStr!=null and approvalUser.approvalTimeEndStr!='' ">
+        and approval_time  &lt;=#{approvalUser.approvalTimeEndStr}
+      </if>
+      <if test="approvalUser.approvalTimeBeginStr!=null and approvalUser.approvalTimeBeginStr!='' ">
+        and approval_time  &gt;=#{approvalUser.approvalTimeBeginStr}
+      </if>
+      <if test="approvalUser.userNo!=null and approvalUser.userNo!='' ">
+        and u.user_no like CONCAT('%',#{approvalUser.userNo},'%')
+      </if>
+      <if test="approvalUser.userPhone!=null and approvalUser.userPhone!='' ">
+        and u.user_phone like CONCAT('%',#{approvalUser.userPhone},'%')
+      </if>
+      <if test="approvalUser.userSort!=null and approvalUser.userSort!='' ">
+        and u.user_sort like CONCAT('%',#{approvalUser.userSort},'%')
+      </if>
+      <if test="approvalUser.userDesc!=null and approvalUser.userDesc!='' ">
+        and u.user_desc like CONCAT('%',#{approvalUser.userDesc},'%')
+      </if>
+   </where>
+   </sql>
+
+   <select id="findByConditions" resultMap="BaseResultMap">
+       select zyzj_approval_user.*,u.user_no, u.user_sort,u.user_desc,u.user_phone,u.user_email,
+           u.user_addr,u.user_cert_no,u.user_type,u.create_time
+         from zyzj_approval_user
+         left join zyzj_user u on zyzj_approval_user.user_id = u.user_id
+       <include refid="findWhere"></include>
+       order by 
+       <choose>
+       <when test="page.sort !=null and page.sort!='' ">
+          ${page.sort}  ${page.order}
+       </when >
+       </choose >
+       limit #{page.page},#{page.rows}
+   </select>
+
+   <select id="findByConditionsCount" resultType="java.lang.Long">
+      select count(1) from zyzj_approval_user
+      left join zyzj_user u on zyzj_approval_user.user_id = u.user_id
+      <include refid="findWhere"></include>
+   </select>
+
+   <insert id="save">
+      insert into zyzj_approval_user values(
+         #{approvalUser.approvalUserId},
+         #{approvalUser.userId},
+         #{approvalUser.operatorId},
+         #{approvalUser.approvalState},
+         #{approvalUser.notPassReason},
+         #{approvalUser.approvalTime}
+      )
+   </insert>
+
+   <update id="update">
+      update zyzj_approval_user set
+      <if test="approvalUser.approvalUserId!=null and approvalUser.approvalUserId!='' ">
+        approval_user_id=#{approvalUser.approvalUserId}
+      </if>
+      <if test="approvalUser.userId!=null and approvalUser.userId!='' ">
+        ,user_id=#{approvalUser.userId}
+      </if>
+      <if test="approvalUser.operatorId!=null and approvalUser.operatorId!='' ">
+        ,operator_id=#{approvalUser.operatorId}
+      </if>
+      <if test="approvalUser.approvalState!=null  ">
+        ,approval_state=#{approvalUser.approvalState}
+      </if>
+      <if test="approvalUser.notPassReason!=null and approvalUser.notPassReason!='' ">
+        ,not_pass_reason=#{approvalUser.notPassReason}
+      </if>
+      <if test="approvalUser.approvalTime!=null  ">
+        ,approval_time=#{approvalUser.approvalTime}
+      </if>
+      where approval_user_id=#{approvalUser.approvalUserId}
+   </update>
+
+   <delete id="delete">
+      DELETE FROM zyzj_approval_user WHERE approval_user_id=#{approvalUser.approvalUserId}
+   </delete>
+   
+   <!-- ///////////////////////////////////////////////////////////// -->
+   <select id="findById" resultMap="BaseResultMap">
+       select * from zyzj_approval_user where approval_user_id = #{approvalUserId}
+   </select>
+   
+   
+
+</mapper>

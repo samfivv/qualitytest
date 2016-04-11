@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String contextPath = request.getContextPath();
-String id=request.getParameter("copywriterId");
-if(id==null){
-	id="";
-}
-String version=request.getParameter("copywriterVersion");
-if(version==null){
-   version="";
-}
+	String id=request.getParameter("copywriterId");
+	if(id==null){
+		id="";
+	}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -23,13 +20,13 @@ $('#addButton').linkbutton('disable');
 var submitNow = function($dialog, $grid, $pjq) {
 	var url;
 	 if ($(':input[name="copywriterId"]').val().length > 0) {
-		url = '<%=contextPath%>/mdmy/copyWriter/update';
+		url = '<%=contextPath%>/mdmy/copywriter/update';
 	} else {
-		url = '<%=contextPath%>/mdmy/copyWriter/save';
+		url = '<%=contextPath%>/mdmy/copywriter/save';
 	} 
 	$.post(url, sy.serializeObject($('form')), function(result) {
 		parent.sy.progressBar('close');//关闭上传进度条
-        if(url=='<%=contextPath%>/mdmy/copyWriter/save'){
+        if(url=='<%=contextPath%>/mdmy/copywriter/save'){
         	if (result.success) {
     			$pjq.messager.alert('提示', result.msg, 'info');
     			$grid.datagrid('load');
@@ -55,25 +52,15 @@ $(function() {
 		 parent.$.messager.progress({
 			text : '数据加载中....' 
 		});  
-		$.post('<%=contextPath%>/mdmy/copyWriter/findById', {
+		$.post('<%=contextPath%>/mdmy/copywriter/findById', {
 			copywriterId : $(':input[name="copywriterId"]').val()
 		}, function(result) {
 			if (result.copywriterId != undefined) {
-				if(result.copywriterType==null){
-					result.copywriterType==1;
-				} 
-			 if(result.copywriterType==2){
-					$('#hidden').show();
-				}else{
-					$('#hidden').hide();
-				}
 				$('form').form('load', {
 					'copywriterDesc' : result.copywriterDesc,
 					'copywriterUrl' : result.copywriterUrl,
 				    'copywriterImgUrl' : result.copywriterImgUrl, 
 					'copywriterSort' : result.copywriterSort,
-					'copywriterType' : result.copywriterType,
-					'copywriterInterestId' : result.copywriterInterestId,
 				});
 				if (result.copywriterImgUrl) {
 					$('#photo').attr('src', result.copywriterImgUrl);
@@ -84,8 +71,9 @@ $(function() {
 	}else{
 		$('#photo').hide();
 	}
-	$("#hidden").hide();
-	$("#interestId").attr("class","");
+	//$("#hidden").hide();
+	//$("#interestId").attr("class","");
+	/*
 	$('#select').combobox({
 		onChange:function(n,o){
 			if(n=='2'){
@@ -101,12 +89,13 @@ $(function() {
 			}
 		}
 	});
+	*/
 	uploader = new plupload.Uploader({//上传插件定义
 		browse_button : 'pickfiles',//选择文件的按钮
 		container : 'container',//文件上传容器
 		runtimes : 'html5,flash',//设置运行环境，会按设置的顺序，可以选择的值有html5,gears,flash,silverlight,browserplus,html4
 		//flash_swf_url : sy.contextPath + '/jslib/plupload_1_5_7/plupload/js/plupload.flash.swf',// Flash环境路径设置
-		url : '<%=contextPath%>/mdmy/copyWriter/plupload',//上传文件路径
+		url : '<%=contextPath%>/mdmy/copywriter/plupload',//上传文件路径
 		max_file_size : '5mb',//100b, 10kb, 10mb, 1gb
 		chunk_size : '10mb',//分块大小，小于这个大小的不分块
 		unique_names : true,//生成唯一文件名
@@ -128,7 +117,7 @@ $(function() {
 	});
 	uploader.bind('BeforeUpload', function(uploader, file) {//上传之前
 		if (uploader.files.length > 1) {
-			parent.$.messager.alert('提示', '只允许选择一张照片！', 'error');
+			parent.$.messager.alert('提示', '只允许选择一张图片！', 'error');
 			uploader.stop();
 			return;
 		}
@@ -199,7 +188,6 @@ function interestIdBlur(){
 <body>
 	<form method="post" class="form" >
 		<input name="copywriterId" value="<%=id %>" type="hidden"/>
-		<input name="copywriterVersion" value="<%=version%>" type="hidden"/>
 		<fieldset>
 			<legend>文案设置</legend>
 			<table class="table" style="width: 100%;">
@@ -232,30 +220,16 @@ function interestIdBlur(){
 							<option value="8">8</option> 
 					</select>
 					</td>
+					<!-- 
 					<th>文案类型</th>
 					<td>
 					<select id="select" class="easyui-combobox" name="copywriterType" data-options="panelHeight:'auto',editable:false" style="width: 155px;">
 							<option value="1" >其他链接</option>
 							<option value="2">内部专辑</option>
 					</select>
-					</td>
-					</tr>
-					<tr id="hidden">
-					<th>兴趣Id</th>
-				    <td>
-				    <input id="interestId" name="copywriterInterestId" class="easyui-validatebox" data-options="required:true" />
-				    </td>
+					</td> -->
 				</tr>
-				<tr>
-				<th>页面</th>
-				<td>
-				<select id="page" class="easyui-combobox" name="copywriterPage" data-options="panelHeight:'auto',editable:false" style="width: 155px;">
-							<option value="1" >网站首页</option>
-							<option value="2">攻略首页</option>
-							<option value="3">作品首页</option>
-				</select>
-				</td>
-				</tr>
+
 			</table>
 		</fieldset>
 	</form>

@@ -7,6 +7,14 @@
          <id column="item_addtitional_id" property="itemAddtitionalId" jdbcType="VARCHAR" />
          <result column="item_type" property="itemType" jdbcType="INTEGER" />
          <result column="item_price" property="itemPrice" jdbcType="DOUBLE" />
+         <result column="item_unit" property="itemUnit" jdbcType="VARCHAR" />
+         <result column="item_standard" property="itemStandard" jdbcType="VARCHAR" />
+         <result column="item_result" property="itemResult" jdbcType="VARCHAR" />
+         <result column="item_conclusion" property="itemConclusion" jdbcType="VARCHAR" />
+         <result column="item_note" property="itemNote" jdbcType="VARCHAR" />
+         <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+         <result column="itemParentName" property="itemParentName" jdbcType="VARCHAR" />
+         <result column="addtitional_name" property="addtitionalName" jdbcType="VARCHAR" />
    </resultMap>
    <sql id="findWhere">
    <where>
@@ -28,12 +36,15 @@
    </where>
    </sql>
    <select id="findByConditions" resultMap="BaseResultMap">
-       select * from zyzj_order_item
+       select oi.*,i1.item_name,a.addtitional_name,i2.item_name as itemParentName
+        from zyzj_order_item oi
+       left join zyzj_item i1 on (oi.item_addtitional_id = i1.item_id and  oi.item_type =1)
+       left join zyzj_item i2 on i2.item_id = i1.parent_id
+       left join zyzj_item_addtitional a on (oi.item_addtitional_id = a.addtitional_id and oi.item_type =2)       
        <include refid="findWhere"></include>
-       order by 
        <choose>
        <when test="page.sort !=null and page.sort!='' ">
-          ${page.sort}  ${page.order}
+           order by ${page.sort}  ${page.order}
        </when >
        </choose >
        limit #{page.page},#{page.rows}
@@ -71,10 +82,14 @@
       <if test="orderItem.itemPrice!=null and orderItem.itemPrice!='' ">
         item_price=#{orderItem.itemPrice},
       </if>
-null   </update>
+   </update>
 
    <delete id="delete">
       DELETE FROM zyzj_order_item WHERE =#{orderItem.}
    </delete>
+   
+   <select id="findByOrderId" resultMap="BaseResultMap">
+       select * from zyzj_order_item where order_id = #{orderId}
+   </select>   
 
 </mapper>

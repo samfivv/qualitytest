@@ -16,4 +16,8 @@ public interface PromotionService {
 
      void delete(Promotion promotion);
 
+     /////////////////////////////////////////////////////////
+     Promotion findById(String promotionId);
+     int findByPromotionTitle(String promotionTitle,String promotionId);
+     
 }

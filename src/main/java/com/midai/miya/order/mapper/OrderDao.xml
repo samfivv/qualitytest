@@ -21,7 +21,7 @@
          <result column="material_subcontract" property="materialSubcontract" jdbcType="VARCHAR" />
          <result column="made_date" property="madeDate" jdbcType="TIMESTAMP" />
          <result column="material_lot_no" property="materialLotNo" jdbcType="VARCHAR" />
-         <result column="material_ brand" property="material brand" jdbcType="VARCHAR" />
+         <result column="material_brand" property="materialBrand" jdbcType="VARCHAR" />
          <result column="material_quantity" property="materialQuantity" jdbcType="VARCHAR" />
          <result column="material_state" property="materialState" jdbcType="VARCHAR" />
          <result column="material_grade" property="materialGrade" jdbcType="VARCHAR" />
@@ -42,14 +42,23 @@
          <result column="order_tested_date" property="orderTestedDate" jdbcType="TIMESTAMP" />
          <result column="order_return_date" property="orderReturnDate" jdbcType="TIMESTAMP" />
          <result column="order_close_date" property="orderCloseDate" jdbcType="TIMESTAMP" />
+         
+         <result column="user_desc" property="userDesc" jdbcType="VARCHAR" />
+         <result column="order_result" property="orderResult" jdbcType="VARCHAR" />
+         <result column="orderDateBeginStr" property="orderDateBeginStr" jdbcType="VARCHAR" />
+         <result column="orderDateEndStr" property="orderDateEndStr" jdbcType="VARCHAR" />
+         <result column="orderTestedDateBeginStr" property="orderTestedDateBeginStr" jdbcType="VARCHAR" />
+         <result column="orderTestedDateEndStr" property="orderTestedDateEndStr" jdbcType="VARCHAR" />
+        
    </resultMap>
    <sql id="findWhere">
    <where>
+       1=1
       <if test="order.orderId!=null and order.orderId!='' ">
         and order_id=#{order.orderId}
       </if>
       <if test="order.orderNo!=null and order.orderNo!='' ">
-        and order_no=#{order.orderNo}
+        and order_no like CONCAT('%',#{order.orderNo},'%')
       </if>
       <if test="order.orderDate!=null and order.orderDate!='' ">
         and order_date=#{order.orderDate}
@@ -64,13 +73,13 @@
         and order_office=#{order.orderOffice}
       </if>
       <if test="order.orderAddress!=null and order.orderAddress!='' ">
-        and order_address=#{order.orderAddress}
+        and order_address like CONCAT('%',#{order.orderAddress},'%')
       </if>
       <if test="order.orderReportDelivery!=null and order.orderReportDelivery!='' ">
         and order_report_delivery=#{order.orderReportDelivery}
       </if>
       <if test="order.memberTel!=null and order.memberTel!='' ">
-        and member_tel=#{order.memberTel}
+        and member_tel  like CONCAT('%',#{order.memberTel},'%') 
       </if>
       <if test="order.memberFax!=null and order.memberFax!='' ">
         and member_fax=#{order.memberFax}
@@ -85,7 +94,7 @@
         and material_producers=#{order.materialProducers}
       </if>
       <if test="order.materialName!=null and order.materialName!='' ">
-        and material_name=#{order.materialName}
+        and material_name  like CONCAT('%',#{order.materialName},'%') 
       </if>
       <if test="order.materialBarcode!=null and order.materialBarcode!='' ">
         and material_barcode=#{order.materialBarcode}
@@ -97,13 +106,13 @@
         and material_subcontract=#{order.materialSubcontract}
       </if>
       <if test="order.madeDate!=null and order.madeDate!='' ">
-        and made_date=#{order.madeDate}
+        and made_date=#{order.madeDate} 
       </if>
       <if test="order.materialLotNo!=null and order.materialLotNo!='' ">
         and material_lot_no=#{order.materialLotNo}
       </if>
-      <if test="order.material brand!=null and order.material brand!='' ">
-        and material_ brand=#{order.material brand}
+      <if test="order.materialBrand!=null and order.materialBrand!='' ">
+        and material_brand=#{order.materialBrand}
       </if>
       <if test="order.materialQuantity!=null and order.materialQuantity!='' ">
         and material_quantity=#{order.materialQuantity}
@@ -138,9 +147,6 @@
       <if test="order.orderPriority!=null and order.orderPriority!='' ">
         and order_priority=#{order.orderPriority}
       </if>
-      <if test="order.orderState!=null and order.orderState!='' ">
-        and order_state=#{order.orderState}
-      </if>
       <if test="order.orderClosed!=null and order.orderClosed!='' ">
         and order_closed=#{order.orderClosed}
       </if>
@@ -165,10 +171,35 @@
       <if test="order.orderCloseDate!=null and order.orderCloseDate!='' ">
         and order_close_date=#{order.orderCloseDate}
       </if>
+      
+      <if test="order.orderDateBeginStr!=null and order.orderDateBeginStr!='' ">
+        and order_date &gt; #{order.orderDateBeginStr}
+      </if>
+      <if test="order.orderDateEndStr!=null and order.orderDateEndStr!='' ">
+        and order_date &lt; #{order.orderDateEndStr}
+      </if>
+      <if test="order.orderTestedDateBeginStr!=null and order.orderTestedDateBeginStr!='' ">
+        and order_tested_date &gt; #{order.orderTestedDateBeginStr}
+      </if>
+      <if test="order.orderTestedDateEndStr!=null and order.orderTestedDateEndStr!='' ">
+        and order_tested_date &lt; #{order.orderTestedDateEndStr}
+      </if>
+      <if test="order.userDesc!=null and order.userDesc!='' ">
+        and u.user_desc=#{order.userDesc}
+      </if>
+      <choose>
+          <when test = "order.orderState==6" >
+              and  order_state &gt; 5
+          </when>
+          <otherwise>
+              and  order_state = 5
+          </otherwise>
+      </choose>    
    </where>
    </sql>
    <select id="findByConditions" resultMap="BaseResultMap">
-       select * from zyzj_order
+       select o.*,u.user_desc from zyzj_order o
+       left join zyzj_user u on member_id = u.user_id
        <include refid="findWhere"></include>
        order by 
        <choose>
@@ -205,7 +236,7 @@
          #{order.materialSubcontract},
          #{order.madeDate},
          #{order.materialLotNo},
-         #{order.material brand},
+         #{order.materialBrand},
          #{order.materialQuantity},
          #{order.materialState},
          #{order.materialGrade},
@@ -225,136 +256,146 @@
          #{order.orderReceivedDate},
          #{order.orderTestedDate},
          #{order.orderReturnDate},
-         #{order.orderCloseDate}
+         #{order.orderCloseDate},
+         #{order.orderResult},
       )
    </insert>
 
    <update id="update">
       update zyzj_order set
       <if test="order.orderId!=null and order.orderId!='' ">
-        order_id=#{order.orderId},
+        order_id=#{order.orderId}
       </if>
       <if test="order.orderNo!=null and order.orderNo!='' ">
-        order_no=#{order.orderNo},
+        ,order_no=#{order.orderNo}
       </if>
       <if test="order.orderDate!=null and order.orderDate!='' ">
-        order_date=#{order.orderDate},
+        ,order_date=#{order.orderDate}
       </if>
       <if test="order.orderNature!=null and order.orderNature!='' ">
-        order_nature=#{order.orderNature},
+        ,order_nature=#{order.orderNature}
       </if>
       <if test="order.memberId!=null and order.memberId!='' ">
-        member_id=#{order.memberId},
+        ,member_id=#{order.memberId}
       </if>
       <if test="order.orderOffice!=null and order.orderOffice!='' ">
-        order_office=#{order.orderOffice},
+        ,order_office=#{order.orderOffice}
       </if>
       <if test="order.orderAddress!=null and order.orderAddress!='' ">
-        order_address=#{order.orderAddress},
+        ,order_address=#{order.orderAddress}
       </if>
       <if test="order.orderReportDelivery!=null and order.orderReportDelivery!='' ">
-        order_report_delivery=#{order.orderReportDelivery},
+        ,order_report_delivery=#{order.orderReportDelivery}
       </if>
       <if test="order.memberTel!=null and order.memberTel!='' ">
-        member_tel=#{order.memberTel},
+        ,member_tel=#{order.memberTel}
       </if>
       <if test="order.memberFax!=null and order.memberFax!='' ">
-        member_fax=#{order.memberFax},
+        ,member_fax=#{order.memberFax}
       </if>
       <if test="order.testingInstitution!=null and order.testingInstitution!='' ">
-        testing_institution=#{order.testingInstitution},
+        ,testing_institution=#{order.testingInstitution}
       </if>
       <if test="order.materialComponents!=null and order.materialComponents!='' ">
-        material_components=#{order.materialComponents},
+        ,material_components=#{order.materialComponents}
       </if>
       <if test="order.materialProducers!=null and order.materialProducers!='' ">
-        material_producers=#{order.materialProducers},
+        ,material_producers=#{order.materialProducers}
       </if>
       <if test="order.materialName!=null and order.materialName!='' ">
-        material_name=#{order.materialName},
+        ,material_name=#{order.materialName}
       </if>
       <if test="order.materialBarcode!=null and order.materialBarcode!='' ">
-        material_barcode=#{order.materialBarcode},
+        ,material_barcode=#{order.materialBarcode}
       </if>
       <if test="order.materialSpec!=null and order.materialSpec!='' ">
-        material_spec=#{order.materialSpec},
+        ,material_spec=#{order.materialSpec}
       </if>
       <if test="order.materialSubcontract!=null and order.materialSubcontract!='' ">
-        material_subcontract=#{order.materialSubcontract},
+        ,material_subcontract=#{order.materialSubcontract}
       </if>
       <if test="order.madeDate!=null and order.madeDate!='' ">
-        made_date=#{order.madeDate},
+        ,made_date=#{order.madeDate}
       </if>
       <if test="order.materialLotNo!=null and order.materialLotNo!='' ">
-        material_lot_no=#{order.materialLotNo},
+        ,material_lot_no=#{order.materialLotNo}
       </if>
-      <if test="order.material brand!=null and order.material brand!='' ">
-        material_ brand=#{order.material brand},
+      <if test="order.materialBrand!=null and order.materialBrand!='' ">
+        ,material_brand=#{order.materialBrand}
       </if>
       <if test="order.materialQuantity!=null and order.materialQuantity!='' ">
-        material_quantity=#{order.materialQuantity},
+        ,material_quantity=#{order.materialQuantity}
       </if>
       <if test="order.materialState!=null and order.materialState!='' ">
-        material_state=#{order.materialState},
+        ,material_state=#{order.materialState}
       </if>
       <if test="order.materialGrade!=null and order.materialGrade!='' ">
-        material_grade=#{order.materialGrade},
+        ,material_grade=#{order.materialGrade}
       </if>
       <if test="order.materialDispose!=null and order.materialDispose!='' ">
-        material_dispose=#{order.materialDispose},
+        ,material_dispose=#{order.materialDispose}
       </if>
       <if test="order.materialAttachment!=null and order.materialAttachment!='' ">
-        material_attachment=#{order.materialAttachment},
+        ,material_attachment=#{order.materialAttachment}
       </if>
       <if test="order.testingGist!=null and order.testingGist!='' ">
-        testing_gist=#{order.testingGist},
+        ,testing_gist=#{order.testingGist}
       </if>
       <if test="order.requireDate!=null and order.requireDate!='' ">
-        require_date=#{order.requireDate},
+        ,require_date=#{order.requireDate}
       </if>
       <if test="order.testingAmout!=null and order.testingAmout!='' ">
-        testing_amout=#{order.testingAmout},
+        ,testing_amout=#{order.testingAmout}
       </if>
       <if test="order.reportCopies!=null and order.reportCopies!='' ">
-        report_copies=#{order.reportCopies},
+        ,report_copies=#{order.reportCopies}
       </if>
       <if test="order.orderNote!=null and order.orderNote!='' ">
-        order_note=#{order.orderNote},
+        ,order_note=#{order.orderNote}
       </if>
       <if test="order.orderPriority!=null and order.orderPriority!='' ">
-        order_priority=#{order.orderPriority},
+        ,order_priority=#{order.orderPriority}
       </if>
       <if test="order.orderState!=null and order.orderState!='' ">
-        order_state=#{order.orderState},
+        ,order_state=#{order.orderState}
       </if>
       <if test="order.orderClosed!=null and order.orderClosed!='' ">
-        order_closed=#{order.orderClosed},
+        ,order_closed=#{order.orderClosed}
       </if>
       <if test="order.orderApproveDate!=null and order.orderApproveDate!='' ">
-        order_approve_date=#{order.orderApproveDate},
+        ,order_approve_date=#{order.orderApproveDate}
       </if>
       <if test="order.orderPayingDate!=null and order.orderPayingDate!='' ">
-        order_paying_date=#{order.orderPayingDate},
+        ,order_paying_date=#{order.orderPayingDate}
       </if>
       <if test="order.orderDeliveryDate!=null and order.orderDeliveryDate!='' ">
-        order_delivery_date=#{order.orderDeliveryDate},
+        ,order_delivery_date=#{order.orderDeliveryDate}
       </if>
       <if test="order.orderReceivedDate!=null and order.orderReceivedDate!='' ">
-        order_received_date=#{order.orderReceivedDate},
+        ,order_received_date=#{order.orderReceivedDate}
       </if>
       <if test="order.orderTestedDate!=null and order.orderTestedDate!='' ">
-        order_tested_date=#{order.orderTestedDate},
+        ,order_tested_date=#{order.orderTestedDate}
       </if>
       <if test="order.orderReturnDate!=null and order.orderReturnDate!='' ">
-        order_return_date=#{order.orderReturnDate},
+        ,order_return_date=#{order.orderReturnDate}
       </if>
       <if test="order.orderCloseDate!=null and order.orderCloseDate!='' ">
-        order_close_date=#{order.orderCloseDate},
+        ,order_close_date=#{order.orderCloseDate}
       </if>
-null   </update>
+      WHERE order_id=#{order.orderId}
+  </update>
 
    <delete id="delete">
-      DELETE FROM zyzj_order WHERE =#{order.}
+      DELETE FROM zyzj_order WHERE order_id=#{order.orderId}
    </delete>
+   
+    <select id="findByBarcode" resultMap="BaseResultMap">
+        select * from zyzj_order where material_barcode = #{materialBarcode}
+    </select>
+    <select id="findByNo" resultMap="BaseResultMap">
+        select * from zyzj_order where order_no = #{orderNo}
+    </select>
+    
 
 </mapper>

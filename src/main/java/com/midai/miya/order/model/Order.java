@@ -45,7 +45,24 @@ public class Order implements Serializable {
     private Date orderTestedDate;
     private Date orderReturnDate;
     private Date orderCloseDate;
-    public String getOrderId(){
+    private String orderResult;
+    
+    
+    private String userDesc;
+    
+    private String orderDateBeginStr;
+    private String orderDateEndStr;
+    private String orderTestedDateBeginStr;
+    private String orderTestedDateEndStr;
+    
+    
+    public String getUserDesc() {
+		return userDesc;
+	}
+	public void setUserDesc(String userDesc) {
+		this.userDesc = userDesc;
+	}
+	public String getOrderId(){
         return orderId;
     }
     public void setOrderId(String orderId){
@@ -285,4 +302,35 @@ public class Order implements Serializable {
     public void setOrderCloseDate(Date orderCloseDate){
         this.orderCloseDate=orderCloseDate;
     }
+	public String getOrderResult() {
+		return orderResult;
+	}
+	public void setOrderResult(String orderResult) {
+		this.orderResult = orderResult;
+	}
+	public String getOrderDateBeginStr() {
+		return orderDateBeginStr;
+	}
+	public void setOrderDateBeginStr(String orderDateBeginStr) {
+		this.orderDateBeginStr = orderDateBeginStr;
+	}
+	public String getOrderDateEndStr() {
+		return orderDateEndStr;
+	}
+	public void setOrderDateEndStr(String orderDateEndStr) {
+		this.orderDateEndStr = orderDateEndStr;
+	}
+	public String getOrderTestedDateBeginStr() {
+		return orderTestedDateBeginStr;
+	}
+	public void setOrderTestedDateBeginStr(String orderTestedDateBeginStr) {
+		this.orderTestedDateBeginStr = orderTestedDateBeginStr;
+	}
+	public String getOrderTestedDateEndStr() {
+		return orderTestedDateEndStr;
+	}
+	public void setOrderTestedDateEndStr(String orderTestedDateEndStr) {
+		this.orderTestedDateEndStr = orderTestedDateEndStr;
+	}
+
 }

@@ -16,4 +16,8 @@ public interface OrderService {
 
      void delete(Order order);
 
+     ///////////////////////////////////////////////////
+     Order findByBarcode(String materialBarcode);
+     Order findByNo(String orderNo);
+     
 }

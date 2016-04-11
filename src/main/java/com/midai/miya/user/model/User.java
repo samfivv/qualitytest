@@ -1,13 +1,14 @@
 package com.midai.miya.user.model;
 
 import java.io.Serializable;
+import java.util.Date;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String userId;
-    private String userrNo;
-    private String userrSort;
-    private String userrDesc;
+    private String userNo;
+    private String userSort;
+    private String userDesc;
     private String userPhone;
     private String userEmail;
     private String userPassword;
@@ -20,29 +21,38 @@ public class User implements Serializable {
     private Boolean userVip;
     private Integer userGrade;
     private Double userBalance;
-    public String getUserId(){
+    private Date createTime;
+    
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public String getUserId(){
         return userId;
     }
     public void setUserId(String userId){
         this.userId=userId;
     }
-    public String getUserrNo(){
-        return userrNo;
+    public String getUserNo(){
+        return userNo;
     }
-    public void setUserrNo(String userrNo){
-        this.userrNo=userrNo;
+    public void setUserNo(String userNo){
+        this.userNo=userNo;
     }
-    public String getUserrSort(){
-        return userrSort;
+    public String getUserSort(){
+        return userSort;
     }
-    public void setUserrSort(String userrSort){
-        this.userrSort=userrSort;
+    public void setUserSort(String userSort){
+        this.userSort=userSort;
     }
-    public String getUserrDesc(){
-        return userrDesc;
+    public String getUserDesc(){
+        return userDesc;
     }
-    public void setUserrDesc(String userrDesc){
-        this.userrDesc=userrDesc;
+    public void setUserDesc(String userDesc){
+        this.userDesc=userDesc;
     }
     public String getUserPhone(){
         return userPhone;

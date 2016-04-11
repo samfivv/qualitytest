@@ -1,8 +1,11 @@
 package com.midai.miya.promotion.dao;
 
 import com.midai.miya.promotion.model.Promotion;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.midai.miya.utils.PageUtil;
 
 public interface PromotionDao {
@@ -16,5 +19,9 @@ public interface PromotionDao {
      void update(@Param("promotion")Promotion promotion);
 
      void delete(@Param("promotion")Promotion promotion);
+
+     /////////////////////////////////////////////////////////
+     Promotion findById(@Param("promotionId")String promotionId);
+     int findByPromotionTitle(@Param("promotionTitle")String promotionTitle,@Param("promotionId")String promotionId);
 
 }

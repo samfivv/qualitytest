@@ -1,8 +1,11 @@
 package com.midai.miya.standard.dao;
 
 import com.midai.miya.standard.model.Standard;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.midai.miya.utils.PageUtil;
 
 public interface StandardDao {
@@ -16,5 +19,9 @@ public interface StandardDao {
      void update(@Param("standard")Standard standard);
 
      void delete(@Param("standard")Standard standard);
+     
+     /////////////////////////////////////////////////
+     Standard findById(@Param("standardId")String standardId);
+     int findByStandardTitle(@Param("standardTitle")String standardTitle,@Param("standardId")String standardId);
 
 }

@@ -1,8 +1,10 @@
 package com.midai.miya.brand.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.midai.miya.brand.dao.BrandDao;
 import com.midai.miya.brand.service.BrandService;
 import com.midai.miya.brand.model.Brand;
@@ -40,5 +42,16 @@ public class BrandServiceImpl implements BrandService {
      public void delete(Brand brand) {
         brandDao.delete(brand);
      }
+
+     ////////////////////////////////////////////////////////////////
+	@Override
+	public Brand findById(String brandId) {
+		return brandDao.findById(brandId);
+	}
+
+	@Override
+	public int findByBrandTitle(Brand brand) {
+		return brandDao.findByBrandTitle(brand);
+	}
 }
 
