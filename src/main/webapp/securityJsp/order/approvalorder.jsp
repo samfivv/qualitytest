@@ -77,7 +77,7 @@
 						str += sy.formatString('<img class="iconImg ext-icon-television" title="查看委托书明细" onclick="playFun(\'{0}\',\'{1}\',\'{2}\');"/>',
 						                    row.applicationHandIdentityPhoto,row.applicationFrontIdentityPhoto,row.applicationBackIdentityPhoto);
 						str += "&nbsp;&nbsp;&nbsp;&nbsp;";
-						if(row.orderState==0){
+						if(row.approvalState==0){
 							str += sy.formatString('<img class="iconImg ext-icon-joystick" title="审核" onclick="editFun(\'{0}\',\'{1}\');"/>', row.approvalOrderId,row.orderId);
 							str += "&nbsp;";
 						}
